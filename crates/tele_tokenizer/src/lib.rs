@@ -72,6 +72,7 @@ impl<'s> Tokenizer<'s> {
       self.iter.next();
       self.colnmu += 1;
       self.offset = offset;
+      self.buffer.push(c);
     }
 
     &self.tokens
