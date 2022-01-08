@@ -5,6 +5,9 @@ version = 3
 [[package]]
 name = "tele_tokenizer"
 version = "0.1.0"
+dependencies = [
+ "tele_utils",
+]
 
 [[package]]
 name = "tele_utils"

@@ -32,6 +32,12 @@ pub enum TokenType {
   EOF,
 }
 
+impl Default for TokenType {
+  fn default() -> Self {
+    Self::EOF
+  }
+}
+
 impl Display for TokenType {
   fn fmt(&self, f: &mut Formatter<'_>) -> Result {
     match self {
@@ -66,18 +72,28 @@ impl Display for TokenType {
 }
 
 /// Position
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Pos {
   pub offset: usize,
   pub line: usize,
   pub column: usize,
 }
 
+impl Default for Pos {
+  fn default() -> Self {
+    Pos {
+      offset: 0,
+      line: 1,
+      column: 1,
+    }
+  }
+}
+
 /// Token
-#[derive(Debug, PartialEq)]
-pub struct Token<'t> {
+#[derive(Debug, Default, PartialEq)]
+pub struct Token {
   pub token_type: TokenType,
   pub start_pos: Pos,
   pub end_pos: Pos,
-  pub content: &'t str,
+  pub content: Vec<char>,
 }
