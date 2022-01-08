@@ -1,7 +1,7 @@
 use tele_tokenizer::*;
 
 fn main() {
-  let tokens = Tokenizer::tokenize("\n\n   .foo { color: red; }");
+  let mut tokenizer: Tokenizer = ".foo { color: red; }".into();
 
-  println!("Tokens: {:?}", tokens);
+  println!("Tokens: {:?}", tokenizer.tokenize());
 }
