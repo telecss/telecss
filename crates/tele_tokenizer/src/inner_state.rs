@@ -2,7 +2,7 @@
 pub enum State {
   Initial,
   MayBeNumber,
-  NewLine,
+  WhiteSpace,
   EOF,
 }
 

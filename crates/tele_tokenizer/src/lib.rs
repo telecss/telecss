@@ -45,20 +45,32 @@ impl<'s> From<&'s str> for Tokenizer<'s> {
 }
 
 impl<'s> Tokenizer<'s> {
-  pub fn tokenize(&mut self) -> &Vec<Token> {
+  pub fn tokenize(&mut self) -> &mut Vec<Token> {
     while let Some(&(offset, c)) = self.iter.peek() {
       self.current_state = match self.current_state {
         State::Initial => match c {
-          '\n' => State::NewLine,
+          c if is_whitespace(c) => State::WhiteSpace,
           '.' => State::MayBeNumber,
-          _ => State::Initial,
+          _ => {
+            self.advance(offset);
+            State::Initial
+          }
         },
-        State::NewLine => {
-          self.line += 1;
-          self.colnmu = 1;
-          State::Initial
+        State::WhiteSpace => {
+          if is_whitespace(c) {
+            if is_newline(c) {
+              self.line += 1;
+              self.colnmu = 1;
+            }
+            self.consume(offset, c);
+            State::WhiteSpace
+          } else {
+            self.emit(TokenType::WhiteSpace);
+            State::Initial
+          }
         }
         State::MayBeNumber => {
+          self.consume(offset, c);
           if is_digit(c) {
             State::EOF
           } else {
@@ -68,14 +80,21 @@ impl<'s> Tokenizer<'s> {
         }
         State::EOF => break,
       };
-
-      self.iter.next();
-      self.colnmu += 1;
-      self.offset = offset;
-      self.buffer.push(c);
     }
 
-    &self.tokens
+    &mut self.tokens
+  }
+
+  fn consume(&mut self, offset: usize, c: char) {
+    // consume
+    self.advance(offset);
+    self.buffer.push(c);
+  }
+
+  fn advance(&mut self, offset: usize) {
+    self.iter.next();
+    self.colnmu += 1;
+    self.offset = offset;
   }
 
   fn get_cursor(&self) -> Pos {
