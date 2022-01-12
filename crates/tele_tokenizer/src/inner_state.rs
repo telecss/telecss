@@ -3,6 +3,8 @@ pub enum State {
   Initial,
   MayBeNumber,
   WhiteSpace,
+  IdentStart,
+  Ident,
   EOF,
 }
 

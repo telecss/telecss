@@ -50,6 +50,7 @@ impl<'s> Tokenizer<'s> {
       self.current_state = match self.current_state {
         State::Initial => match c {
           c if is_whitespace(c) => State::WhiteSpace,
+          c if is_ident_start(c) => State::IdentStart,
           '.' => State::MayBeNumber,
           _ => {
             self.advance(offset);
@@ -66,6 +67,19 @@ impl<'s> Tokenizer<'s> {
             State::WhiteSpace
           } else {
             self.emit(TokenType::WhiteSpace);
+            State::Initial
+          }
+        }
+        State::IdentStart => {
+          self.consume(offset, c);
+          State::Ident
+        }
+        State::Ident => {
+          if is_ident_char(c) {
+            self.consume(offset, c);
+            State::Ident
+          } else {
+            self.emit(TokenType::Ident);
             State::Initial
           }
         }
