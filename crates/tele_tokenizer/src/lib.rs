@@ -52,6 +52,26 @@ impl<'s> Tokenizer<'s> {
           c if is_whitespace(c) => State::WhiteSpace,
           c if is_ident_start(c) => State::IdentStart,
           '.' => State::MayBeNumber,
+          '{' => {
+            self.consume(offset, c);
+            self.emit(TokenType::LeftCurlyBracket);
+            State::Initial
+          }
+          '}' => {
+            self.consume(offset, c);
+            self.emit(TokenType::RightCurlyBracket);
+            State::Initial
+          }
+          ':' => {
+            self.consume(offset, c);
+            self.emit(TokenType::Colon);
+            State::Initial
+          }
+          ';' => {
+            self.consume(offset, c);
+            self.emit(TokenType::SemiColon);
+            State::Initial
+          }
           _ => {
             self.advance(offset);
             State::Initial
