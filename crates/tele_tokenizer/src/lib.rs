@@ -2,11 +2,7 @@
 
 //! CSS Tokenizer
 
-use std::{
-  iter::{Chain, Peekable},
-  option::IntoIter,
-  str::CharIndices,
-};
+use std::{iter::Peekable, str::CharIndices};
 
 mod inner_state;
 mod token;
