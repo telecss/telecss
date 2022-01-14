@@ -1,7 +1,9 @@
 use std::fmt::{Display, Formatter, Result};
 
+use serde::Serialize;
+
 /// The CSS TokenType
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
 pub enum TokenType {
   Ident,
   Function,
@@ -72,7 +74,7 @@ impl Display for TokenType {
 }
 
 /// Position
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(Debug, PartialEq, Copy, Clone, Serialize)]
 pub struct Pos {
   pub offset: usize,
   pub line: usize,
@@ -90,10 +92,21 @@ impl Default for Pos {
 }
 
 /// Token
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
 pub struct Token {
   pub token_type: TokenType,
   pub start_pos: Pos,
   pub end_pos: Pos,
   pub content: Vec<char>,
+}
+
+impl Token {
+  pub fn new(token_type: TokenType, start_pos: Pos, end_pos: Pos, content: Vec<char>) -> Self {
+    Token {
+      token_type,
+      start_pos,
+      end_pos,
+      content,
+    }
+  }
 }

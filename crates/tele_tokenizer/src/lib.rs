@@ -11,6 +11,8 @@ use inner_state::*;
 use tele_utils::*;
 use token::{Pos, Token, TokenType};
 
+pub use token::*;
+
 #[derive(Debug)]
 pub struct Tokenizer<'s> {
   source: &'s str,
@@ -142,10 +144,12 @@ impl<'s> Tokenizer<'s> {
   fn emit(&mut self, token_type: TokenType) {
     let cur_cursor = self.get_cursor();
 
-    let mut token = Token::default();
-    token.token_type = token_type;
-    token.start_pos = self.pre_cursor;
-    token.end_pos = cur_cursor;
+    let mut token = Token::new(
+      token_type,
+      self.pre_cursor,
+      cur_cursor,
+      Vec::with_capacity(self.buffer.len()),
+    );
     token.content.append(&mut self.buffer);
 
     self.pre_cursor = cur_cursor;

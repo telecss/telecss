@@ -7,3 +7,9 @@ edition = "2021"
 
 [dependencies]
 tele_utils = { path = "../tele_utils" }
+serde = { version = "1.0.133", features = ["derive"] }
+
+[dev-dependencies]
+insta = "1.10.0"
+
+[features]
