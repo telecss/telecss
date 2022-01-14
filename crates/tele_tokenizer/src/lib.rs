@@ -2,7 +2,11 @@
 
 //! CSS Tokenizer
 
-use std::{iter::Peekable, str::CharIndices};
+use std::{
+  iter::{Chain, Peekable},
+  option::IntoIter,
+  str::CharIndices,
+};
 
 mod inner_state;
 mod token;
@@ -21,7 +25,6 @@ pub struct Tokenizer<'s> {
   colnmu: usize,
   offset: usize,
   pre_cursor: Pos,
-  cursor: Pos,
   current_state: State,
   buffer: Vec<char>,
   tokens: Vec<Token>,
@@ -31,13 +34,15 @@ impl<'s> From<&'s str> for Tokenizer<'s> {
   fn from(source: &'s str) -> Self {
     Tokenizer {
       source,
-      iter: source.char_indices().peekable(),
+      iter: source
+        .char_indices()
+        // .chain(Some((0 as usize, '\0')).into_iter())
+        .peekable(),
       // position related
       line: 1,
       colnmu: 1,
       offset: 0,
       pre_cursor: Pos::default(),
-      cursor: Pos::default(),
       // state machine related
       current_state: State::Initial,
       buffer: Vec::with_capacity(100),
@@ -74,6 +79,7 @@ impl<'s> Tokenizer<'s> {
             self.emit(TokenType::SemiColon);
             State::Initial
           }
+          '/' => State::Solidus,
           _ => {
             self.advance(offset);
             State::Initial
@@ -105,6 +111,36 @@ impl<'s> Tokenizer<'s> {
             State::Initial
           }
         }
+        State::Solidus => {
+          self.consume(offset, c);
+          State::MayBeComment
+        }
+        State::MayBeComment => {
+          if c == '*' {
+            self.consume(offset, c);
+            State::Comment
+          } else {
+            // error
+            State::Initial
+          }
+        }
+        State::Comment => {
+          self.consume(offset, c);
+          if c == '*' {
+            State::MayBeEndOfComment
+          } else {
+            State::Comment
+          }
+        }
+        State::MayBeEndOfComment => {
+          self.consume(offset, c);
+          if c == '/' {
+            self.emit(TokenType::Comment);
+            State::Initial
+          } else {
+            State::Comment
+          }
+        }
         State::MayBeNumber => {
           self.consume(offset, c);
           if is_digit(c) {
@@ -117,6 +153,15 @@ impl<'s> Tokenizer<'s> {
         State::EOF => break,
       };
     }
+
+    // EOF
+    match self.current_state {
+      State::WhiteSpace => {
+        self.emit(TokenType::WhiteSpace);
+      }
+      _ => {}
+    }
+    self.emit(TokenType::EOF);
 
     &mut self.tokens
   }

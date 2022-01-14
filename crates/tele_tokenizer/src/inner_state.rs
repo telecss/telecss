@@ -5,6 +5,10 @@ pub enum State {
   WhiteSpace,
   IdentStart,
   Ident,
+  Solidus,
+  MayBeComment,
+  Comment,
+  MayBeEndOfComment,
   EOF,
 }
 

@@ -1,6 +1,6 @@
 ---
 source: crates/tele_tokenizer/tests/basics.rs
-assertion_line: 8
+assertion_line: 7
 expression: tokenizer.tokenize()
 
 ---
@@ -204,5 +204,19 @@ expression: tokenizer.tokenize()
     "content": [
       "}"
     ]
+  },
+  {
+    "token_type": "EOF",
+    "start_pos": {
+      "offset": 19,
+      "line": 1,
+      "column": 21
+    },
+    "end_pos": {
+      "offset": 19,
+      "line": 1,
+      "column": 21
+    },
+    "content": []
   }
 ]
