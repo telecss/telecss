@@ -4,6 +4,7 @@
 
 use std::{iter::Peekable, str::CharIndices};
 
+mod error;
 mod inner_state;
 mod token;
 
@@ -11,6 +12,7 @@ use inner_state::*;
 use tele_utils::*;
 use token::{Pos, Token, TokenType};
 
+pub use error::*;
 pub use token::*;
 
 #[derive(Debug)]
@@ -48,7 +50,7 @@ impl<'s> From<&'s str> for Tokenizer<'s> {
 }
 
 impl<'s> Tokenizer<'s> {
-  pub fn tokenize(&mut self) -> &mut Vec<Token> {
+  pub fn tokenize(&mut self) -> Result<&mut Vec<Token>> {
     while let Some(&(offset, c)) = self.iter.peek() {
       self.current_state = match self.current_state {
         State::Initial => match c {
@@ -159,7 +161,7 @@ impl<'s> Tokenizer<'s> {
     }
     self.emit(TokenType::EOF);
 
-    &mut self.tokens
+    Ok(&mut self.tokens)
   }
 
   fn consume(&mut self, offset: usize, c: char) {
