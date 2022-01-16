@@ -9,3 +9,11 @@ fn error_tests() {
     }
   )
 }
+
+#[test]
+fn error_format() {
+  assert_eq!(
+    format!("{}", Error::from(ErrorKind::UnexpectedEOF)),
+    "Unexpected End Of File"
+  );
+}
