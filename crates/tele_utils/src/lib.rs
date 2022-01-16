@@ -28,3 +28,33 @@ pub fn is_ident_start(c: char) -> bool {
 pub fn is_ident_char(c: char) -> bool {
   is_ident_start(c) || is_digit(c) || c == '\u{002D}' /* HYPHEN-MINUS (-) */
 }
+
+pub fn is_start_a_number(s: &[u8]) -> bool {
+  let cp1 = *s.get(0).unwrap_or(&b'\0') as char;
+  let cp2 = *s.get(1).unwrap_or(&b'\0') as char;
+  let cp3 = *s.get(2).unwrap_or(&b'\0') as char;
+
+  if cp1 == '+' || cp1 == '-' {
+    if is_digit(cp2) {
+      return true;
+    }
+    return cp2 == '.' && is_digit(cp3);
+  } else if cp1 == '.' {
+    return is_digit(cp2);
+  }
+  return is_digit(cp1);
+}
+
+pub fn is_comment_start(s: &[u8]) -> bool {
+  let cp1 = *s.get(0).unwrap_or(&b'\0') as char;
+  let cp2 = *s.get(1).unwrap_or(&b'\0') as char;
+
+  cp1 == '/' && cp2 == '*'
+}
+
+pub fn is_comment_end(s: &[u8]) -> bool {
+  let cp1 = *s.get(0).unwrap_or(&b'\0') as char;
+  let cp2 = *s.get(1).unwrap_or(&b'\0') as char;
+
+  cp1 == '*' && cp2 == '/'
+}

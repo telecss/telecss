@@ -1,15 +1,11 @@
 #[derive(Debug, PartialEq)]
 pub enum State {
   Initial,
-  MayBeNumber,
-  Number,
+  Numeric,
   WhiteSpace,
   IdentStart,
   Ident,
-  Solidus,
-  MayBeComment,
   Comment,
-  MayBeEndOfComment,
   EOF,
 }
 

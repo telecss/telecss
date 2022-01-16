@@ -54,35 +54,47 @@ impl<'s> Tokenizer<'s> {
         State::Initial => match c {
           c if is_whitespace(c) => State::WhiteSpace,
           c if is_ident_start(c) => State::IdentStart,
-          '.' => State::MayBeNumber,
+          '.' => {
+            // https://www.w3.org/TR/css-syntax-3/#starts-with-a-number
+            if is_start_a_number(&self.bytes[offset..]) {
+              State::Numeric
+            } else {
+              self.consume(offset, 1);
+              self.emit(TokenType::Delim);
+              State::Initial
+            }
+          }
           '{' => {
-            self.consume(offset);
+            self.consume(offset, 1);
             self.emit(TokenType::LeftCurlyBracket);
             State::Initial
           }
           '}' => {
-            self.consume(offset);
+            self.consume(offset, 1);
             self.emit(TokenType::RightCurlyBracket);
             State::Initial
           }
           ':' => {
-            self.consume(offset);
+            self.consume(offset, 1);
             self.emit(TokenType::Colon);
             State::Initial
           }
           ';' => {
-            self.consume(offset);
+            self.consume(offset, 1);
             self.emit(TokenType::SemiColon);
             State::Initial
           }
-          '/' => State::Solidus,
+          '/' if is_comment_start(&self.bytes[offset..]) => {
+            self.consume(offset, 2);
+            State::Comment
+          }
           ',' => {
-            self.consume(offset);
+            self.consume(offset, 1);
             self.emit(TokenType::Comma);
             State::Initial
           }
           _ => {
-            self.consume(offset);
+            self.consume(offset, 1);
             State::Initial
           }
         },
@@ -92,7 +104,7 @@ impl<'s> Tokenizer<'s> {
               self.line += 1;
               self.colnmu = 1;
             }
-            self.consume(offset);
+            self.consume(offset, 1);
             State::WhiteSpace
           } else {
             self.emit(TokenType::WhiteSpace);
@@ -100,64 +112,32 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::IdentStart => {
-          self.consume(offset);
+          self.consume(offset, 1);
           State::Ident
         }
         State::Ident => {
           if is_ident_char(c) {
-            self.consume(offset);
+            self.consume(offset, 1);
             State::Ident
           } else {
             self.emit(TokenType::Ident);
             State::Initial
           }
         }
-        State::Solidus => {
-          self.consume(offset);
-          State::MayBeComment
-        }
-        State::MayBeComment => {
-          if c == '*' {
-            self.consume(offset);
-            State::Comment
-          } else {
-            // error
-            State::Initial
-          }
-        }
+        // https://www.w3.org/TR/css-syntax-3/#consume-comment
         State::Comment => {
-          self.consume(offset);
-          if c == '*' {
-            State::MayBeEndOfComment
-          } else {
-            State::Comment
-          }
-        }
-        State::MayBeEndOfComment => {
-          self.consume(offset);
-          if c == '/' {
+          if is_comment_end(&self.bytes[offset..]) {
+            self.consume(offset, 2);
             self.emit(TokenType::Comment);
             State::Initial
           } else {
+            self.consume(offset, 1);
             State::Comment
           }
         }
-        State::MayBeNumber => {
-          self.consume(offset);
-          if is_digit(c) {
-            State::Number
-          } else {
-            self.emit(TokenType::Delim);
-            State::Initial
-          }
-        }
-        State::Number => {
-          if is_digit(c) {
-            self.consume(offset);
-            State::Number
-          } else {
-            State::Initial
-          }
+        State::Numeric => {
+          // TODO
+          State::EOF
         }
         State::EOF => break,
       };
@@ -168,9 +148,7 @@ impl<'s> Tokenizer<'s> {
       State::WhiteSpace => {
         self.emit(TokenType::WhiteSpace);
       }
-      State::Comment | State::MayBeEndOfComment => {
-        return Err(Error::from(ErrorKind::UnexpectedEOF))
-      }
+      State::Comment => return Err(Error::from(ErrorKind::UnexpectedEOF)),
       _ => {}
     }
     self.emit(TokenType::EOF);
@@ -178,10 +156,12 @@ impl<'s> Tokenizer<'s> {
     Ok(&mut self.tokens)
   }
 
-  fn consume(&mut self, offset: usize) {
-    self.iter.next();
-    self.colnmu += 1;
-    self.offset = offset;
+  fn consume(&mut self, offset: usize, count: usize) {
+    for n in 0..count {
+      self.iter.next();
+      self.colnmu += 1;
+      self.offset = offset + n;
+    }
   }
 
   fn get_cursor(&self) -> Pos {
