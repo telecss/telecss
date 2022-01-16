@@ -78,6 +78,11 @@ impl<'s> Tokenizer<'s> {
             State::Initial
           }
           '/' => State::Solidus,
+          ',' => {
+            self.consume(offset, c);
+            self.emit(TokenType::Comma);
+            State::Initial
+          }
           _ => {
             self.advance(offset);
             State::Initial
@@ -142,9 +147,17 @@ impl<'s> Tokenizer<'s> {
         State::MayBeNumber => {
           self.consume(offset, c);
           if is_digit(c) {
-            State::EOF
+            State::Number
           } else {
             self.emit(TokenType::Delim);
+            State::Initial
+          }
+        }
+        State::Number => {
+          if is_digit(c) {
+            self.consume(offset, c);
+            State::Number
+          } else {
             State::Initial
           }
         }
@@ -157,7 +170,9 @@ impl<'s> Tokenizer<'s> {
       State::WhiteSpace => {
         self.emit(TokenType::WhiteSpace);
       }
-      // _ => return Err(Error::from(ErrorKind::UnexpectedEOF)),
+      State::Comment | State::MayBeEndOfComment => {
+        return Err(Error::from(ErrorKind::UnexpectedEOF))
+      }
       _ => {}
     }
     self.emit(TokenType::EOF);

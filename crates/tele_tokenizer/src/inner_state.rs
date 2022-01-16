@@ -2,6 +2,7 @@
 pub enum State {
   Initial,
   MayBeNumber,
+  Number,
   WhiteSpace,
   IdentStart,
   Ident,
