@@ -1,11 +1,12 @@
 #![warn(missing_docs)]
 //! A custom Error type for tokenization
 
+use serde::Serialize;
 use std::fmt::Display;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Error {
   kind: ErrorKind,
 }
@@ -16,7 +17,13 @@ impl Display for Error {
   }
 }
 
-#[derive(Debug)]
+impl From<ErrorKind> for Error {
+  fn from(kind: ErrorKind) -> Self {
+    Error { kind }
+  }
+}
+
+#[derive(Debug, Serialize)]
 pub enum ErrorKind {
   UnexpectedEOF,
 }

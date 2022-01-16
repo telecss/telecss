@@ -157,6 +157,7 @@ impl<'s> Tokenizer<'s> {
       State::WhiteSpace => {
         self.emit(TokenType::WhiteSpace);
       }
+      // _ => return Err(Error::from(ErrorKind::UnexpectedEOF)),
       _ => {}
     }
     self.emit(TokenType::EOF);

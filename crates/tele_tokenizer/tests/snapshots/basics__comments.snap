@@ -4,86 +4,88 @@ assertion_line: 13
 expression: tokenizer.tokenize()
 
 ---
-[
-  {
-    "token_type": "WhiteSpace",
-    "start_pos": {
-      "offset": 0,
-      "line": 1,
-      "column": 1
+{
+  "Ok": [
+    {
+      "token_type": "WhiteSpace",
+      "start_pos": {
+        "offset": 0,
+        "line": 1,
+        "column": 1
+      },
+      "end_pos": {
+        "offset": 0,
+        "line": 1,
+        "column": 2
+      },
+      "content": [
+        " "
+      ]
     },
-    "end_pos": {
-      "offset": 0,
-      "line": 1,
-      "column": 2
+    {
+      "token_type": "Comment",
+      "start_pos": {
+        "offset": 0,
+        "line": 1,
+        "column": 2
+      },
+      "end_pos": {
+        "offset": 20,
+        "line": 1,
+        "column": 22
+      },
+      "content": [
+        "/",
+        "*",
+        "*",
+        " ",
+        "I",
+        "'",
+        "m",
+        " ",
+        "C",
+        "o",
+        "m",
+        "m",
+        "e",
+        "n",
+        "t",
+        " ",
+        "*",
+        " ",
+        "*",
+        "/"
+      ]
     },
-    "content": [
-      " "
-    ]
-  },
-  {
-    "token_type": "Comment",
-    "start_pos": {
-      "offset": 0,
-      "line": 1,
-      "column": 2
+    {
+      "token_type": "WhiteSpace",
+      "start_pos": {
+        "offset": 20,
+        "line": 1,
+        "column": 22
+      },
+      "end_pos": {
+        "offset": 21,
+        "line": 1,
+        "column": 23
+      },
+      "content": [
+        " "
+      ]
     },
-    "end_pos": {
-      "offset": 20,
-      "line": 1,
-      "column": 22
-    },
-    "content": [
-      "/",
-      "*",
-      "*",
-      " ",
-      "I",
-      "'",
-      "m",
-      " ",
-      "C",
-      "o",
-      "m",
-      "m",
-      "e",
-      "n",
-      "t",
-      " ",
-      "*",
-      " ",
-      "*",
-      "/"
-    ]
-  },
-  {
-    "token_type": "WhiteSpace",
-    "start_pos": {
-      "offset": 20,
-      "line": 1,
-      "column": 22
-    },
-    "end_pos": {
-      "offset": 21,
-      "line": 1,
-      "column": 23
-    },
-    "content": [
-      " "
-    ]
-  },
-  {
-    "token_type": "EOF",
-    "start_pos": {
-      "offset": 21,
-      "line": 1,
-      "column": 23
-    },
-    "end_pos": {
-      "offset": 21,
-      "line": 1,
-      "column": 23
-    },
-    "content": []
-  }
-]
+    {
+      "token_type": "EOF",
+      "start_pos": {
+        "offset": 21,
+        "line": 1,
+        "column": 23
+      },
+      "end_pos": {
+        "offset": 21,
+        "line": 1,
+        "column": 23
+      },
+      "content": []
+    }
+  ]
+}
