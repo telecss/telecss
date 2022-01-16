@@ -6,9 +6,9 @@ use std::fmt::Display;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq)]
 pub struct Error {
-  kind: ErrorKind,
+  pub kind: ErrorKind,
 }
 
 impl Display for Error {
@@ -23,7 +23,7 @@ impl From<ErrorKind> for Error {
   }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq)]
 pub enum ErrorKind {
   UnexpectedEOF,
 }
