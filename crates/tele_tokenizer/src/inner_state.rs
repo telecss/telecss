@@ -3,8 +3,7 @@ pub enum State {
   Initial,
   Numeric,
   WhiteSpace,
-  IdentStart,
-  Ident,
+  IdentLike,
   Comment,
   EOF,
 }

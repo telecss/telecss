@@ -26,7 +26,29 @@ pub fn is_ident_start(c: char) -> bool {
 }
 
 pub fn is_ident_char(c: char) -> bool {
-  is_ident_start(c) || is_digit(c) || c == '\u{002D}' /* HYPHEN-MINUS (-) */
+  is_ident_start(c) || is_digit(c) || c == '-'
+}
+
+// https://www.w3.org/TR/css-syntax-3/#would-start-an-identifier
+pub fn would_start_an_ident_seq(s: &[u8]) -> bool {
+  let cp1 = *s.get(0).unwrap_or(&b'\0') as char;
+  let cp2 = *s.get(1).unwrap_or(&b'\0') as char;
+  let cp3 = *s.get(2).unwrap_or(&b'\0') as char;
+  if cp1 == '-' {
+    return is_ident_start(cp2) || cp2 == '-' || is_valid_escape(cp2, cp3);
+  }
+  if is_ident_start(cp1) {
+    return true;
+  }
+  return is_valid_escape(cp1, cp2);
+}
+
+// https://www.w3.org/TR/css-syntax-3/#check-if-two-code-points-are-a-valid-escape
+pub fn is_valid_escape(cp1: char, cp2: char) -> bool {
+  if cp1 != '\\' {
+    return false;
+  }
+  return !is_newline(cp2);
 }
 
 pub fn is_start_a_number(s: &[u8]) -> bool {

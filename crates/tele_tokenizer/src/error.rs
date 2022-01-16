@@ -26,12 +26,14 @@ impl From<ErrorKind> for Error {
 #[derive(Debug, Serialize, PartialEq)]
 pub enum ErrorKind {
   UnexpectedEOF,
+  InvalidIdentSeq,
 }
 
 impl ErrorKind {
   pub fn as_str(&self) -> &'static str {
     match *self {
       Self::UnexpectedEOF => "Unexpected End Of File",
+      Self::InvalidIdentSeq => "invalid identifier sequence",
     }
   }
 }

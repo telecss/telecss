@@ -53,48 +53,48 @@ impl<'s> Tokenizer<'s> {
       self.current_state = match self.current_state {
         State::Initial => match c {
           c if is_whitespace(c) => State::WhiteSpace,
-          c if is_ident_start(c) => State::IdentStart,
+          c if is_ident_start(c) => State::IdentLike,
           '.' => {
             // https://www.w3.org/TR/css-syntax-3/#starts-with-a-number
             if is_start_a_number(&self.bytes[offset..]) {
               State::Numeric
             } else {
-              self.consume(offset, 1);
+              self.advance(offset, 1);
               self.emit(TokenType::Delim);
               State::Initial
             }
           }
           '{' => {
-            self.consume(offset, 1);
+            self.advance(offset, 1);
             self.emit(TokenType::LeftCurlyBracket);
             State::Initial
           }
           '}' => {
-            self.consume(offset, 1);
+            self.advance(offset, 1);
             self.emit(TokenType::RightCurlyBracket);
             State::Initial
           }
           ':' => {
-            self.consume(offset, 1);
+            self.advance(offset, 1);
             self.emit(TokenType::Colon);
             State::Initial
           }
           ';' => {
-            self.consume(offset, 1);
+            self.advance(offset, 1);
             self.emit(TokenType::SemiColon);
             State::Initial
           }
           '/' if is_comment_start(&self.bytes[offset..]) => {
-            self.consume(offset, 2);
+            self.advance(offset, 2);
             State::Comment
           }
           ',' => {
-            self.consume(offset, 1);
+            self.advance(offset, 1);
             self.emit(TokenType::Comma);
             State::Initial
           }
           _ => {
-            self.consume(offset, 1);
+            self.advance(offset, 1);
             State::Initial
           }
         },
@@ -104,34 +104,32 @@ impl<'s> Tokenizer<'s> {
               self.line += 1;
               self.colnmu = 1;
             }
-            self.consume(offset, 1);
+            self.advance(offset, 1);
             State::WhiteSpace
           } else {
             self.emit(TokenType::WhiteSpace);
             State::Initial
           }
         }
-        State::IdentStart => {
-          self.consume(offset, 1);
-          State::Ident
-        }
-        State::Ident => {
-          if is_ident_char(c) {
-            self.consume(offset, 1);
-            State::Ident
-          } else {
+        // https://www.w3.org/TR/css-syntax-3/#consume-an-ident-like-token
+        State::IdentLike => {
+          if would_start_an_ident_seq(&self.bytes[offset..]) {
+            self.consume_ident_seq();
+            // TODO: ident-like analysis
             self.emit(TokenType::Ident);
             State::Initial
+          } else {
+            return Err(Error::from(ErrorKind::InvalidIdentSeq));
           }
         }
         // https://www.w3.org/TR/css-syntax-3/#consume-comment
         State::Comment => {
           if is_comment_end(&self.bytes[offset..]) {
-            self.consume(offset, 2);
+            self.advance(offset, 2);
             self.emit(TokenType::Comment);
             State::Initial
           } else {
-            self.consume(offset, 1);
+            self.advance(offset, 1);
             State::Comment
           }
         }
@@ -156,7 +154,26 @@ impl<'s> Tokenizer<'s> {
     Ok(&mut self.tokens)
   }
 
-  fn consume(&mut self, offset: usize, count: usize) {
+  fn consume_ident_seq(&mut self) -> (Pos, Pos) {
+    let start_cursor = self.get_cursor();
+    while let Some(&(offset, &c)) = self.iter.peek() {
+      if is_ident_char(c as char) {
+        self.advance(offset, 1);
+      } else {
+        let cp1 = *self.bytes.get(offset).unwrap_or(&b'\0') as char;
+        let cp2 = *self.bytes.get(offset).unwrap_or(&b'\0') as char;
+        if is_valid_escape(cp1, cp2) {
+          self.advance(offset, 2);
+        } else {
+          break;
+        }
+      }
+    }
+    let end_cursor = self.get_cursor();
+    (start_cursor, end_cursor)
+  }
+
+  fn advance(&mut self, offset: usize, count: usize) {
     for n in 0..count {
       self.iter.next();
       self.colnmu += 1;
