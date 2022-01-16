@@ -1,6 +1,6 @@
-use std::fmt::{Display, Formatter, Result};
-
 use serde::Serialize;
+use std::fmt::{Debug, Display, Formatter, Result};
+use std::str::from_utf8;
 
 /// The CSS TokenType
 #[derive(Debug, PartialEq, Serialize)]
@@ -92,21 +92,32 @@ impl Default for Pos {
 }
 
 /// Token
-#[derive(Debug, PartialEq, Serialize)]
-pub struct Token {
+#[derive(PartialEq, Serialize)]
+pub struct Token<'s> {
   pub token_type: TokenType,
   pub start_pos: Pos,
   pub end_pos: Pos,
-  pub content: Vec<char>,
+  pub content: &'s [u8],
 }
 
-impl Token {
-  pub fn new(token_type: TokenType, start_pos: Pos, end_pos: Pos, content: Vec<char>) -> Self {
+impl<'s> Token<'s> {
+  pub fn new(token_type: TokenType, start_pos: Pos, end_pos: Pos, content: &'s [u8]) -> Self {
     Token {
       token_type,
       start_pos,
       end_pos,
       content,
     }
+  }
+}
+
+impl<'s> Debug for Token<'s> {
+  fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+    f.debug_struct("Token")
+      .field("token_type", &self.token_type)
+      .field("start_pos", &self.start_pos)
+      .field("end_pos", &self.end_pos)
+      .field("content", &from_utf8(self.content).unwrap())
+      .finish()
   }
 }

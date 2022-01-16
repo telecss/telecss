@@ -4,169 +4,147 @@ assertion_line: 19
 expression: tokenizer.tokenize()
 
 ---
-{
-  "Ok": [
-    {
-      "token_type": "Delim",
-      "start_pos": {
-        "offset": 0,
-        "line": 1,
-        "column": 1
-      },
-      "end_pos": {
-        "offset": 0,
-        "line": 1,
-        "column": 2
-      },
-      "content": [
-        "."
-      ]
-    },
-    {
-      "token_type": "Ident",
-      "start_pos": {
-        "offset": 0,
-        "line": 1,
-        "column": 2
-      },
-      "end_pos": {
-        "offset": 3,
-        "line": 1,
-        "column": 5
-      },
-      "content": [
-        "f",
-        "o",
-        "o"
-      ]
-    },
-    {
-      "token_type": "Comma",
-      "start_pos": {
-        "offset": 3,
-        "line": 1,
-        "column": 5
-      },
-      "end_pos": {
-        "offset": 4,
-        "line": 1,
-        "column": 6
-      },
-      "content": [
-        ","
-      ]
-    },
-    {
-      "token_type": "WhiteSpace",
-      "start_pos": {
-        "offset": 4,
-        "line": 1,
-        "column": 6
-      },
-      "end_pos": {
-        "offset": 5,
-        "line": 1,
-        "column": 7
-      },
-      "content": [
-        " "
-      ]
-    },
-    {
-      "token_type": "Delim",
-      "start_pos": {
-        "offset": 5,
-        "line": 1,
-        "column": 7
-      },
-      "end_pos": {
-        "offset": 6,
-        "line": 1,
-        "column": 8
-      },
-      "content": [
-        "."
-      ]
-    },
-    {
-      "token_type": "Ident",
-      "start_pos": {
-        "offset": 6,
-        "line": 1,
-        "column": 8
-      },
-      "end_pos": {
-        "offset": 9,
-        "line": 1,
-        "column": 11
-      },
-      "content": [
-        "b",
-        "a",
-        "r"
-      ]
-    },
-    {
-      "token_type": "WhiteSpace",
-      "start_pos": {
-        "offset": 9,
-        "line": 1,
-        "column": 11
-      },
-      "end_pos": {
-        "offset": 10,
-        "line": 1,
-        "column": 12
-      },
-      "content": [
-        " "
-      ]
-    },
-    {
-      "token_type": "LeftCurlyBracket",
-      "start_pos": {
-        "offset": 10,
-        "line": 1,
-        "column": 12
-      },
-      "end_pos": {
-        "offset": 11,
-        "line": 1,
-        "column": 13
-      },
-      "content": [
-        "{"
-      ]
-    },
-    {
-      "token_type": "RightCurlyBracket",
-      "start_pos": {
-        "offset": 11,
-        "line": 1,
-        "column": 13
-      },
-      "end_pos": {
-        "offset": 12,
-        "line": 1,
-        "column": 14
-      },
-      "content": [
-        "}"
-      ]
-    },
-    {
-      "token_type": "EOF",
-      "start_pos": {
-        "offset": 12,
-        "line": 1,
-        "column": 14
-      },
-      "end_pos": {
-        "offset": 12,
-        "line": 1,
-        "column": 14
-      },
-      "content": []
-    }
-  ]
-}
+Ok(
+    [
+        Token {
+            token_type: Delim,
+            start_pos: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
+            },
+            end_pos: Pos {
+                offset: 1,
+                line: 1,
+                column: 2,
+            },
+            content: ".",
+        },
+        Token {
+            token_type: Ident,
+            start_pos: Pos {
+                offset: 1,
+                line: 1,
+                column: 2,
+            },
+            end_pos: Pos {
+                offset: 4,
+                line: 1,
+                column: 5,
+            },
+            content: "foo",
+        },
+        Token {
+            token_type: Comma,
+            start_pos: Pos {
+                offset: 4,
+                line: 1,
+                column: 5,
+            },
+            end_pos: Pos {
+                offset: 5,
+                line: 1,
+                column: 6,
+            },
+            content: ",",
+        },
+        Token {
+            token_type: WhiteSpace,
+            start_pos: Pos {
+                offset: 5,
+                line: 1,
+                column: 6,
+            },
+            end_pos: Pos {
+                offset: 6,
+                line: 1,
+                column: 7,
+            },
+            content: " ",
+        },
+        Token {
+            token_type: Delim,
+            start_pos: Pos {
+                offset: 6,
+                line: 1,
+                column: 7,
+            },
+            end_pos: Pos {
+                offset: 7,
+                line: 1,
+                column: 8,
+            },
+            content: ".",
+        },
+        Token {
+            token_type: Ident,
+            start_pos: Pos {
+                offset: 7,
+                line: 1,
+                column: 8,
+            },
+            end_pos: Pos {
+                offset: 10,
+                line: 1,
+                column: 11,
+            },
+            content: "bar",
+        },
+        Token {
+            token_type: WhiteSpace,
+            start_pos: Pos {
+                offset: 10,
+                line: 1,
+                column: 11,
+            },
+            end_pos: Pos {
+                offset: 11,
+                line: 1,
+                column: 12,
+            },
+            content: " ",
+        },
+        Token {
+            token_type: LeftCurlyBracket,
+            start_pos: Pos {
+                offset: 11,
+                line: 1,
+                column: 12,
+            },
+            end_pos: Pos {
+                offset: 12,
+                line: 1,
+                column: 13,
+            },
+            content: "{",
+        },
+        Token {
+            token_type: RightCurlyBracket,
+            start_pos: Pos {
+                offset: 12,
+                line: 1,
+                column: 13,
+            },
+            end_pos: Pos {
+                offset: 13,
+                line: 1,
+                column: 14,
+            },
+            content: "}",
+        },
+        Token {
+            token_type: EOF,
+            start_pos: Pos {
+                offset: 13,
+                line: 1,
+                column: 14,
+            },
+            end_pos: Pos {
+                offset: 13,
+                line: 1,
+                column: 14,
+            },
+            content: "",
+        },
+    ],
+)

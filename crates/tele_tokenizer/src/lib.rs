@@ -2,7 +2,10 @@
 
 //! CSS Tokenizer
 
-use std::{iter::Peekable, str::CharIndices};
+use std::{
+  iter::{Enumerate, Peekable},
+  slice::Iter,
+};
 
 mod error;
 mod inner_state;
@@ -17,74 +20,69 @@ pub use token::*;
 
 #[derive(Debug)]
 pub struct Tokenizer<'s> {
-  source: &'s str,
-  iter: Peekable<CharIndices<'s>>,
+  bytes: &'s [u8],
+  iter: Peekable<Enumerate<Iter<'s, u8>>>,
   line: usize,
   colnmu: usize,
   offset: usize,
   pre_cursor: Pos,
   current_state: State,
-  buffer: Vec<char>,
-  tokens: Vec<Token>,
+  tokens: Vec<Token<'s>>,
 }
 
 impl<'s> From<&'s str> for Tokenizer<'s> {
   fn from(source: &'s str) -> Self {
     Tokenizer {
-      source,
-      iter: source
-        .char_indices()
-        // .chain(Some((0 as usize, '\0')).into_iter())
-        .peekable(),
+      bytes: source.as_bytes(),
+      iter: source.as_bytes().iter().enumerate().peekable(),
       // position related
       line: 1,
       colnmu: 1,
       offset: 0,
       pre_cursor: Pos::default(),
-      // state machine related
       current_state: State::Initial,
-      buffer: Vec::with_capacity(100),
       tokens: Vec::new(),
     }
   }
 }
 
 impl<'s> Tokenizer<'s> {
-  pub fn tokenize(&mut self) -> Result<&mut Vec<Token>> {
-    while let Some(&(offset, c)) = self.iter.peek() {
+  pub fn tokenize(&mut self) -> Result<&mut Vec<Token<'s>>> {
+    while let Some(&(offset, &c)) = self.iter.peek() {
+      let c = c as char;
       self.current_state = match self.current_state {
         State::Initial => match c {
           c if is_whitespace(c) => State::WhiteSpace,
           c if is_ident_start(c) => State::IdentStart,
           '.' => State::MayBeNumber,
           '{' => {
-            self.consume(offset, c);
+            self.consume(offset);
             self.emit(TokenType::LeftCurlyBracket);
             State::Initial
           }
           '}' => {
-            self.consume(offset, c);
+            self.consume(offset);
             self.emit(TokenType::RightCurlyBracket);
             State::Initial
           }
           ':' => {
-            self.consume(offset, c);
+            self.consume(offset);
             self.emit(TokenType::Colon);
             State::Initial
           }
           ';' => {
-            self.consume(offset, c);
+            self.consume(offset);
             self.emit(TokenType::SemiColon);
             State::Initial
           }
           '/' => State::Solidus,
           ',' => {
-            self.consume(offset, c);
+            self.consume(offset);
             self.emit(TokenType::Comma);
             State::Initial
           }
           _ => {
-            self.advance(offset);
+            self.consume(offset);
             State::Initial
           }
         },
@@ -94,7 +92,7 @@ impl<'s> Tokenizer<'s> {
               self.line += 1;
               self.colnmu = 1;
             }
-            self.consume(offset, c);
+            self.consume(offset);
             State::WhiteSpace
           } else {
             self.emit(TokenType::WhiteSpace);
@@ -102,12 +100,12 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::IdentStart => {
-          self.consume(offset, c);
+          self.consume(offset);
           State::Ident
         }
         State::Ident => {
           if is_ident_char(c) {
-            self.consume(offset, c);
+            self.consume(offset);
             State::Ident
           } else {
             self.emit(TokenType::Ident);
@@ -115,12 +113,12 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::Solidus => {
-          self.consume(offset, c);
+          self.consume(offset);
           State::MayBeComment
         }
         State::MayBeComment => {
           if c == '*' {
-            self.consume(offset, c);
+            self.consume(offset);
             State::Comment
           } else {
             // error
@@ -128,7 +126,7 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::Comment => {
-          self.consume(offset, c);
+          self.consume(offset);
           if c == '*' {
             State::MayBeEndOfComment
           } else {
@@ -136,7 +134,7 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::MayBeEndOfComment => {
-          self.consume(offset, c);
+          self.consume(offset);
           if c == '/' {
             self.emit(TokenType::Comment);
             State::Initial
@@ -145,7 +143,7 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::MayBeNumber => {
-          self.consume(offset, c);
+          self.consume(offset);
           if is_digit(c) {
             State::Number
           } else {
@@ -155,7 +153,7 @@ impl<'s> Tokenizer<'s> {
         }
         State::Number => {
           if is_digit(c) {
-            self.consume(offset, c);
+            self.consume(offset);
             State::Number
           } else {
             State::Initial
@@ -180,13 +178,7 @@ impl<'s> Tokenizer<'s> {
     Ok(&mut self.tokens)
   }
 
-  fn consume(&mut self, offset: usize, c: char) {
-    // consume
-    self.advance(offset);
-    self.buffer.push(c);
-  }
-
-  fn advance(&mut self, offset: usize) {
+  fn consume(&mut self, offset: usize) {
     self.iter.next();
     self.colnmu += 1;
     self.offset = offset;
@@ -201,15 +193,15 @@ impl<'s> Tokenizer<'s> {
   }
 
   fn emit(&mut self, token_type: TokenType) {
-    let cur_cursor = self.get_cursor();
+    let mut cur_cursor = self.get_cursor();
+    cur_cursor.offset += 1;
 
-    let mut token = Token::new(
+    let token = Token::new(
       token_type,
       self.pre_cursor,
       cur_cursor,
-      Vec::with_capacity(self.buffer.len()),
+      &self.bytes[self.pre_cursor.offset..cur_cursor.offset],
     );
-    token.content.append(&mut self.buffer);
 
     self.pre_cursor = cur_cursor;
     self.tokens.push(token)
