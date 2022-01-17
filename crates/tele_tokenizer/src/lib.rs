@@ -114,7 +114,18 @@ impl<'s> Tokenizer<'s> {
         // https://www.w3.org/TR/css-syntax-3/#consume-an-ident-like-token
         State::IdentLike => {
           if would_start_an_ident_seq(&self.bytes[offset..]) {
-            self.consume_ident_seq();
+            let (start_pos, end_pos) = self.consume_ident_seq();
+            let ident = &self.bytes[start_pos.offset..end_pos.offset];
+
+            // println!(
+            //   "{:?} - {:?}",
+            //   std::str::from_utf8(ident),
+            //   std::str::from_utf8("url".as_bytes())
+            // );
+            // if ident == "url".as_bytes() {
+            //   println!("hahahhahahah");
+            // }
+
             // TODO: ident-like analysis
             self.emit(TokenType::Ident);
             State::Initial
@@ -183,15 +194,14 @@ impl<'s> Tokenizer<'s> {
 
   fn get_cursor(&self) -> Pos {
     Pos {
-      offset: self.offset,
+      offset: self.offset + 1,
       line: self.line,
       column: self.colnmu,
     }
   }
 
   fn emit(&mut self, token_type: TokenType) {
-    let mut cur_cursor = self.get_cursor();
-    cur_cursor.offset += 1;
+    let cur_cursor = self.get_cursor();
 
     let token = Token::new(
       token_type,
