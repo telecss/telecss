@@ -5,6 +5,7 @@
 use std::{
   iter::{Enumerate, Peekable},
   slice::Iter,
+  str::from_utf8,
 };
 
 mod error;
@@ -59,42 +60,42 @@ impl<'s> Tokenizer<'s> {
             if is_start_a_number(&self.bytes[offset..]) {
               State::Numeric
             } else {
-              self.advance(offset, 1);
+              self.advance(offset, 1, false);
               self.emit(TokenType::Delim);
               State::Initial
             }
           }
           '{' => {
-            self.advance(offset, 1);
+            self.advance(offset, 1, false);
             self.emit(TokenType::LeftCurlyBracket);
             State::Initial
           }
           '}' => {
-            self.advance(offset, 1);
+            self.advance(offset, 1, false);
             self.emit(TokenType::RightCurlyBracket);
             State::Initial
           }
           ':' => {
-            self.advance(offset, 1);
+            self.advance(offset, 1, false);
             self.emit(TokenType::Colon);
             State::Initial
           }
           ';' => {
-            self.advance(offset, 1);
+            self.advance(offset, 1, false);
             self.emit(TokenType::SemiColon);
             State::Initial
           }
           '/' if is_comment_start(&self.bytes[offset..]) => {
-            self.advance(offset, 2);
+            self.advance(offset, 2, false);
             State::Comment
           }
           ',' => {
-            self.advance(offset, 1);
+            self.advance(offset, 1, false);
             self.emit(TokenType::Comma);
             State::Initial
           }
           _ => {
-            self.advance(offset, 1);
+            self.advance(offset, 1, false);
             State::Initial
           }
         },
@@ -104,7 +105,7 @@ impl<'s> Tokenizer<'s> {
               self.line += 1;
               self.colnmu = 1;
             }
-            self.advance(offset, 1);
+            self.advance(offset, 1, false);
             State::WhiteSpace
           } else {
             self.emit(TokenType::WhiteSpace);
@@ -115,19 +116,37 @@ impl<'s> Tokenizer<'s> {
         State::IdentLike => {
           if would_start_an_ident_seq(&self.bytes[offset..]) {
             let (start_pos, end_pos) = self.consume_ident_seq();
-            let ident = &self.bytes[start_pos.offset..end_pos.offset];
+            // update offset
+            let offset = end_pos.offset;
+            let ident = from_utf8(&self.bytes[start_pos.offset..offset])
+              .unwrap_or("")
+              .to_ascii_lowercase();
 
-            // println!(
-            //   "{:?} - {:?}",
-            //   std::str::from_utf8(ident),
-            //   std::str::from_utf8("url".as_bytes())
-            // );
-            // if ident == "url".as_bytes() {
-            //   println!("hahahhahahah");
-            // }
+            let next = self.bytes[offset] as char;
 
-            // TODO: ident-like analysis
-            self.emit(TokenType::Ident);
+            if ident == "url" && next == '(' {
+              // TODO: temporarily as a URL token
+              self.emit(TokenType::URL);
+              self.advance(offset, 1, true);
+              let (start_pos, end_pos, is_function_token) = self.consume_whitespace_for_url_call();
+              // update offset
+              let offset = end_pos.offset;
+              if is_function_token {
+                self
+                  .tokens
+                  .last_mut()
+                  .map(|token| token.token_type = TokenType::Function);
+              }
+              if start_pos.offset < offset {
+                // should emit whitespace token
+                self.emit(TokenType::WhiteSpace);
+              }
+            } else if next == '(' {
+              self.emit(TokenType::Function);
+              self.advance(offset, 1, true);
+            } else {
+              self.emit(TokenType::Ident);
+            }
             State::Initial
           } else {
             return Err(Error::from(ErrorKind::InvalidIdentSeq));
@@ -136,11 +155,11 @@ impl<'s> Tokenizer<'s> {
         // https://www.w3.org/TR/css-syntax-3/#consume-comment
         State::Comment => {
           if is_comment_end(&self.bytes[offset..]) {
-            self.advance(offset, 2);
+            self.advance(offset, 2, false);
             self.emit(TokenType::Comment);
             State::Initial
           } else {
-            self.advance(offset, 1);
+            self.advance(offset, 1, false);
             State::Comment
           }
         }
@@ -169,12 +188,12 @@ impl<'s> Tokenizer<'s> {
     let start_cursor = self.get_cursor();
     while let Some(&(offset, &c)) = self.iter.peek() {
       if is_ident_char(c as char) {
-        self.advance(offset, 1);
+        self.advance(offset, 1, false);
       } else {
         let cp1 = char_at(&self.bytes, 0);
         let cp2 = char_at(&self.bytes, 1);
         if is_valid_escape(cp1, cp2) {
-          self.advance(offset, 2);
+          self.advance(offset, 2, false);
         } else {
           break;
         }
@@ -184,11 +203,32 @@ impl<'s> Tokenizer<'s> {
     (start_cursor, end_cursor)
   }
 
-  fn advance(&mut self, offset: usize, count: usize) {
+  fn consume_whitespace_for_url_call(&mut self) -> (Pos, Pos, bool) {
+    let start_cursor = self.get_cursor();
+    let mut is_function_token = false;
+    while let Some(&(offset, &c)) = self.iter.peek() {
+      let c = c as char;
+      if is_whitespace(c) {
+        self.advance(offset, 1, false);
+      } else if c == '"' || c == '\'' {
+        is_function_token = true;
+        break;
+      } else {
+        break;
+      }
+    }
+    let end_cursor = self.get_cursor();
+    (start_cursor, end_cursor, is_function_token)
+  }
+
+  fn advance(&mut self, offset: usize, count: usize, advance_cursor: bool) {
     for n in 0..count {
       self.iter.next();
       self.colnmu += 1;
       self.offset = offset + n;
+    }
+    if advance_cursor {
+      self.pre_cursor = self.get_cursor();
     }
   }
 
