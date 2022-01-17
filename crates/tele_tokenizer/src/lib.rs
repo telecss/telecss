@@ -171,8 +171,8 @@ impl<'s> Tokenizer<'s> {
       if is_ident_char(c as char) {
         self.advance(offset, 1);
       } else {
-        let cp1 = *self.bytes.get(offset).unwrap_or(&b'\0') as char;
-        let cp2 = *self.bytes.get(offset).unwrap_or(&b'\0') as char;
+        let cp1 = char_at(&self.bytes, 0);
+        let cp2 = char_at(&self.bytes, 1);
         if is_valid_escape(cp1, cp2) {
           self.advance(offset, 2);
         } else {

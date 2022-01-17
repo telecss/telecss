@@ -31,9 +31,9 @@ pub fn is_ident_char(c: char) -> bool {
 
 // https://www.w3.org/TR/css-syntax-3/#would-start-an-identifier
 pub fn would_start_an_ident_seq(s: &[u8]) -> bool {
-  let cp1 = *s.get(0).unwrap_or(&b'\0') as char;
-  let cp2 = *s.get(1).unwrap_or(&b'\0') as char;
-  let cp3 = *s.get(2).unwrap_or(&b'\0') as char;
+  let cp1 = char_at(s, 0);
+  let cp2 = char_at(s, 1);
+  let cp3 = char_at(s, 2);
   if cp1 == '-' {
     return is_ident_start(cp2) || cp2 == '-' || is_valid_escape(cp2, cp3);
   }
@@ -52,9 +52,9 @@ pub fn is_valid_escape(cp1: char, cp2: char) -> bool {
 }
 
 pub fn is_start_a_number(s: &[u8]) -> bool {
-  let cp1 = *s.get(0).unwrap_or(&b'\0') as char;
-  let cp2 = *s.get(1).unwrap_or(&b'\0') as char;
-  let cp3 = *s.get(2).unwrap_or(&b'\0') as char;
+  let cp1 = char_at(s, 0);
+  let cp2 = char_at(s, 1);
+  let cp3 = char_at(s, 2);
 
   if cp1 == '+' || cp1 == '-' {
     if is_digit(cp2) {
@@ -68,15 +68,19 @@ pub fn is_start_a_number(s: &[u8]) -> bool {
 }
 
 pub fn is_comment_start(s: &[u8]) -> bool {
-  let cp1 = *s.get(0).unwrap_or(&b'\0') as char;
-  let cp2 = *s.get(1).unwrap_or(&b'\0') as char;
+  let cp1 = char_at(s, 0);
+  let cp2 = char_at(s, 1);
 
   cp1 == '/' && cp2 == '*'
 }
 
 pub fn is_comment_end(s: &[u8]) -> bool {
-  let cp1 = *s.get(0).unwrap_or(&b'\0') as char;
-  let cp2 = *s.get(1).unwrap_or(&b'\0') as char;
+  let cp1 = char_at(s, 0);
+  let cp2 = char_at(s, 1);
 
   cp1 == '*' && cp2 == '/'
+}
+
+pub fn char_at(s: &[u8], index: usize) -> char {
+  *s.get(index).unwrap_or(&b'\0') as char
 }
