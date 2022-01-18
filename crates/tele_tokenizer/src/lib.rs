@@ -136,6 +136,7 @@ impl<'s> Tokenizer<'s> {
 
               let (start_pos, end_pos, is_function_token) = self.consume_whitespace_for_url_call();
               if is_function_token {
+                // change the URL token to the Function token
                 self
                   .tokens
                   .iter_mut()

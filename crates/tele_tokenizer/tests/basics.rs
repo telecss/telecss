@@ -29,3 +29,12 @@ fn unexpected_eof_comments() {
   let res = tokenizer.tokenize();
   assert_eq!(res, Err(Error::from(ErrorKind::UnexpectedEOF)));
 }
+
+#[test]
+fn url_function() {
+  let mut tokenizer: Tokenizer = "url('foo.svg')".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+
+  let mut tokenizer: Tokenizer = "url(\"bar.svg\")".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
