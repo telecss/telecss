@@ -4,6 +4,7 @@ pub enum State {
   Numeric,
   WhiteSpace,
   IdentLike,
+  String,
   Comment,
   EOF,
 }

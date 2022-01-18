@@ -27,6 +27,7 @@ impl From<ErrorKind> for Error {
 pub enum ErrorKind {
   UnexpectedEOF,
   InvalidIdentSeq,
+  BadString,
 }
 
 impl ErrorKind {
@@ -34,6 +35,7 @@ impl ErrorKind {
     match *self {
       Self::UnexpectedEOF => "Unexpected End Of File",
       Self::InvalidIdentSeq => "invalid identifier sequence",
+      Self::BadString => "Bad String",
     }
   }
 }
