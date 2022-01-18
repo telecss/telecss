@@ -1,0 +1,94 @@
+---
+source: crates/tele_tokenizer/tests/basics.rs
+assertion_line: 36
+expression: tokenizer.tokenize()
+
+---
+Ok(
+    [
+        Token {
+            token_type: Function,
+            start_pos: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
+            },
+            end_pos: Pos {
+                offset: 3,
+                line: 1,
+                column: 4,
+            },
+            content: "url",
+        },
+        Token {
+            token_type: LeftParentheses,
+            start_pos: Pos {
+                offset: 3,
+                line: 1,
+                column: 4,
+            },
+            end_pos: Pos {
+                offset: 4,
+                line: 1,
+                column: 5,
+            },
+            content: "(",
+        },
+        Token {
+            token_type: String,
+            start_pos: Pos {
+                offset: 5,
+                line: 1,
+                column: 6,
+            },
+            end_pos: Pos {
+                offset: 12,
+                line: 1,
+                column: 13,
+            },
+            content: "foo.svg",
+        },
+        Token {
+            token_type: RightParentheses,
+            start_pos: Pos {
+                offset: 13,
+                line: 1,
+                column: 14,
+            },
+            end_pos: Pos {
+                offset: 14,
+                line: 1,
+                column: 15,
+            },
+            content: ")",
+        },
+        Token {
+            token_type: SemiColon,
+            start_pos: Pos {
+                offset: 14,
+                line: 1,
+                column: 15,
+            },
+            end_pos: Pos {
+                offset: 15,
+                line: 1,
+                column: 16,
+            },
+            content: ";",
+        },
+        Token {
+            token_type: EOF,
+            start_pos: Pos {
+                offset: 15,
+                line: 1,
+                column: 16,
+            },
+            end_pos: Pos {
+                offset: 15,
+                line: 1,
+                column: 16,
+            },
+            content: "",
+        },
+    ],
+)

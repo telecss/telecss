@@ -31,10 +31,19 @@ fn unexpected_eof_comments() {
 }
 
 #[test]
-fn url_function() {
-  let mut tokenizer: Tokenizer = "url('foo.svg')".into();
+fn url_function_quotation_mark() {
+  let mut tokenizer: Tokenizer = "url(\"foo.svg\");".into();
   assert_debug_snapshot!(tokenizer.tokenize());
+}
 
-  let mut tokenizer: Tokenizer = "url(\"bar.svg\")".into();
+#[test]
+fn url_function_apostrophe() {
+  let mut tokenizer: Tokenizer = "url('foo.svg');".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
+
+#[test]
+fn url_function_with_whitespace() {
+  let mut tokenizer: Tokenizer = "url(   'foo.svg'  );".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }

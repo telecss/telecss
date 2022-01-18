@@ -1,6 +1,6 @@
 ---
 source: crates/tele_tokenizer/tests/basics.rs
-assertion_line: 36
+assertion_line: 42
 expression: tokenizer.tokenize()
 
 ---
@@ -63,16 +63,30 @@ Ok(
             content: ")",
         },
         Token {
-            token_type: EOF,
+            token_type: SemiColon,
             start_pos: Pos {
                 offset: 14,
                 line: 1,
                 column: 15,
             },
             end_pos: Pos {
-                offset: 14,
+                offset: 15,
                 line: 1,
-                column: 15,
+                column: 16,
+            },
+            content: ";",
+        },
+        Token {
+            token_type: EOF,
+            start_pos: Pos {
+                offset: 15,
+                line: 1,
+                column: 16,
+            },
+            end_pos: Pos {
+                offset: 15,
+                line: 1,
+                column: 16,
             },
             content: "",
         },

@@ -1,0 +1,122 @@
+---
+source: crates/tele_tokenizer/tests/basics.rs
+assertion_line: 48
+expression: tokenizer.tokenize()
+
+---
+Ok(
+    [
+        Token {
+            token_type: Function,
+            start_pos: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
+            },
+            end_pos: Pos {
+                offset: 3,
+                line: 1,
+                column: 4,
+            },
+            content: "url",
+        },
+        Token {
+            token_type: LeftParentheses,
+            start_pos: Pos {
+                offset: 3,
+                line: 1,
+                column: 4,
+            },
+            end_pos: Pos {
+                offset: 4,
+                line: 1,
+                column: 5,
+            },
+            content: "(",
+        },
+        Token {
+            token_type: WhiteSpace,
+            start_pos: Pos {
+                offset: 4,
+                line: 1,
+                column: 5,
+            },
+            end_pos: Pos {
+                offset: 7,
+                line: 1,
+                column: 8,
+            },
+            content: "   ",
+        },
+        Token {
+            token_type: String,
+            start_pos: Pos {
+                offset: 8,
+                line: 1,
+                column: 9,
+            },
+            end_pos: Pos {
+                offset: 15,
+                line: 1,
+                column: 16,
+            },
+            content: "foo.svg",
+        },
+        Token {
+            token_type: WhiteSpace,
+            start_pos: Pos {
+                offset: 16,
+                line: 1,
+                column: 17,
+            },
+            end_pos: Pos {
+                offset: 18,
+                line: 1,
+                column: 19,
+            },
+            content: "  ",
+        },
+        Token {
+            token_type: RightParentheses,
+            start_pos: Pos {
+                offset: 18,
+                line: 1,
+                column: 19,
+            },
+            end_pos: Pos {
+                offset: 19,
+                line: 1,
+                column: 20,
+            },
+            content: ")",
+        },
+        Token {
+            token_type: SemiColon,
+            start_pos: Pos {
+                offset: 19,
+                line: 1,
+                column: 20,
+            },
+            end_pos: Pos {
+                offset: 20,
+                line: 1,
+                column: 21,
+            },
+            content: ";",
+        },
+        Token {
+            token_type: EOF,
+            start_pos: Pos {
+                offset: 20,
+                line: 1,
+                column: 21,
+            },
+            end_pos: Pos {
+                offset: 20,
+                line: 1,
+                column: 21,
+            },
+            content: "",
+        },
+    ],
+)
