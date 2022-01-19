@@ -47,3 +47,9 @@ fn url_function_with_whitespace() {
   let mut tokenizer: Tokenizer = "url(   'foo.svg'  );".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }
+
+#[test]
+fn url_token() {
+  let mut tokenizer: Tokenizer = "url(   foo.svg  );".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}

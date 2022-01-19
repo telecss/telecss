@@ -84,3 +84,11 @@ pub fn is_comment_end(s: &[u8]) -> bool {
 pub fn char_at(s: &[u8], index: usize) -> char {
   *s.get(index).unwrap_or(&b'\0') as char
 }
+
+// https://www.w3.org/TR/css-syntax-3/#non-printable-code-point
+pub fn is_non_printable(c: char) -> bool {
+  match c {
+    '\u{0000}'..='\u{0008}' | '\u{000B}' | '\u{000E}'..='\u{001F}' | '\u{007F}' => true,
+    _ => false,
+  }
+}

@@ -1,0 +1,80 @@
+---
+source: crates/tele_tokenizer/tests/basics.rs
+assertion_line: 54
+expression: tokenizer.tokenize()
+
+---
+Ok(
+    [
+        Token {
+            token_type: WhiteSpace,
+            start_pos: Pos {
+                offset: 4,
+                line: 1,
+                column: 5,
+            },
+            end_pos: Pos {
+                offset: 7,
+                line: 1,
+                column: 8,
+            },
+            content: "   ",
+        },
+        Token {
+            token_type: URL,
+            start_pos: Pos {
+                offset: 7,
+                line: 1,
+                column: 8,
+            },
+            end_pos: Pos {
+                offset: 16,
+                line: 1,
+                column: 17,
+            },
+            content: "foo.svg  ",
+        },
+        Token {
+            token_type: RightParentheses,
+            start_pos: Pos {
+                offset: 16,
+                line: 1,
+                column: 17,
+            },
+            end_pos: Pos {
+                offset: 17,
+                line: 1,
+                column: 18,
+            },
+            content: ")",
+        },
+        Token {
+            token_type: SemiColon,
+            start_pos: Pos {
+                offset: 17,
+                line: 1,
+                column: 18,
+            },
+            end_pos: Pos {
+                offset: 18,
+                line: 1,
+                column: 19,
+            },
+            content: ";",
+        },
+        Token {
+            token_type: EOF,
+            start_pos: Pos {
+                offset: 18,
+                line: 1,
+                column: 19,
+            },
+            end_pos: Pos {
+                offset: 18,
+                line: 1,
+                column: 19,
+            },
+            content: "",
+        },
+    ],
+)

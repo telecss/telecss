@@ -5,6 +5,7 @@ pub enum State {
   WhiteSpace,
   IdentLike,
   String,
+  URL,
   Comment,
   EOF,
 }

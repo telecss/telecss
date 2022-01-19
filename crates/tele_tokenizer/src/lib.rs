@@ -3,6 +3,7 @@
 //! CSS Tokenizer
 
 use std::{
+  any::Any,
   iter::{Enumerate, Peekable},
   slice::Iter,
   str::from_utf8,
@@ -60,48 +61,48 @@ impl<'s> Tokenizer<'s> {
             if is_start_a_number(&self.bytes[offset..]) {
               State::Numeric
             } else {
-              self.advance(offset, 1, false);
+              self.consume(offset, 1, false);
               self.emit(TokenType::Delim);
               State::Initial
             }
           }
           '"' | '\'' => State::String,
           '{' => {
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             self.emit(TokenType::LeftCurlyBracket);
             State::Initial
           }
           '}' => {
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             self.emit(TokenType::RightCurlyBracket);
             State::Initial
           }
           ')' => {
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             self.emit(TokenType::RightParentheses);
             State::Initial
           }
           ':' => {
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             self.emit(TokenType::Colon);
             State::Initial
           }
           ';' => {
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             self.emit(TokenType::SemiColon);
             State::Initial
           }
           '/' if is_comment_start(&self.bytes[offset..]) => {
-            self.advance(offset, 2, false);
+            self.consume(offset, 2, false);
             State::Comment
           }
           ',' => {
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             self.emit(TokenType::Comma);
             State::Initial
           }
           _ => {
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             State::Initial
           }
         },
@@ -111,7 +112,7 @@ impl<'s> Tokenizer<'s> {
               self.line += 1;
               self.colnmu = 1;
             }
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             State::WhiteSpace
           } else {
             self.emit(TokenType::WhiteSpace);
@@ -127,58 +128,79 @@ impl<'s> Tokenizer<'s> {
               .to_ascii_lowercase();
 
             let next = self.bytes[end_pos.offset] as char;
+            let mut returned_state = State::Initial;
 
             if ident == "url" && next == '(' {
               // TODO: temporarily as a URL token
               self.emit(TokenType::URL);
-              self.advance(end_pos.offset, 1, false);
+              // consume '('
+              self.consume(end_pos.offset, 1, false);
               self.emit(TokenType::LeftParentheses);
 
               let (start_pos, end_pos, is_function_token) = self.consume_whitespace_for_url_call();
-              if is_function_token {
-                // change the URL token to the Function token
-                self
-                  .tokens
-                  .iter_mut()
-                  .rev()
-                  .skip(1)
-                  .next()
-                  .map(|token| token.token_type = TokenType::Function);
-              } else {
-                // TODO: https://www.w3.org/TR/css-syntax-3/#consume-a-url-token
-              }
+
               if start_pos.offset < end_pos.offset {
                 // should emit whitespace token
                 self.emit(TokenType::WhiteSpace);
               }
+              if is_function_token {
+                // change URL token to Function token
+                self
+                  .tokens
+                  .iter_mut()
+                  .rev()
+                  .skip_while(|ty| {
+                    ty.token_type == TokenType::WhiteSpace
+                      || ty.token_type == TokenType::LeftParentheses
+                  })
+                  .next()
+                  .map(|token| token.token_type = TokenType::Function);
+              } else {
+                let ws = self.tokens.pop(); // preserve whitespace token
+                self.tokens.pop(); // remove TokenType::URL
+                self.tokens.pop(); // remove TokenType::LeftParentheses
+
+                if let Some(ty) = ws {
+                  if ty.token_type == TokenType::WhiteSpace {
+                    self.tokens.push(ty);
+                  }
+                }
+                returned_state = State::URL;
+              }
             } else if next == '(' {
               self.emit(TokenType::Function);
-              self.advance(end_pos.offset, 1, false);
+              self.consume(end_pos.offset, 1, false);
               self.emit(TokenType::LeftParentheses);
             } else {
               self.emit(TokenType::Ident);
             }
-            State::Initial
+            returned_state
           } else {
             return Err(Error::from(ErrorKind::InvalidIdentSeq));
           }
         }
+        State::URL => {
+          // https://www.w3.org/TR/css-syntax-3/#consume-a-url-token
+          self.consume_url_token()?;
+          State::Initial
+        }
         // https://www.w3.org/TR/css-syntax-3/#consume-a-string-token
         State::String => {
           let ending_char = c;
-          self.advance(offset, 1, true);
+          self.consume(offset, 1, true);
           while let Some(&(offset, &c)) = self.iter.peek() {
             let c = c as char;
             if is_newline(c) {
+              // TODO: need testing
               self.emit(TokenType::BadString);
               break;
             } else if c == ending_char {
               self.emit(TokenType::String);
               // ignore ending_char
-              self.advance(offset, 1, true);
+              self.consume(offset, 1, true);
               break;
             } else {
-              self.advance(offset, 1, false);
+              self.consume(offset, 1, false);
             }
           }
           State::Initial
@@ -186,11 +208,11 @@ impl<'s> Tokenizer<'s> {
         // https://www.w3.org/TR/css-syntax-3/#consume-comment
         State::Comment => {
           if is_comment_end(&self.bytes[offset..]) {
-            self.advance(offset, 2, false);
+            self.consume(offset, 2, false);
             self.emit(TokenType::Comment);
             State::Initial
           } else {
-            self.advance(offset, 1, false);
+            self.consume(offset, 1, false);
             State::Comment
           }
         }
@@ -207,7 +229,7 @@ impl<'s> Tokenizer<'s> {
       State::WhiteSpace => {
         self.emit(TokenType::WhiteSpace);
       }
-      State::Comment => return Err(Error::from(ErrorKind::UnexpectedEOF)),
+      State::Comment | State::URL => return Err(Error::from(ErrorKind::UnexpectedEOF)),
       _ => {}
     }
     self.emit(TokenType::EOF);
@@ -219,12 +241,12 @@ impl<'s> Tokenizer<'s> {
     let start_cursor = self.get_cursor();
     while let Some(&(offset, &c)) = self.iter.peek() {
       if is_ident_char(c as char) {
-        self.advance(offset, 1, false);
+        self.consume(offset, 1, false);
       } else {
         let cp1 = char_at(&self.bytes, 0);
         let cp2 = char_at(&self.bytes, 1);
         if is_valid_escape(cp1, cp2) {
-          self.advance(offset, 2, false);
+          self.consume(offset, 2, false);
         } else {
           break;
         }
@@ -240,7 +262,7 @@ impl<'s> Tokenizer<'s> {
     while let Some(&(offset, &c)) = self.iter.peek() {
       let c = c as char;
       if is_whitespace(c) {
-        self.advance(offset, 1, false);
+        self.consume(offset, 1, false);
       } else if c == '"' || c == '\'' {
         is_function_token = true;
         break;
@@ -252,7 +274,23 @@ impl<'s> Tokenizer<'s> {
     (start_cursor, end_cursor, is_function_token)
   }
 
-  fn advance(&mut self, offset: usize, count: usize, advance_cursor: bool) {
+  fn consume_url_token(&mut self) -> Result<()> {
+    while let Some(&(offset, &c)) = self.iter.peek() {
+      let c = c as char;
+      match c {
+        ')' => {
+          self.emit(TokenType::URL);
+          break;
+        }
+        '"' | '\'' | '(' => return Err(Error::from(ErrorKind::BadURL)),
+        c if is_non_printable(c) => return Err(Error::from(ErrorKind::BadURL)),
+        _ => self.consume(offset, 1, false),
+      }
+    }
+    Ok(())
+  }
+
+  fn consume(&mut self, offset: usize, count: usize, advance_cursor: bool) {
     for n in 0..count {
       self.iter.next();
       self.colnmu += 1;
@@ -265,7 +303,7 @@ impl<'s> Tokenizer<'s> {
 
   fn get_cursor(&self) -> Pos {
     Pos {
-      offset: self.offset + 1,
+      offset: if self.colnmu == 1 { 0 } else { self.offset + 1 },
       line: self.line,
       column: self.colnmu,
     }

@@ -28,6 +28,7 @@ pub enum ErrorKind {
   UnexpectedEOF,
   InvalidIdentSeq,
   BadString,
+  BadURL,
 }
 
 impl ErrorKind {
@@ -36,6 +37,7 @@ impl ErrorKind {
       Self::UnexpectedEOF => "Unexpected End Of File",
       Self::InvalidIdentSeq => "invalid identifier sequence",
       Self::BadString => "Bad String",
+      Self::BadURL => "Bad URL",
     }
   }
 }
