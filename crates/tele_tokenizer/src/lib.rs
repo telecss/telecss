@@ -286,10 +286,10 @@ impl<'s> Tokenizer<'s> {
         c if is_whitespace(c) => {
           self.emit(TokenType::URL);
           let (start_pos, end_pos, _) = self.consume_whitespace_for_url_call();
-          let next = self.bytes[end_pos.offset] as char;
+          let next = char_at(&self.bytes[end_pos.offset..], 0);
           if next != ')' {
             self.tokens.pop();
-            // TODO: https://www.w3.org/TR/css-syntax-3/#consume-the-remnants-of-a-bad-url
+            return Err(Error::from(ErrorKind::BadURL));
           } else {
             if start_pos.offset != end_pos.offset {
               self.emit(TokenType::WhiteSpace);

@@ -53,3 +53,12 @@ fn url_token() {
   let mut tokenizer: Tokenizer = "url(   foo.svg  );".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }
+
+#[test]
+fn bad_url_token() {
+  let mut tokenizer: Tokenizer = "url(   foo.svg  ".into();
+  assert_eq!(tokenizer.tokenize(), Err(Error::from(ErrorKind::BadURL)));
+
+  let mut tokenizer: Tokenizer = "url(   foo.svg  .bar".into();
+  assert_eq!(tokenizer.tokenize(), Err(Error::from(ErrorKind::BadURL)));
+}
