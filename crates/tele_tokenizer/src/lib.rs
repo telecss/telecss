@@ -216,8 +216,8 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::Numeric => {
-          // TODO
-          State::EOF
+          self.consume_a_number();
+          State::Initial
         }
         State::EOF => break,
       };
@@ -234,6 +234,21 @@ impl<'s> Tokenizer<'s> {
     self.emit(TokenType::EOF);
 
     Ok(&mut self.tokens)
+  }
+
+  // https://www.w3.org/TR/css-syntax-3/#consume-a-number
+  fn consume_a_number(&mut self) {
+    match self.iter.peek() {
+      Some(&(offset, &b'+')) | Some(&(offset, &b'-')) => self.consume(offset, 1, false),
+      _ => {}
+    }
+    while let Some(&(offset, &c)) = self.iter.peek() {
+      if is_digit(c as char) {
+        self.consume(offset, 1, false);
+      } else {
+        break;
+      }
+    }
   }
 
   fn consume_ident_seq(&mut self) -> (Pos, Pos) {
