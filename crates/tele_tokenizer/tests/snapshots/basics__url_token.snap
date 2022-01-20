@@ -28,25 +28,25 @@ Ok(
                 column: 8,
             },
             end_pos: Pos {
-                offset: 16,
+                offset: 14,
                 line: 1,
-                column: 17,
+                column: 15,
             },
-            content: "foo.svg  ",
+            content: "foo.svg",
         },
         Token {
-            token_type: RightParentheses,
+            token_type: WhiteSpace,
             start_pos: Pos {
+                offset: 14,
+                line: 1,
+                column: 15,
+            },
+            end_pos: Pos {
                 offset: 16,
                 line: 1,
                 column: 17,
             },
-            end_pos: Pos {
-                offset: 17,
-                line: 1,
-                column: 18,
-            },
-            content: ")",
+            content: "  ",
         },
         Token {
             token_type: SemiColon,

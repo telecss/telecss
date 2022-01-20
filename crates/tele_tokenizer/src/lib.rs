@@ -131,7 +131,6 @@ impl<'s> Tokenizer<'s> {
             let mut returned_state = State::Initial;
 
             if ident == "url" && next == '(' {
-              // TODO: temporarily as a URL token
               self.emit(TokenType::URL);
               // consume '('
               self.consume(end_pos.offset, 1, false);
@@ -284,6 +283,21 @@ impl<'s> Tokenizer<'s> {
         }
         '"' | '\'' | '(' => return Err(Error::from(ErrorKind::BadURL)),
         c if is_non_printable(c) => return Err(Error::from(ErrorKind::BadURL)),
+        c if is_whitespace(c) => {
+          self.emit(TokenType::URL);
+          let (start_pos, end_pos, _) = self.consume_whitespace_for_url_call();
+          let next = self.bytes[end_pos.offset] as char;
+          if next != ')' {
+            self.tokens.pop();
+            // TODO: https://www.w3.org/TR/css-syntax-3/#consume-the-remnants-of-a-bad-url
+          } else {
+            if start_pos.offset != end_pos.offset {
+              self.emit(TokenType::WhiteSpace);
+            }
+            self.consume(end_pos.offset, 1, true);
+            break;
+          }
+        }
         _ => self.consume(offset, 1, false),
       }
     }
