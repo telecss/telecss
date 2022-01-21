@@ -116,6 +116,15 @@ impl<'s> Tokenizer<'s> {
             }
             State::Initial
           }
+          '+' => {
+            if is_start_a_number(&self.bytes[offset..]) {
+              self.consume_a_numeric();
+            } else {
+              self.consume(offset, 1, false);
+              self.emit(TokenType::Delim);
+            }
+            State::Initial
+          }
           _ => {
             self.consume(offset, 1, false);
             State::Initial
@@ -142,7 +151,7 @@ impl<'s> Tokenizer<'s> {
               .unwrap_or("")
               .to_ascii_lowercase();
 
-            let next = self.bytes[end_pos.offset] as char;
+            let next = char_at(&self.bytes[end_pos.offset..], 0);
             let mut returned_state = State::Initial;
 
             if ident == "url" && next == '(' {
@@ -231,24 +240,7 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::Numeric => {
-          let (_, end_pos) = self.consume_a_number();
-          let next = char_at(&self.bytes[end_pos.offset..], 0);
-
-          if would_start_an_ident_seq(&self.bytes[end_pos.offset..]) {
-            // According to the spec: https://www.w3.org/TR/css-syntax-3/#consume-numeric-token,
-            // we need to continue to analyze the unit of the Die token,
-            // but we can also choose to analyze the unit as a separate `Ident` token
-            // e.g.
-            // `30px` -> TokenType::Dimension + TokenType::Ident
-            //                    (30)                   (px)
-            self.emit(TokenType::Dimension);
-          } else if next == '%' {
-            self.emit(TokenType::Percentage);
-            self.consume(end_pos.offset, 1, true);
-          } else {
-            self.emit(TokenType::Number);
-          }
-
+          self.consume_a_numeric();
           State::Initial
         }
         State::EOF => break,
@@ -266,6 +258,27 @@ impl<'s> Tokenizer<'s> {
     self.emit(TokenType::EOF);
 
     Ok(&mut self.tokens)
+  }
+
+  // https://www.w3.org/TR/css-syntax-3/#consume-numeric-token
+  fn consume_a_numeric(&mut self) {
+    let (_, end_pos) = self.consume_a_number();
+    let next = char_at(&self.bytes[end_pos.offset..], 0);
+
+    if would_start_an_ident_seq(&self.bytes[end_pos.offset..]) {
+      // According to the spec: https://www.w3.org/TR/css-syntax-3/#consume-numeric-token,
+      // we need to continue to analyze the unit of the Die token,
+      // but we can also choose to analyze the unit as a separate `Ident` token
+      // e.g.
+      // `30px` -> TokenType::Dimension + TokenType::Ident
+      //                    (30)                   (px)
+      self.emit(TokenType::Dimension);
+    } else if next == '%' {
+      self.emit(TokenType::Percentage);
+      self.consume(end_pos.offset, 1, true);
+    } else {
+      self.emit(TokenType::Number);
+    }
   }
 
   // https://www.w3.org/TR/css-syntax-3/#consume-a-number

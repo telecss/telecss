@@ -80,3 +80,15 @@ fn hash_token() {
   let mut tokenizer: Tokenizer = "#foo {}".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }
+
+#[test]
+fn plus_sign_as_delim() {
+  let mut tokenizer: Tokenizer = "div + p".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
+
+#[test]
+fn plus_sign_as_numeric() {
+  let mut tokenizer: Tokenizer = "+100".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
