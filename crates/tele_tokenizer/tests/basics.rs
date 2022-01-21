@@ -74,3 +74,9 @@ fn dimension_with_unit_and_percentage_token() {
   let mut tokenizer: Tokenizer = "height: 30px; width: 30%;".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }
+
+#[test]
+fn hash_token() {
+  let mut tokenizer: Tokenizer = "#foo {}".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}

@@ -102,6 +102,20 @@ impl<'s> Tokenizer<'s> {
             self.emit(TokenType::Comma);
             State::Initial
           }
+          '#' => {
+            let cp1 = char_at(&self.bytes[offset..], 1);
+            let cp2 = char_at(&self.bytes[offset..], 2);
+            println!("{}-{}", is_ident_char(cp1), cp2);
+            if is_ident_char(cp1) || is_valid_escape(cp1, cp2) {
+              self.consume(offset, 1, true); // consume #
+              self.consume_ident_seq();
+              self.emit(TokenType::Hash);
+            } else {
+              self.consume(offset, 1, false);
+              self.emit(TokenType::Delim);
+            }
+            State::Initial
+          }
           _ => {
             self.consume(offset, 1, false);
             State::Initial
@@ -221,7 +235,8 @@ impl<'s> Tokenizer<'s> {
           let next = char_at(&self.bytes[end_pos.offset..], 0);
 
           if would_start_an_ident_seq(&self.bytes[end_pos.offset..]) {
-            // According to the specification, we need to continue to analyze the unit of the Die token,
+            // According to the spec: https://www.w3.org/TR/css-syntax-3/#consume-numeric-token,
+            // we need to continue to analyze the unit of the Die token,
             // but we can also choose to analyze the unit as a separate `Ident` token
             // e.g.
             // `30px` -> TokenType::Dimension + TokenType::Ident
