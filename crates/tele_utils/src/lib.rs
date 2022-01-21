@@ -1,5 +1,5 @@
 pub fn is_digit(c: char) -> bool {
-  c > '0' && c < '9'
+  c >= '0' && c <= '9'
 }
 
 pub fn is_newline(c: char) -> bool {

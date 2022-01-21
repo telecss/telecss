@@ -56,6 +56,7 @@ impl<'s> Tokenizer<'s> {
         State::Initial => match c {
           c if is_whitespace(c) => State::WhiteSpace,
           c if is_ident_start(c) => State::IdentLike,
+          c if is_digit(c) => State::Numeric,
           '.' => {
             // https://www.w3.org/TR/css-syntax-3/#starts-with-a-number
             if is_start_a_number(&self.bytes[offset..]) {
@@ -217,6 +218,7 @@ impl<'s> Tokenizer<'s> {
         }
         State::Numeric => {
           self.consume_a_number();
+          // TODO: unit handing
           State::Initial
         }
         State::EOF => break,
@@ -237,11 +239,48 @@ impl<'s> Tokenizer<'s> {
   }
 
   // https://www.w3.org/TR/css-syntax-3/#consume-a-number
-  fn consume_a_number(&mut self) {
+  fn consume_a_number(&mut self) -> (Pos, Pos) {
+    let start_pos = self.get_cursor();
     match self.iter.peek() {
       Some(&(offset, &b'+')) | Some(&(offset, &b'-')) => self.consume(offset, 1, false),
       _ => {}
     }
+
+    self.try_consume_digit();
+
+    if let Some(&(offset, _)) = self.iter.peek() {
+      let cp1 = char_at(&self.bytes[offset..], 0);
+      let cp2 = char_at(&self.bytes[offset..], 1);
+
+      if cp1 == '.' && is_digit(cp2) {
+        self.consume(offset, 2, false);
+        self.try_consume_digit();
+      }
+    }
+
+    if let Some(&(offset, _)) = self.iter.peek() {
+      let cp1 = char_at(&self.bytes[offset..], 0);
+      let cp2 = char_at(&self.bytes[offset..], 1);
+      let cp3 = char_at(&self.bytes[offset..], 2);
+
+      if cp1 == 'E' || cp1 == 'e' {
+        if (cp2 == '+' || cp2 == '-') && is_digit(cp3) {
+          self.consume(offset, 3, false);
+          self.try_consume_digit();
+        } else if is_digit(cp2) {
+          self.consume(offset, 2, false);
+          self.try_consume_digit();
+        }
+      }
+    }
+    let end_pos = self.get_cursor();
+
+    self.emit(TokenType::Number);
+
+    (start_pos, end_pos)
+  }
+
+  fn try_consume_digit(&mut self) {
     while let Some(&(offset, &c)) = self.iter.peek() {
       if is_digit(c as char) {
         self.consume(offset, 1, false);
