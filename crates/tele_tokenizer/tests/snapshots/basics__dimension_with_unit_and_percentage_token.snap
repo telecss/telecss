@@ -1,0 +1,192 @@
+---
+source: crates/tele_tokenizer/tests/basics.rs
+assertion_line: 75
+expression: tokenizer.tokenize()
+
+---
+Ok(
+    [
+        Token {
+            token_type: Ident,
+            start_pos: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
+            },
+            end_pos: Pos {
+                offset: 6,
+                line: 1,
+                column: 7,
+            },
+            content: "height",
+        },
+        Token {
+            token_type: Colon,
+            start_pos: Pos {
+                offset: 6,
+                line: 1,
+                column: 7,
+            },
+            end_pos: Pos {
+                offset: 7,
+                line: 1,
+                column: 8,
+            },
+            content: ":",
+        },
+        Token {
+            token_type: WhiteSpace,
+            start_pos: Pos {
+                offset: 7,
+                line: 1,
+                column: 8,
+            },
+            end_pos: Pos {
+                offset: 8,
+                line: 1,
+                column: 9,
+            },
+            content: " ",
+        },
+        Token {
+            token_type: Dimension,
+            start_pos: Pos {
+                offset: 8,
+                line: 1,
+                column: 9,
+            },
+            end_pos: Pos {
+                offset: 10,
+                line: 1,
+                column: 11,
+            },
+            content: "30",
+        },
+        Token {
+            token_type: Ident,
+            start_pos: Pos {
+                offset: 10,
+                line: 1,
+                column: 11,
+            },
+            end_pos: Pos {
+                offset: 12,
+                line: 1,
+                column: 13,
+            },
+            content: "px",
+        },
+        Token {
+            token_type: SemiColon,
+            start_pos: Pos {
+                offset: 12,
+                line: 1,
+                column: 13,
+            },
+            end_pos: Pos {
+                offset: 13,
+                line: 1,
+                column: 14,
+            },
+            content: ";",
+        },
+        Token {
+            token_type: WhiteSpace,
+            start_pos: Pos {
+                offset: 13,
+                line: 1,
+                column: 14,
+            },
+            end_pos: Pos {
+                offset: 14,
+                line: 1,
+                column: 15,
+            },
+            content: " ",
+        },
+        Token {
+            token_type: Ident,
+            start_pos: Pos {
+                offset: 14,
+                line: 1,
+                column: 15,
+            },
+            end_pos: Pos {
+                offset: 19,
+                line: 1,
+                column: 20,
+            },
+            content: "width",
+        },
+        Token {
+            token_type: Colon,
+            start_pos: Pos {
+                offset: 19,
+                line: 1,
+                column: 20,
+            },
+            end_pos: Pos {
+                offset: 20,
+                line: 1,
+                column: 21,
+            },
+            content: ":",
+        },
+        Token {
+            token_type: WhiteSpace,
+            start_pos: Pos {
+                offset: 20,
+                line: 1,
+                column: 21,
+            },
+            end_pos: Pos {
+                offset: 21,
+                line: 1,
+                column: 22,
+            },
+            content: " ",
+        },
+        Token {
+            token_type: Percentage,
+            start_pos: Pos {
+                offset: 21,
+                line: 1,
+                column: 22,
+            },
+            end_pos: Pos {
+                offset: 23,
+                line: 1,
+                column: 24,
+            },
+            content: "30",
+        },
+        Token {
+            token_type: SemiColon,
+            start_pos: Pos {
+                offset: 24,
+                line: 1,
+                column: 25,
+            },
+            end_pos: Pos {
+                offset: 25,
+                line: 1,
+                column: 26,
+            },
+            content: ";",
+        },
+        Token {
+            token_type: EOF,
+            start_pos: Pos {
+                offset: 25,
+                line: 1,
+                column: 26,
+            },
+            end_pos: Pos {
+                offset: 25,
+                line: 1,
+                column: 26,
+            },
+            content: "",
+        },
+    ],
+)

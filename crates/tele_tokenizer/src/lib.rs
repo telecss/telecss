@@ -217,8 +217,23 @@ impl<'s> Tokenizer<'s> {
           }
         }
         State::Numeric => {
-          self.consume_a_number();
-          // TODO: unit handing
+          let (_, end_pos) = self.consume_a_number();
+          let next = char_at(&self.bytes[end_pos.offset..], 0);
+
+          if would_start_an_ident_seq(&self.bytes[end_pos.offset..]) {
+            // According to the specification, we need to continue to analyze the unit of the Die token,
+            // but we can also choose to analyze the unit as a separate `Ident` token
+            // e.g.
+            // `30px` -> TokenType::Dimension + TokenType::Ident
+            //                    (30)                   (px)
+            self.emit(TokenType::Dimension);
+          } else if next == '%' {
+            self.emit(TokenType::Percentage);
+            self.consume(end_pos.offset, 1, true);
+          } else {
+            self.emit(TokenType::Number);
+          }
+
           State::Initial
         }
         State::EOF => break,
@@ -274,8 +289,6 @@ impl<'s> Tokenizer<'s> {
       }
     }
     let end_pos = self.get_cursor();
-
-    self.emit(TokenType::Number);
 
     (start_pos, end_pos)
   }
