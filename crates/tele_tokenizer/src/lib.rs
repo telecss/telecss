@@ -83,6 +83,11 @@ impl<'s> Tokenizer<'s> {
             self.emit(TokenType::RightParentheses);
             State::Initial
           }
+          '(' => {
+            self.consume(offset, 1, false);
+            self.emit(TokenType::LeftParentheses);
+            State::Initial
+          }
           '[' => {
             self.consume(offset, 1, false);
             self.emit(TokenType::LeftSquareBracket);
