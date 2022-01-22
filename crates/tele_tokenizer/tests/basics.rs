@@ -101,7 +101,7 @@ fn hyphen_minus_sign_as_numeric() {
 
 #[test]
 fn hyphen_minus_sign_as_cdc() {
-  let mut tokenizer: Tokenizer = "->".into();
+  let mut tokenizer: Tokenizer = "-->".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }
 
