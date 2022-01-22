@@ -92,3 +92,27 @@ fn plus_sign_as_numeric() {
   let mut tokenizer: Tokenizer = "+100".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }
+
+#[test]
+fn hyphen_minus_sign_as_numeric() {
+  let mut tokenizer: Tokenizer = "-200".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
+
+#[test]
+fn hyphen_minus_sign_as_cdc() {
+  let mut tokenizer: Tokenizer = "->".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
+
+#[test]
+fn hyphen_minus_sign_as_ident() {
+  let mut tokenizer: Tokenizer = "--theme-color".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
+
+#[test]
+fn hyphen_minus_sign_as_delim() {
+  let mut tokenizer: Tokenizer = " - ".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}

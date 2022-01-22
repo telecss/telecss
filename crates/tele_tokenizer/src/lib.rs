@@ -125,6 +125,23 @@ impl<'s> Tokenizer<'s> {
             }
             State::Initial
           }
+          '-' => {
+            let mut returned_state = State::Initial;
+            let cp1 = char_at(&self.bytes[offset..], 0);
+            let cp2 = char_at(&self.bytes[offset..], 1);
+            if is_start_a_number(&self.bytes[offset..]) {
+              self.consume_a_numeric();
+            } else if cp1 == '-' && cp2 == '>' {
+              self.consume(offset, 2, false);
+              self.emit(TokenType::CDC);
+            } else if would_start_an_ident_seq(&self.bytes[offset..]) {
+              returned_state = State::IdentLike;
+            } else {
+              self.consume(offset, 1, false);
+              self.emit(TokenType::Delim);
+            }
+            returned_state
+          }
           _ => {
             self.consume(offset, 1, false);
             State::Initial

@@ -1,0 +1,38 @@
+---
+source: crates/tele_tokenizer/tests/basics.rs
+assertion_line: 105
+expression: tokenizer.tokenize()
+
+---
+Ok(
+    [
+        Token {
+            token_type: CDC,
+            start_pos: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
+            },
+            end_pos: Pos {
+                offset: 2,
+                line: 1,
+                column: 3,
+            },
+            content: "->",
+        },
+        Token {
+            token_type: EOF,
+            start_pos: Pos {
+                offset: 2,
+                line: 1,
+                column: 3,
+            },
+            end_pos: Pos {
+                offset: 2,
+                line: 1,
+                column: 3,
+            },
+            content: "",
+        },
+    ],
+)
