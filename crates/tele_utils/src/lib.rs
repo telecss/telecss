@@ -33,22 +33,13 @@ pub fn is_ident_char(c: char) -> bool {
 pub fn would_start_an_ident_seq(s: &[u8]) -> bool {
   let cp1 = char_at(s, 0);
   let cp2 = char_at(s, 1);
-  let cp3 = char_at(s, 2);
   if cp1 == '-' {
-    return is_ident_start(cp2) || cp2 == '-' || is_valid_escape(cp2, cp3);
+    return is_ident_start(cp2) || cp2 == '-';
   }
   if is_ident_start(cp1) {
     return true;
   }
-  return is_valid_escape(cp1, cp2);
-}
-
-// https://www.w3.org/TR/css-syntax-3/#check-if-two-code-points-are-a-valid-escape
-pub fn is_valid_escape(cp1: char, cp2: char) -> bool {
-  if cp1 != '\\' {
-    return false;
-  }
-  return !is_newline(cp2);
+  false
 }
 
 pub fn is_start_a_number(s: &[u8]) -> bool {

@@ -104,9 +104,8 @@ impl<'s> Tokenizer<'s> {
           }
           '#' => {
             let cp1 = char_at(&self.bytes[offset..], 1);
-            let cp2 = char_at(&self.bytes[offset..], 2);
-            println!("{}-{}", is_ident_char(cp1), cp2);
-            if is_ident_char(cp1) || is_valid_escape(cp1, cp2) {
+
+            if is_ident_char(cp1) {
               self.consume(offset, 1, true); // consume #
               self.consume_ident_seq();
               self.emit(TokenType::Hash);
@@ -381,13 +380,7 @@ impl<'s> Tokenizer<'s> {
       if is_ident_char(c as char) {
         self.consume(offset, 1, false);
       } else {
-        let cp1 = char_at(&self.bytes, 0);
-        let cp2 = char_at(&self.bytes, 1);
-        if is_valid_escape(cp1, cp2) {
-          self.consume(offset, 2, false);
-        } else {
-          break;
-        }
+        break;
       }
     }
     let end_cursor = self.get_cursor();
