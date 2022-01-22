@@ -128,3 +128,15 @@ fn less_than_sign_as_delim() {
   let mut tokenizer: Tokenizer = " < ".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }
+
+#[test]
+fn at_keyword() {
+  let mut tokenizer: Tokenizer = "@media screen".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
+
+#[test]
+fn at_keyword_as_delim() {
+  let mut tokenizer: Tokenizer = " @ ".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}

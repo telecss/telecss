@@ -156,8 +156,21 @@ impl<'s> Tokenizer<'s> {
             }
             State::Initial
           }
+          '@' => {
+            if would_start_an_ident_seq(&self.bytes[(offset + 1)..]) {
+              self.consume(offset, 1, true); // ignore @
+              self.consume_ident_seq();
+              self.emit(TokenType::AtKeyword);
+            } else {
+              self.consume(offset, 1, false);
+              self.emit(TokenType::Delim);
+            }
+            State::Initial
+          }
           _ => {
             self.consume(offset, 1, false);
+            // anything else, return a <delim-token>
+            self.emit(TokenType::Delim);
             State::Initial
           }
         },
