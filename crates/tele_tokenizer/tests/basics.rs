@@ -116,3 +116,15 @@ fn hyphen_minus_sign_as_delim() {
   let mut tokenizer: Tokenizer = " - ".into();
   assert_debug_snapshot!(tokenizer.tokenize());
 }
+
+#[test]
+fn less_than_sign_as_cdo() {
+  let mut tokenizer: Tokenizer = "<!--".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}
+
+#[test]
+fn less_than_sign_as_delim() {
+  let mut tokenizer: Tokenizer = " < ".into();
+  assert_debug_snapshot!(tokenizer.tokenize());
+}

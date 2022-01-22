@@ -142,6 +142,20 @@ impl<'s> Tokenizer<'s> {
             }
             returned_state
           }
+          '<' => {
+            let cp1 = char_at(&self.bytes[offset..], 1);
+            let cp2 = char_at(&self.bytes[offset..], 2);
+            let cp3 = char_at(&self.bytes[offset..], 3);
+
+            if cp1 == '!' && cp2 == '-' && cp3 == '-' {
+              self.consume(offset, 4, false);
+              self.emit(TokenType::CDO);
+            } else {
+              self.consume(offset, 1, false);
+              self.emit(TokenType::Delim);
+            }
+            State::Initial
+          }
           _ => {
             self.consume(offset, 1, false);
             State::Initial
