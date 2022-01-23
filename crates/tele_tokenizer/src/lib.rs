@@ -1,9 +1,10 @@
 #![warn(missing_docs)]
+#![deny(unused_imports)]
+#![deny(unused_variables)]
 
 //! CSS Tokenizer
 
 use std::{
-  any::Any,
   iter::{Enumerate, Peekable},
   slice::Iter,
   str::from_utf8,
