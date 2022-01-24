@@ -16,7 +16,6 @@ mod token;
 
 use inner_state::*;
 use tele_utils::*;
-use token::{Pos, Token, TokenType};
 
 pub use error::*;
 pub use token::*;
