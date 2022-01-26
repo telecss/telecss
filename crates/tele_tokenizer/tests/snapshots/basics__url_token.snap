@@ -7,46 +7,18 @@ expression: tokenizer.tokenize()
 Ok(
     [
         Token {
-            token_type: WhiteSpace,
+            token_type: URL,
             start_pos: Pos {
                 offset: 4,
                 line: 1,
                 column: 5,
             },
             end_pos: Pos {
-                offset: 7,
-                line: 1,
-                column: 8,
-            },
-            content: "   ",
-        },
-        Token {
-            token_type: URL,
-            start_pos: Pos {
-                offset: 7,
-                line: 1,
-                column: 8,
-            },
-            end_pos: Pos {
                 offset: 14,
                 line: 1,
                 column: 15,
             },
-            content: "foo.svg",
-        },
-        Token {
-            token_type: WhiteSpace,
-            start_pos: Pos {
-                offset: 14,
-                line: 1,
-                column: 15,
-            },
-            end_pos: Pos {
-                offset: 16,
-                line: 1,
-                column: 17,
-            },
-            content: "  ",
+            content: "   foo.svg",
         },
         Token {
             token_type: SemiColon,

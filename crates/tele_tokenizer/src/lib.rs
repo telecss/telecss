@@ -220,8 +220,9 @@ impl<'s> Tokenizer<'s> {
 
               let (start_pos, end_pos, is_function_token) = self.consume_whitespace_for_url_call();
 
-              if start_pos.offset < end_pos.offset {
-                // should emit whitespace token
+              // should emit whitespace token when is_function_token is true
+              let should_emit_ws = is_function_token && start_pos.offset < end_pos.offset;
+              if should_emit_ws {
                 self.emit(TokenType::WhiteSpace);
               }
               if is_function_token {
@@ -237,15 +238,11 @@ impl<'s> Tokenizer<'s> {
                   .next()
                   .map(|token| token.token_type = TokenType::Function);
               } else {
-                let ws = self.tokens.pop(); // preserve whitespace token
-                self.tokens.pop(); // remove TokenType::URL
-                self.tokens.pop(); // remove TokenType::LeftParentheses
-
-                if let Some(ty) = ws {
-                  if ty.token_type == TokenType::WhiteSpace {
-                    self.tokens.push(ty);
-                  }
+                if should_emit_ws {
+                  self.tokens.pop();
                 }
+                self.tokens.pop(); // remove TokenType::LeftParentheses
+                self.tokens.pop(); // remove TokenType::URL
                 returned_state = State::URL;
               }
             } else if next == '(' {
@@ -432,15 +429,12 @@ impl<'s> Tokenizer<'s> {
         c if is_non_printable(c) => return Err(Error::from(ErrorKind::BadURL)),
         c if is_whitespace(c) => {
           self.emit(TokenType::URL);
-          let (start_pos, end_pos, _) = self.consume_whitespace_for_url_call();
+          let (_, end_pos, _) = self.consume_whitespace_for_url_call();
           let next = char_at(&self.bytes[end_pos.offset..], 0);
           if next != ')' {
             self.tokens.pop();
             return Err(Error::from(ErrorKind::BadURL));
           } else {
-            if start_pos.offset != end_pos.offset {
-              self.emit(TokenType::WhiteSpace);
-            }
             self.consume(end_pos.offset, 1, true);
             break;
           }
