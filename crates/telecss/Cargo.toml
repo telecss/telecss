@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 tele_tokenizer = { path = "../tele_tokenizer" }
+tele_parser = { path = "../tele_parser" }

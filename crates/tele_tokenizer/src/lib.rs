@@ -49,7 +49,7 @@ impl<'s> From<&'s str> for Tokenizer<'s> {
 }
 
 impl<'s> Tokenizer<'s> {
-  pub fn tokenize(&mut self) -> Result<&mut Vec<Token<'s>>> {
+  pub fn tokenize(&mut self) -> Result<&Vec<Token<'s>>> {
     while let Some(&(offset, &c)) = self.iter.peek() {
       let c = c as char;
       self.current_state = match self.current_state {

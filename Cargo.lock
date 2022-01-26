@@ -196,6 +196,7 @@ version = "0.1.0"
 name = "telecss"
 version = "0.1.0"
 dependencies = [
+ "tele_parser",
  "tele_tokenizer",
 ]
 
