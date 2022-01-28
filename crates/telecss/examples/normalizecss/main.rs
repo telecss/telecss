@@ -8,6 +8,9 @@ fn main() {
 
   let css = read_to_string(file_path).unwrap();
   let css: &str = css.as_ref();
+
+  println!("CSS: {:?}", css.as_bytes());
+
   let mut tokenizer: Tokenizer = css.into();
   println!(
     "Result of tokenizing normalize.css: {:#?}",

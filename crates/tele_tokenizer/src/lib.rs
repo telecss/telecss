@@ -265,6 +265,7 @@ impl<'s> Tokenizer<'s> {
         // https://www.w3.org/TR/css-syntax-3/#consume-a-string-token
         State::String => {
           let ending_char = c;
+          let mut valid_string_token: bool = false;
           self.consume(offset, 1, true);
           while let Some(&(offset, &c)) = self.iter.peek() {
             let c = c as char;
@@ -274,12 +275,13 @@ impl<'s> Tokenizer<'s> {
               self.emit(TokenType::String);
               // ignore ending_char
               self.consume(offset, 1, true);
+              valid_string_token = true;
               break;
             } else {
               self.consume(offset, 1, false);
             }
           }
-          if self.iter.peek().is_none() {
+          if !valid_string_token {
             return Err(Error::from(ErrorKind::BadString));
           }
           State::Initial
