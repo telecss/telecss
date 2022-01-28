@@ -269,9 +269,7 @@ impl<'s> Tokenizer<'s> {
           while let Some(&(offset, &c)) = self.iter.peek() {
             let c = c as char;
             if is_newline(c) {
-              // TODO: need testing
-              self.emit(TokenType::BadString);
-              break;
+              return Err(Error::from(ErrorKind::BadString));
             } else if c == ending_char {
               self.emit(TokenType::String);
               // ignore ending_char
@@ -280,6 +278,9 @@ impl<'s> Tokenizer<'s> {
             } else {
               self.consume(offset, 1, false);
             }
+          }
+          if self.iter.peek().is_none() {
+            return Err(Error::from(ErrorKind::BadString));
           }
           State::Initial
         }
