@@ -7,7 +7,8 @@
 use std::{
   iter::{Enumerate, Peekable},
   slice::Iter,
-  str::from_utf8,
+  str::from_utf8_unchecked,
+  vec,
 };
 
 mod error;
@@ -181,6 +182,15 @@ impl<'s> Tokenizer<'s> {
             }
             State::Initial
           }
+          '\\' => {
+            if is_valid_escape(&self.bytes[offset..]) {
+              State::IdentLike
+            } else {
+              self.consume(offset, 1, false);
+              self.emit(TokenType::Delim);
+              State::Initial
+            }
+          }
           _ => {
             self.consume(offset, 1, false);
             // anything else, return a <delim-token>
@@ -205,9 +215,10 @@ impl<'s> Tokenizer<'s> {
         State::IdentLike => {
           if would_start_an_ident_seq(&self.bytes[offset..]) {
             let (start_pos, end_pos) = self.consume_ident_seq();
-            let ident = from_utf8(&self.bytes[start_pos.offset..end_pos.offset])
-              .unwrap_or("")
-              .to_ascii_lowercase();
+            let ident = unsafe {
+              from_utf8_unchecked(&self.bytes[start_pos.offset..end_pos.offset])
+                .to_ascii_lowercase()
+            };
 
             let next = char_at(&self.bytes[end_pos.offset..], 0);
             let mut returned_state = State::Initial;
@@ -269,6 +280,7 @@ impl<'s> Tokenizer<'s> {
           self.consume(offset, 1, true);
           while let Some(&(offset, &c)) = self.iter.peek() {
             let c = c as char;
+            let next = char_at(&self.bytes[offset..], 1);
             if is_newline(c) {
               return Err(Error::from(ErrorKind::BadString));
             } else if c == ending_char {
@@ -277,6 +289,8 @@ impl<'s> Tokenizer<'s> {
               self.consume(offset, 1, true);
               valid_string_token = true;
               break;
+            } else if c == '\\' && next == ending_char {
+              self.consume(offset, 2, false);
             } else {
               self.consume(offset, 1, false);
             }
@@ -343,7 +357,9 @@ impl<'s> Tokenizer<'s> {
   fn consume_a_number(&mut self) -> (Pos, Pos) {
     let start_pos = self.get_cursor();
     match self.iter.peek() {
-      Some(&(offset, &b'+')) | Some(&(offset, &b'-')) => self.consume(offset, 1, false),
+      Some(&(offset, &b'+')) | Some(&(offset, &b'-')) => {
+        self.consume(offset, 1, false);
+      }
       _ => {}
     }
 
@@ -442,21 +458,28 @@ impl<'s> Tokenizer<'s> {
             break;
           }
         }
-        _ => self.consume(offset, 1, false),
+        _ => {
+          self.consume(offset, 1, false);
+        }
       }
     }
     Ok(())
   }
 
-  fn consume(&mut self, offset: usize, count: usize, advance_cursor: bool) {
+  fn consume(&mut self, offset: usize, count: usize, advance_cursor: bool) -> Vec<u8> {
+    let mut buf: Vec<u8> = vec![];
     for n in 0..count {
-      self.iter.next();
+      if let Some((_, c)) = self.iter.next() {
+        buf.push(*c);
+      }
       self.colnmu += 1;
       self.offset = offset + n;
     }
     if advance_cursor {
       self.pre_cursor = self.get_cursor();
     }
+
+    buf
   }
 
   fn get_cursor(&self) -> Pos {
@@ -467,7 +490,7 @@ impl<'s> Tokenizer<'s> {
     }
   }
 
-  fn emit(&mut self, token_type: TokenType) {
+  fn emit(&mut self, token_type: TokenType) -> &mut Token<'s> {
     let cur_cursor = self.get_cursor();
 
     let token = Token::new(
@@ -479,5 +502,7 @@ impl<'s> Tokenizer<'s> {
 
     self.pre_cursor = cur_cursor;
     self.tokens.push(token);
+
+    self.tokens.last_mut().unwrap()
   }
 }

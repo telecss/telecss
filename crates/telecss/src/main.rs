@@ -2,7 +2,7 @@ use tele_parser::*;
 use tele_tokenizer::*;
 
 fn main() {
-  let mut tokenizer: Tokenizer = "color: '\''".into();
+  let mut tokenizer: Tokenizer = r"color: '\''".into();
   let tokens = tokenizer.tokenize();
 
   println!("Tokens: {:#?}", tokens.unwrap());

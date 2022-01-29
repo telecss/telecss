@@ -34,12 +34,12 @@ pub fn would_start_an_ident_seq(s: &[u8]) -> bool {
   let cp1 = char_at(s, 0);
   let cp2 = char_at(s, 1);
   if cp1 == '-' {
-    return is_ident_start(cp2) || cp2 == '-';
+    return is_ident_start(cp2) || cp2 == '-' || is_valid_escape(&s[2..]);
   }
   if is_ident_start(cp1) {
     return true;
   }
-  false
+  return is_valid_escape(s);
 }
 
 pub fn is_start_a_number(s: &[u8]) -> bool {
@@ -82,4 +82,15 @@ pub fn is_non_printable(c: char) -> bool {
     '\u{0000}'..='\u{0008}' | '\u{000B}' | '\u{000E}'..='\u{001F}' | '\u{007F}' => true,
     _ => false,
   }
+}
+
+// https://www.w3.org/TR/css-syntax-3/#check-if-two-code-points-are-a-valid-escape
+pub fn is_valid_escape(s: &[u8]) -> bool {
+  let cp1 = char_at(s, 0);
+  let cp2 = char_at(s, 1);
+
+  if cp1 != '\\' {
+    return false;
+  }
+  return !is_newline(cp2);
 }
