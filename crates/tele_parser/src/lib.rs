@@ -4,6 +4,8 @@
 
 //! CSS Parser
 
+mod node;
+
 use std::{
   cell::RefCell,
   iter::{Enumerate, Peekable},

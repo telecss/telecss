@@ -5,8 +5,6 @@ fn main() {
   let mut tokenizer: Tokenizer = r"color: '\''".into();
   let tokens = tokenizer.tokenize();
 
-  println!("Tokens: {:#?}", tokens.unwrap());
-
-  // let parser = Parser::from(tokens.unwrap());
-  // println!("AST: {:#?}", parser.parse());
+  let parser = Parser::from(tokens.unwrap());
+  println!("AST: {:#?}", parser.parse());
 }
