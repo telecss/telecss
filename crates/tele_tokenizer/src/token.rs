@@ -109,6 +109,14 @@ impl<'s> Token<'s> {
       content,
     }
   }
+
+  pub fn is_eof(&self) -> bool {
+    self.token_type == TokenType::EOF
+  }
+
+  pub fn is_at_keyword(&self) -> bool {
+    self.token_type == TokenType::AtKeyword
+  }
 }
 
 impl<'s> Debug for Token<'s> {

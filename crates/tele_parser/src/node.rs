@@ -1,47 +1,54 @@
 use tele_tokenizer::Pos;
 
+#[derive(Debug, Default, PartialEq)]
 pub struct Loc {
   start: Pos,
   end: Pos,
-  offset: usize,
 }
 
+#[derive(Debug, Default, PartialEq)]
 pub struct DeclarationNode {
   loc: Loc,
   property: String,
   value: String,
 }
 
+#[derive(Debug, Default, PartialEq)]
 pub struct RuleSetNode {
   loc: Loc,
   prelude: String,
   declarations: Vec<DeclarationNode>,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum BlockItemNode {
   RuleSet(RuleSetNode),
   AtRule(AtRuleNode),
 }
 
+#[derive(Debug, Default, PartialEq)]
 pub struct AtRuleNode {
   loc: Loc,
   prelude: String,
   block: Vec<BlockItemNode>,
 }
 
-pub enum StatementsNode {
+#[derive(Debug, PartialEq)]
+pub enum StatementNode {
   RuleSet(RuleSetNode),
   AtRule(AtRuleNode),
 }
 
+#[derive(Debug, Default, PartialEq)]
 pub struct StyleSheetNode {
-  loc: Loc,
-  statements: Vec<StatementsNode>,
+  pub loc: Loc,
+  pub statements: Vec<StatementNode>,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum ASTNode {
   StyleSheet(StyleSheetNode),
-  Statements(StatementsNode),
+  Statements(StatementNode),
   RuleSet(RuleSetNode),
   AtRule(AtRuleNode),
   Declaration(DeclarationNode),
