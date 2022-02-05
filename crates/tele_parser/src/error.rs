@@ -27,12 +27,16 @@ impl From<SyntaxErrorKind> for SyntaxError {
 #[derive(Debug, PartialEq)]
 pub enum SyntaxErrorKind {
   UnexpectedEOF,
+  InvalidDeclName,
+  MissingColon,
 }
 
 impl SyntaxErrorKind {
   pub fn as_str(&self) -> &'static str {
     match *self {
       Self::UnexpectedEOF => "Unexpected End Of File",
+      Self::InvalidDeclName => "The name of the declaration is invalid",
+      Self::MissingColon => "Missing colon in declaration",
     }
   }
 }

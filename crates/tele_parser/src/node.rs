@@ -2,15 +2,16 @@ use tele_tokenizer::Pos;
 
 #[derive(Debug, Default, PartialEq)]
 pub struct Loc {
-  start: Pos,
-  end: Pos,
+  pub start: Pos,
+  pub end: Pos,
 }
 
 #[derive(Debug, Default, PartialEq)]
 pub struct DeclarationNode {
-  loc: Loc,
-  property: String,
-  value: String,
+  pub loc: Loc,
+  pub name: String,
+  pub value: String,
+  pub important: bool,
 }
 
 #[derive(Debug, Default, PartialEq)]

@@ -141,6 +141,26 @@ impl<'s> Token<'s> {
     self.token_type == TokenType::WhiteSpace
   }
 
+  pub fn is_ident(&self) -> bool {
+    self.token_type == TokenType::Ident
+  }
+
+  pub fn is_ident_with(&self, content: &[u8]) -> bool {
+    self.token_type == TokenType::Ident && self.content == content
+  }
+
+  pub fn is_colon(&self) -> bool {
+    self.token_type == TokenType::Colon
+  }
+
+  pub fn is_semi_colon(&self) -> bool {
+    self.token_type == TokenType::SemiColon
+  }
+
+  pub fn is_delim(&self, c: &[u8]) -> bool {
+    self.token_type == TokenType::Delim && self.content == c
+  }
+
   pub fn to_string(&self) -> String {
     String::from_utf8_lossy(self.content).to_string()
   }
