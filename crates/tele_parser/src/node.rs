@@ -15,9 +15,9 @@ pub struct DeclarationNode {
 
 #[derive(Debug, Default, PartialEq)]
 pub struct RuleSetNode {
-  loc: Loc,
-  prelude: String,
-  declarations: Vec<DeclarationNode>,
+  pub loc: Loc,
+  pub prelude: String,
+  pub declarations: Vec<DeclarationNode>,
 }
 
 #[derive(Debug, PartialEq)]

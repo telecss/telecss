@@ -1,6 +1,5 @@
 use serde::Serialize;
 use std::fmt::{Debug, Display, Formatter, Result};
-use std::str::from_utf8;
 
 /// The CSS TokenType
 #[derive(Debug, PartialEq, Serialize)]
@@ -117,6 +116,18 @@ impl<'s> Token<'s> {
   pub fn is_at_keyword(&self) -> bool {
     self.token_type == TokenType::AtKeyword
   }
+
+  pub fn is_lcb(&self) -> bool {
+    self.token_type == TokenType::LeftCurlyBracket
+  }
+
+  pub fn is_rcb(&self) -> bool {
+    self.token_type == TokenType::RightCurlyBracket
+  }
+
+  pub fn to_string(&self) -> String {
+    String::from_utf8_lossy(self.content).to_string()
+  }
 }
 
 impl<'s> Debug for Token<'s> {
@@ -125,7 +136,7 @@ impl<'s> Debug for Token<'s> {
       .field("token_type", &self.token_type)
       .field("start_pos", &self.start_pos)
       .field("end_pos", &self.end_pos)
-      .field("content", &from_utf8(self.content).unwrap())
+      .field("content", &self.to_string())
       .finish()
   }
 }
