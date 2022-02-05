@@ -125,6 +125,22 @@ impl<'s> Token<'s> {
     self.token_type == TokenType::RightCurlyBracket
   }
 
+  pub fn is_lp(&self) -> bool {
+    self.token_type == TokenType::LeftParentheses
+  }
+
+  pub fn is_rp(&self) -> bool {
+    self.token_type == TokenType::RightParentheses
+  }
+
+  pub fn is_fn(&self) -> bool {
+    self.token_type == TokenType::Function
+  }
+
+  pub fn is_ws(&self) -> bool {
+    self.token_type == TokenType::WhiteSpace
+  }
+
   pub fn to_string(&self) -> String {
     String::from_utf8_lossy(self.content).to_string()
   }

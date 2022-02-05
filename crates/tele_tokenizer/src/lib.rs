@@ -242,10 +242,7 @@ impl<'s> Tokenizer<'s> {
                   .tokens
                   .iter_mut()
                   .rev()
-                  .skip_while(|ty| {
-                    ty.token_type == TokenType::WhiteSpace
-                      || ty.token_type == TokenType::LeftParentheses
-                  })
+                  .skip_while(|ty| ty.is_ws() || ty.is_lp())
                   .next()
                   .map(|token| token.token_type = TokenType::Function);
               } else {
