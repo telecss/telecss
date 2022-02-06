@@ -181,6 +181,13 @@ impl<'s> Parser<'s> {
       && last_one.is_some()
       && unsafe { last_one.unwrap_unchecked() }.is_ident_with(b"important");
 
+    if decl_node.important {
+      // remove the trailing `!important`
+      let value = decl_node.value.as_str();
+      let len = value.len();
+      decl_node.value = value[..len - 11].to_string();
+    }
+
     last_one.map(|token| decl_node.loc.end = token.end_pos);
 
     Ok(Some(decl_node))

@@ -49,7 +49,7 @@ Ok(
                                 },
                             },
                             name: "color",
-                            value: "red !important",
+                            value: "red",
                             important: true,
                         },
                     ],
