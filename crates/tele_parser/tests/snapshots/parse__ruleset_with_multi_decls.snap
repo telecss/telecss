@@ -1,0 +1,77 @@
+---
+source: crates/tele_parser/tests/parse.rs
+assertion_line: 23
+expression: parser.parse()
+
+---
+Ok(
+    StyleSheetNode {
+        loc: Loc {
+            start: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
+            },
+            end: Pos {
+                offset: 51,
+                line: 1,
+                column: 52,
+            },
+        },
+        statements: [
+            RuleSet(
+                RuleSetNode {
+                    loc: Loc {
+                        start: Pos {
+                            offset: 2,
+                            line: 1,
+                            column: 3,
+                        },
+                        end: Pos {
+                            offset: 49,
+                            line: 1,
+                            column: 50,
+                        },
+                    },
+                    prelude: ".foo",
+                    declarations: [
+                        DeclarationNode {
+                            loc: Loc {
+                                start: Pos {
+                                    offset: 9,
+                                    line: 1,
+                                    column: 10,
+                                },
+                                end: Pos {
+                                    offset: 19,
+                                    line: 1,
+                                    column: 20,
+                                },
+                            },
+                            name: "color",
+                            value: "red",
+                            important: false,
+                        },
+                        DeclarationNode {
+                            loc: Loc {
+                                start: Pos {
+                                    offset: 21,
+                                    line: 1,
+                                    column: 22,
+                                },
+                                end: Pos {
+                                    offset: 47,
+                                    line: 1,
+                                    column: 48,
+                                },
+                            },
+                            name: "background",
+                            value: "url(bar.png)",
+                            important: false,
+                        },
+                    ],
+                },
+            ),
+        ],
+    },
+)

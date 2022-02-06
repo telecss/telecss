@@ -176,6 +176,7 @@ dependencies = [
 name = "tele_parser"
 version = "0.1.0"
 dependencies = [
+ "insta",
  "tele_tokenizer",
 ]
 

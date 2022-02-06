@@ -7,3 +7,6 @@ edition = "2021"
 
 [dependencies]
 tele_tokenizer = { path = "../tele_tokenizer" }
+
+[dev-dependencies]
+insta = "1.10.0"

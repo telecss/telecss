@@ -151,6 +151,7 @@ impl<'s> Parser<'s> {
 
     let mut last_one: Option<&Token> = None;
     let mut second_last: Option<&Token> = None;
+
     loop {
       let token = self.peek();
       if token.is_eof() {
@@ -159,6 +160,7 @@ impl<'s> Parser<'s> {
         self.consume();
         break;
       } else if token.is_rcb() {
+        decl_node.value = decl_node.value.trim_end().to_string();
         break;
       }
 
