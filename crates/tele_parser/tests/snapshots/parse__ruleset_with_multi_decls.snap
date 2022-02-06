@@ -1,6 +1,6 @@
 ---
 source: crates/tele_parser/tests/parse.rs
-assertion_line: 23
+assertion_line: 27
 expression: parser.parse()
 
 ---
@@ -13,9 +13,9 @@ Ok(
                 column: 1,
             },
             end: Pos {
-                offset: 51,
-                line: 1,
-                column: 52,
+                offset: 60,
+                line: 4,
+                column: 7,
             },
         },
         statements: [
@@ -23,14 +23,14 @@ Ok(
                 RuleSetNode {
                     loc: Loc {
                         start: Pos {
-                            offset: 2,
-                            line: 1,
-                            column: 3,
+                            offset: 5,
+                            line: 2,
+                            column: 6,
                         },
                         end: Pos {
-                            offset: 49,
-                            line: 1,
-                            column: 50,
+                            offset: 58,
+                            line: 4,
+                            column: 5,
                         },
                     },
                     prelude: ".foo",
@@ -38,14 +38,14 @@ Ok(
                         DeclarationNode {
                             loc: Loc {
                                 start: Pos {
-                                    offset: 9,
-                                    line: 1,
-                                    column: 10,
+                                    offset: 12,
+                                    line: 2,
+                                    column: 13,
                                 },
                                 end: Pos {
-                                    offset: 19,
-                                    line: 1,
-                                    column: 20,
+                                    offset: 22,
+                                    line: 2,
+                                    column: 23,
                                 },
                             },
                             name: "color",
@@ -55,14 +55,14 @@ Ok(
                         DeclarationNode {
                             loc: Loc {
                                 start: Pos {
-                                    offset: 21,
-                                    line: 1,
-                                    column: 22,
+                                    offset: 28,
+                                    line: 3,
+                                    column: 6,
                                 },
                                 end: Pos {
-                                    offset: 47,
-                                    line: 1,
-                                    column: 48,
+                                    offset: 54,
+                                    line: 3,
+                                    column: 32,
                                 },
                             },
                             name: "background",

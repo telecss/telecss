@@ -183,9 +183,7 @@ impl<'s> Parser<'s> {
 
     if decl_node.important {
       // remove the trailing `!important`
-      let value = decl_node.value.as_str();
-      let len = value.len();
-      decl_node.value = value[..len - 11].to_string();
+      decl_node.value = decl_node.value[..decl_node.value.as_str().len() - 11].to_string();
     }
 
     last_one.map(|token| decl_node.loc.end = token.end_pos);

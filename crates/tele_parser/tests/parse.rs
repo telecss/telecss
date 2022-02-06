@@ -18,7 +18,11 @@ fn ruleset_with_a_single_decl_no_trailing_semicolon() {
 
 #[test]
 fn ruleset_with_multi_decls() {
-  let mut tokenizer: Tokenizer = r"  .foo { color: red; background: url('bar.png') }  ".into();
+  let mut tokenizer: Tokenizer = r"
+    .foo { color: red;
+    background: url('bar.png')
+  }  "
+    .into();
   let parser = Parser::from(tokenizer.tokenize().unwrap());
   assert_debug_snapshot!(parser.parse());
 }
