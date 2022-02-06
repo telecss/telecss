@@ -2,10 +2,21 @@
 
 CSS tokenizer, parser, transformer, written in Rust.
 
-## Tokenizer
+This project is mainly based on the following specs:
 
-The `Tokenizer` is mainly based on the [CSS Syntax Module Level 3](https://www.w3.org/TR/css-syntax-3) document.
+- [CSS Syntax Module Level 3](https://www.w3.org/TR/css-syntax-3) document.
+- [Syntax and basic data types](https://www.w3.org/TR/CSS22/syndata.html#syntax) document.
 
-## Parser
+# TODO
 
-The `Parser` is mainly based on the [Syntax and basic data types](https://www.w3.org/TR/CSS22/syndata.html#syntax) document.
+## Current Focus
+
+- [ ] Make parser available.
+
+## Schedule
+
+- [ ] Make transformer available.
+- [ ] Make generator available.
+- [ ] Generate code frame for diagnostics when errors occur.
+- [ ] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
+- [ ] Docs
