@@ -46,3 +46,15 @@ fn skip_comments() {
   let parser = Parser::from(tokenizer.tokenize().unwrap());
   assert_debug_snapshot!(parser.parse());
 }
+
+#[test]
+fn percentage_token() {
+  let mut tokenizer: Tokenizer = r"
+    .foo {
+      height: 100%;
+    }
+  "
+  .into();
+  let parser = Parser::from(tokenizer.tokenize().unwrap());
+  assert_debug_snapshot!(parser.parse());
+}

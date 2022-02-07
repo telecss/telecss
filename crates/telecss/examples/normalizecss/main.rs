@@ -1,4 +1,5 @@
 use std::{env, fs::read_to_string};
+use tele_parser::Parser;
 use tele_tokenizer::*;
 
 fn main() {
@@ -9,11 +10,11 @@ fn main() {
   let css = read_to_string(file_path).unwrap();
   let css: &str = css.as_ref();
 
-  println!("CSS: {:?}", css.as_bytes());
+  // println!("CSS: {:?}", css.as_bytes());
 
   let mut tokenizer: Tokenizer = css.into();
   println!(
     "Result of tokenizing normalize.css: {:#?}",
-    tokenizer.tokenize()
+    Parser::from(tokenizer.tokenize().unwrap()).parse()
   )
 }

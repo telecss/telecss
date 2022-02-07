@@ -165,7 +165,14 @@ impl<'s> Token<'s> {
     self.token_type == TokenType::Delim && self.content == c
   }
 
+  pub fn is_percentage(&self) -> bool {
+    self.token_type == TokenType::Percentage
+  }
+
   pub fn to_string(&self) -> String {
+    if self.is_percentage() {
+      return String::from_utf8_lossy(&[self.content, &[b'%']].concat()).to_string();
+    }
     String::from_utf8_lossy(self.content).to_string()
   }
 }

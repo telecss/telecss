@@ -188,6 +188,7 @@ impl<'s> Parser<'s> {
     if decl_node.important {
       // remove the trailing `!important`
       decl_node.value = decl_node.value[..decl_node.value.as_str().len() - 11]
+        // trim whitespaces between the `value` and `!important`
         .trim_end()
         .to_string();
     }
