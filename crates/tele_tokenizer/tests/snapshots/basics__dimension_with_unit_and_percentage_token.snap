@@ -1,6 +1,6 @@
 ---
 source: crates/tele_tokenizer/tests/basics.rs
-assertion_line: 75
+assertion_line: 81
 expression: tokenizer.tokenize()
 
 ---
@@ -158,7 +158,7 @@ Ok(
                 line: 1,
                 column: 24,
             },
-            content: "30",
+            content: "30%",
         },
         Token {
             token_type: SemiColon,
