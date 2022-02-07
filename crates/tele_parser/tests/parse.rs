@@ -33,3 +33,16 @@ fn decl_with_important() {
   let parser = Parser::from(tokenizer.tokenize().unwrap());
   assert_debug_snapshot!(parser.parse());
 }
+
+#[test]
+fn skip_comments() {
+  let mut tokenizer: Tokenizer = r"
+    /* comment 1 */ .foo /* comment 2 */ {
+    /* comment 3 */ color /* comment 4 */ :
+    /* comment 5 */ red /* comment 6 */ !important;
+    /* comment 7 */ } /* comment 8 */
+  "
+  .into();
+  let parser = Parser::from(tokenizer.tokenize().unwrap());
+  assert_debug_snapshot!(parser.parse());
+}

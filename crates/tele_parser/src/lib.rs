@@ -37,7 +37,7 @@ impl<'s> Parser<'s> {
       ss_node.statements.push(node)
     }
 
-    self.skip_ws();
+    self.skip_ws_and_comments();
 
     let next = self.peek();
     debug_assert!(next.is_eof());
@@ -60,7 +60,7 @@ impl<'s> Parser<'s> {
   }
 
   fn parse_statements(&self) -> ParserResult<Option<StatementNode>> {
-    self.skip_ws();
+    self.skip_ws_and_comments();
 
     let next = self.peek();
 
@@ -98,7 +98,9 @@ impl<'s> Parser<'s> {
         self.consume();
         break;
       } else {
-        rule_set_node.prelude.push_str(&token.to_string());
+        if !token.is_comment() {
+          rule_set_node.prelude.push_str(&token.to_string());
+        }
         self.consume();
       }
     }
@@ -114,7 +116,7 @@ impl<'s> Parser<'s> {
   }
 
   fn parse_decl(&self) -> ParserResult<Option<DeclarationNode>> {
-    self.skip_ws();
+    self.skip_ws_and_comments();
 
     // declaration name
 
@@ -135,7 +137,7 @@ impl<'s> Parser<'s> {
     decl_node.loc.start = next.start_pos;
 
     self.consume();
-    self.skip_ws();
+    self.skip_ws_and_comments();
 
     // :
 
@@ -145,7 +147,7 @@ impl<'s> Parser<'s> {
     }
     self.asset_eof(next)?;
     self.consume();
-    self.skip_ws();
+    self.skip_ws_and_comments();
 
     // declaration value
 
@@ -166,14 +168,16 @@ impl<'s> Parser<'s> {
 
       self.consume();
 
-      if !token.is_ws() {
+      if !token.is_ws() && !token.is_comment() {
         if last_one.is_some() {
           second_last = last_one;
         }
         last_one = Some(token);
       }
 
-      decl_node.value.push_str(&token.to_string());
+      if !token.is_comment() {
+        decl_node.value.push_str(&token.to_string());
+      }
     }
 
     decl_node.important = second_last.is_some()
@@ -183,7 +187,9 @@ impl<'s> Parser<'s> {
 
     if decl_node.important {
       // remove the trailing `!important`
-      decl_node.value = decl_node.value[..decl_node.value.as_str().len() - 11].to_string();
+      decl_node.value = decl_node.value[..decl_node.value.as_str().len() - 11]
+        .trim_end()
+        .to_string();
     }
 
     last_one.map(|token| decl_node.loc.end = token.end_pos);
@@ -198,10 +204,10 @@ impl<'s> Parser<'s> {
     Ok(())
   }
 
-  fn skip_ws(&self) {
+  fn skip_ws_and_comments(&self) {
     loop {
       let token = self.peek();
-      if token.token_type == TokenType::WhiteSpace {
+      if token.is_ws() || token.is_comment() {
         self.consume();
       } else {
         break;

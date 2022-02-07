@@ -141,6 +141,10 @@ impl<'s> Token<'s> {
     self.token_type == TokenType::WhiteSpace
   }
 
+  pub fn is_comment(&self) -> bool {
+    self.token_type == TokenType::Comment
+  }
+
   pub fn is_ident(&self) -> bool {
     self.token_type == TokenType::Ident
   }
