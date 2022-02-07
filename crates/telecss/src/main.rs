@@ -2,7 +2,14 @@ use tele_parser::*;
 use tele_tokenizer::*;
 
 fn main() {
-  let mut tokenizer: Tokenizer = r"  .foo { color: red; }  ".into();
+  let mut tokenizer: Tokenizer = r#"
+  @media screen and (min-width: 900px) {
+    article {
+      padding: 1rem 3rem;
+    }
+  }
+  "#
+  .into();
   let tokens = tokenizer.tokenize();
 
   println!("Tokens: {:#?}", tokens);

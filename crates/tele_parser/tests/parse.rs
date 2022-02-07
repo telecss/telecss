@@ -58,3 +58,24 @@ fn percentage_token() {
   let parser = Parser::from(tokenizer.tokenize().unwrap());
   assert_debug_snapshot!(parser.parse());
 }
+
+#[test]
+fn at_rule_without_block() {
+  let mut tokenizer: Tokenizer = r#" @charset "urf-8"; "#.into();
+  let parser = Parser::from(tokenizer.tokenize().unwrap());
+  assert_debug_snapshot!(parser.parse());
+}
+
+#[test]
+fn at_rule_with_block() {
+  let mut tokenizer: Tokenizer = r#"
+  @media screen and (min-width: 900px) {
+    article {
+      padding: 1rem 3rem;
+    }
+  }
+  "#
+  .into();
+  let parser = Parser::from(tokenizer.tokenize().unwrap());
+  assert_debug_snapshot!(parser.parse());
+}

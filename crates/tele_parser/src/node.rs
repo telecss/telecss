@@ -21,17 +21,12 @@ pub struct RuleSetNode {
   pub declarations: Vec<DeclarationNode>,
 }
 
-#[derive(Debug, PartialEq)]
-pub enum BlockItemNode {
-  RuleSet(RuleSetNode),
-  AtRule(AtRuleNode),
-}
-
 #[derive(Debug, Default, PartialEq)]
 pub struct AtRuleNode {
-  loc: Loc,
-  prelude: String,
-  block: Vec<BlockItemNode>,
+  pub loc: Loc,
+  pub name: String,
+  pub prelude: String,
+  pub block: Vec<StatementNode>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -53,5 +48,4 @@ pub enum ASTNode {
   RuleSet(RuleSetNode),
   AtRule(AtRuleNode),
   Declaration(DeclarationNode),
-  BlockItem(BlockItemNode),
 }

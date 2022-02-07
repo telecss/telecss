@@ -1,0 +1,80 @@
+---
+source: crates/tele_parser/tests/parse.rs
+assertion_line: 80
+expression: parser.parse()
+
+---
+Ok(
+    StyleSheetNode {
+        loc: Loc {
+            start: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
+            },
+            end: Pos {
+                offset: 94,
+                line: 7,
+                column: 4,
+            },
+        },
+        statements: [
+            AtRule(
+                AtRuleNode {
+                    loc: Loc {
+                        start: Pos {
+                            offset: 4,
+                            line: 2,
+                            column: 5,
+                        },
+                        end: Pos {
+                            offset: 41,
+                            line: 2,
+                            column: 42,
+                        },
+                    },
+                    name: "media",
+                    prelude: "screen and (min-width: 900px)",
+                    block: [
+                        RuleSet(
+                            RuleSetNode {
+                                loc: Loc {
+                                    start: Pos {
+                                        offset: 46,
+                                        line: 3,
+                                        column: 6,
+                                    },
+                                    end: Pos {
+                                        offset: 87,
+                                        line: 5,
+                                        column: 7,
+                                    },
+                                },
+                                prelude: "article",
+                                declarations: [
+                                    DeclarationNode {
+                                        loc: Loc {
+                                            start: Pos {
+                                                offset: 62,
+                                                line: 4,
+                                                column: 8,
+                                            },
+                                            end: Pos {
+                                                offset: 80,
+                                                line: 4,
+                                                column: 26,
+                                            },
+                                        },
+                                        name: "padding",
+                                        value: "1rem 3rem",
+                                        important: false,
+                                    },
+                                ],
+                            },
+                        ),
+                    ],
+                },
+            ),
+        ],
+    },
+)

@@ -69,7 +69,11 @@ impl<'s> Parser<'s> {
     }
 
     if next.is_at_keyword() {
-      Ok(self.parse_at_rule().map(|node| StatementNode::AtRule(node)))
+      Ok(
+        self
+          .parse_at_rule()?
+          .map(|node| StatementNode::AtRule(node)),
+      )
     } else {
       Ok(
         self
@@ -111,8 +115,58 @@ impl<'s> Parser<'s> {
     Ok(Some(rule_set_node))
   }
 
-  fn parse_at_rule(&self) -> Option<AtRuleNode> {
-    unimplemented!()
+  fn parse_at_rule(&self) -> ParserResult<Option<AtRuleNode>> {
+    let mut at_rule_node = AtRuleNode::default();
+
+    // unsafe: we are sure that the next token is `@`
+    let mut token = unsafe { self.consume().unwrap_unchecked() };
+    at_rule_node.loc.start = token.start_pos;
+    at_rule_node.name = token.to_string();
+
+    self.skip_ws_and_comments();
+
+    loop {
+      token = self.peek();
+      self.asset_eof(token)?;
+
+      if token.is_lcb() {
+        self.consume();
+
+        loop {
+          self.skip_ws_and_comments();
+          let next = self.peek();
+          if next.is_rcb() {
+            // end right curly bracket
+            self.consume();
+            break;
+          }
+
+          let statement = self.parse_statements()?;
+          if statement.is_none() {
+            break;
+          }
+
+          // unsafe: checked above
+          let statement = unsafe { statement.unwrap_unchecked() };
+
+          at_rule_node.block.push(statement);
+        }
+        break;
+      } else if token.is_semi_colon() {
+        // no-block
+        self.consume();
+        break;
+      } else {
+        // prelude
+        self.consume();
+        at_rule_node.prelude.push_str(&token.to_string());
+      }
+    }
+
+    at_rule_node.loc.end = token.end_pos;
+    at_rule_node.prelude = at_rule_node.prelude.trim_end().to_string();
+
+    Ok(Some(at_rule_node))
   }
 
   fn parse_decl(&self) -> ParserResult<Option<DeclarationNode>> {
