@@ -15,13 +15,13 @@ Benchmarks on each commit: [https://telecss.github.io/telecss/dev/bench/](https:
 
 ## Current Focus
 
-- [ ] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
+- [ ] Make transformer available.
 
 ## Schedule
 
 - [x] Make tokenizer available.
 - [x] Make parser available.
-- [ ] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
+- [x] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
 - [ ] Make transformer available.
 - [ ] Make generator available.
 - [ ] Generate code frame for diagnostics when errors occur.
