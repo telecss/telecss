@@ -79,3 +79,19 @@ fn at_rule_with_block() {
   let parser = Parser::from(tokenizer.tokenize().unwrap());
   assert_debug_snapshot!(parser.parse());
 }
+
+#[test]
+fn nested_at_rule() {
+  let mut tokenizer: Tokenizer = r#"
+  @supports (display: flex) {
+    @media screen and (min-width: 900px) {
+      article {
+        display: flex;
+      }
+    }
+  }
+  "#
+  .into();
+  let parser = Parser::from(tokenizer.tokenize().unwrap());
+  assert_debug_snapshot!(parser.parse());
+}
