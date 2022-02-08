@@ -7,6 +7,10 @@ This project is mainly based on the following specs:
 - [CSS Syntax Module Level 3](https://www.w3.org/TR/css-syntax-3) document.
 - [Syntax and basic data types](https://www.w3.org/TR/CSS22/syndata.html#syntax) document.
 
+# Benchmark
+
+Benchmarks on each commit: [https://telecss.github.io/telecss/dev/bench/](https://telecss.github.io/telecss/dev/bench/)
+
 # TODO
 
 ## Current Focus
