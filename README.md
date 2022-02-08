@@ -11,12 +11,14 @@ This project is mainly based on the following specs:
 
 ## Current Focus
 
-- [ ] Make parser available.
+- [ ] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
 
 ## Schedule
 
+- [x] Make tokenizer available.
+- [x] Make parser available.
+- [ ] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
 - [ ] Make transformer available.
 - [ ] Make generator available.
 - [ ] Generate code frame for diagnostics when errors occur.
-- [ ] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
 - [ ] Docs
