@@ -23,6 +23,8 @@ Benchmarks on each commit: [https://telecss.github.io/telecss/dev/bench/](https:
 - [x] Make parser available.
 - [x] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
 - [ ] Make transformer available.
+- [ ] Allows writing plugins using Nodejs
 - [ ] Make generator available.
 - [ ] Generate code frame for diagnostics when errors occur.
+- [ ] Playground (with WASM)
 - [ ] Docs
