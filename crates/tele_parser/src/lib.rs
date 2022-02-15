@@ -16,14 +16,12 @@ use std::{cell::RefCell, iter::Peekable, slice::Iter};
 use tele_tokenizer::*;
 
 pub struct Parser<'s> {
-  tokens: &'s Vec<Token<'s>>,
   iter: RefCell<Peekable<Iter<'s, Token<'s>>>>,
 }
 
 impl<'s> From<&'s Vec<Token<'s>>> for Parser<'s> {
   fn from(tokens: &'s Vec<Token<'s>>) -> Self {
     Self {
-      tokens,
       iter: RefCell::new(tokens.iter().peekable()),
     }
   }

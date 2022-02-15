@@ -44,7 +44,6 @@ pub struct StyleSheetNode {
 #[derive(Debug, PartialEq)]
 pub enum ASTNode {
   StyleSheet(StyleSheetNode),
-  Statements(StatementNode),
   RuleSet(RuleSetNode),
   AtRule(AtRuleNode),
   Declaration(DeclarationNode),
