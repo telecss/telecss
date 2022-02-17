@@ -1,5 +1,5 @@
 [package]
-name = "tele_transformer"
+name = "tele_folder"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,7 @@ edition = "2021"
 
 [dependencies]
 tele_parser = { path = "../tele_parser" }
+
+[dev-dependencies]
+insta = "1.10.0"
+tele_tokenizer = { path = "../tele_tokenizer" }

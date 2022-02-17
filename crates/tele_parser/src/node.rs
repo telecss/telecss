@@ -1,6 +1,6 @@
 use tele_tokenizer::Pos;
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, Default, PartialEq, Copy, Clone)]
 pub struct Loc {
   pub start: Pos,
   pub end: Pos,

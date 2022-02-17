@@ -173,6 +173,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "tele_folder"
+version = "0.1.0"
+dependencies = [
+ "insta",
+ "tele_parser",
+ "tele_tokenizer",
+]
+
+[[package]]
 name = "tele_parser"
 version = "0.1.0"
 dependencies = [
@@ -187,13 +196,6 @@ dependencies = [
  "insta",
  "serde",
  "tele_utils",
-]
-
-[[package]]
-name = "tele_transformer"
-version = "0.1.0"
-dependencies = [
- "tele_parser",
 ]
 
 [[package]]
