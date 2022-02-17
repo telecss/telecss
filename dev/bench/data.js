@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645112068775,
+  "lastUpdate": 1645120608489,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -179,6 +179,36 @@ window.BENCHMARK_DATA = {
             "name": "tests::parse_normalize_css",
             "value": 35566,
             "range": "± 5502",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8663e0cab9c63a4bd13f6102dd84496e6a6e7f48",
+          "message": "feat: finish fold\n\nfeat: finish fold",
+          "timestamp": "2022-02-18T01:54:39+08:00",
+          "tree_id": "c3db81afc7a25ba48d019cdae5549164998a11c4",
+          "url": "https://github.com/telecss/telecss/commit/8663e0cab9c63a4bd13f6102dd84496e6a6e7f48"
+        },
+        "date": 1645120607321,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 29288,
+            "range": "± 464",
             "unit": "ns/iter"
           }
         ]
