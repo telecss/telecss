@@ -1,4 +1,4 @@
-#![allow(missing_docs)]
+#![warn(missing_docs)]
 #![deny(unused_imports)]
 #![deny(unused_variables)]
 
@@ -50,4 +50,8 @@ pub trait Folder {
 
     new_decl_node_node
   }
+}
+
+pub fn transform<T: Folder>(ast: StyleSheetNode, mut folder: T) -> StyleSheetNode {
+  folder.fold_ss_node(ast)
 }
