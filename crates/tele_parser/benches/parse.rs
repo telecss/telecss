@@ -18,9 +18,10 @@ mod tests {
     file_path.push("../telecss/examples/normalizecss/normalize.css");
     let file_path = file_path.as_os_str().to_str().unwrap();
     let css = read_to_string(file_path).unwrap();
+    let css = css.as_str();
 
     b.iter(|| {
-      let mut tokenizer: Tokenizer = css.as_str().into();
+      let mut tokenizer: Tokenizer = css.into();
       Parser::from(tokenizer.tokenize().unwrap()).parse();
     });
   }
