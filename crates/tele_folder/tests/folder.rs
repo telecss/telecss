@@ -4,8 +4,8 @@ use tele_parser::{DeclarationNode, Parser};
 use tele_tokenizer::Tokenizer;
 
 struct Renamer;
-impl Folder for Renamer {
-  fn fold_decl_node(&mut self, mut decl_node: DeclarationNode) -> DeclarationNode {
+impl<'s> Folder<'s> for Renamer {
+  fn fold_decl_node(&mut self, mut decl_node: DeclarationNode<'s>) -> DeclarationNode<'s> {
     decl_node.name = format!("-moz-{}", decl_node.name);
     decl_node
   }

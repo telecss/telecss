@@ -34,6 +34,50 @@ Ok(
                         },
                     },
                     prelude: ".foo",
+                    prelude_tokens: [
+                        Token {
+                            token_type: Delim,
+                            start_pos: Pos {
+                                offset: 5,
+                                line: 2,
+                                column: 6,
+                            },
+                            end_pos: Pos {
+                                offset: 6,
+                                line: 2,
+                                column: 7,
+                            },
+                            content: ".",
+                        },
+                        Token {
+                            token_type: Ident,
+                            start_pos: Pos {
+                                offset: 6,
+                                line: 2,
+                                column: 7,
+                            },
+                            end_pos: Pos {
+                                offset: 9,
+                                line: 2,
+                                column: 10,
+                            },
+                            content: "foo",
+                        },
+                        Token {
+                            token_type: WhiteSpace,
+                            start_pos: Pos {
+                                offset: 9,
+                                line: 2,
+                                column: 10,
+                            },
+                            end_pos: Pos {
+                                offset: 10,
+                                line: 2,
+                                column: 11,
+                            },
+                            content: " ",
+                        },
+                    ],
                     declarations: [
                         DeclarationNode {
                             loc: Loc {
@@ -49,7 +93,39 @@ Ok(
                                 },
                             },
                             name: "height",
+                            name_tokens: [
+                                Token {
+                                    token_type: Ident,
+                                    start_pos: Pos {
+                                        offset: 18,
+                                        line: 3,
+                                        column: 8,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 24,
+                                        line: 3,
+                                        column: 14,
+                                    },
+                                    content: "height",
+                                },
+                            ],
                             value: "100%",
+                            value_tokens: [
+                                Token {
+                                    token_type: Percentage,
+                                    start_pos: Pos {
+                                        offset: 26,
+                                        line: 3,
+                                        column: 16,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 29,
+                                        line: 3,
+                                        column: 19,
+                                    },
+                                    content: "100%",
+                                },
+                            ],
                             important: false,
                         },
                     ],

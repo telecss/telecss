@@ -34,6 +34,50 @@ Ok(
                         },
                     },
                     prelude: ".foo",
+                    prelude_tokens: [
+                        Token {
+                            token_type: Delim,
+                            start_pos: Pos {
+                                offset: 5,
+                                line: 2,
+                                column: 6,
+                            },
+                            end_pos: Pos {
+                                offset: 6,
+                                line: 2,
+                                column: 7,
+                            },
+                            content: ".",
+                        },
+                        Token {
+                            token_type: Ident,
+                            start_pos: Pos {
+                                offset: 6,
+                                line: 2,
+                                column: 7,
+                            },
+                            end_pos: Pos {
+                                offset: 9,
+                                line: 2,
+                                column: 10,
+                            },
+                            content: "foo",
+                        },
+                        Token {
+                            token_type: WhiteSpace,
+                            start_pos: Pos {
+                                offset: 9,
+                                line: 2,
+                                column: 10,
+                            },
+                            end_pos: Pos {
+                                offset: 10,
+                                line: 2,
+                                column: 11,
+                            },
+                            content: " ",
+                        },
+                    ],
                     declarations: [
                         DeclarationNode {
                             loc: Loc {
@@ -49,7 +93,39 @@ Ok(
                                 },
                             },
                             name: "color",
+                            name_tokens: [
+                                Token {
+                                    token_type: Ident,
+                                    start_pos: Pos {
+                                        offset: 12,
+                                        line: 2,
+                                        column: 13,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 17,
+                                        line: 2,
+                                        column: 18,
+                                    },
+                                    content: "color",
+                                },
+                            ],
                             value: "red",
+                            value_tokens: [
+                                Token {
+                                    token_type: Ident,
+                                    start_pos: Pos {
+                                        offset: 19,
+                                        line: 2,
+                                        column: 20,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 22,
+                                        line: 2,
+                                        column: 23,
+                                    },
+                                    content: "red",
+                                },
+                            ],
                             important: false,
                         },
                         DeclarationNode {
@@ -66,7 +142,95 @@ Ok(
                                 },
                             },
                             name: "background",
+                            name_tokens: [
+                                Token {
+                                    token_type: Ident,
+                                    start_pos: Pos {
+                                        offset: 28,
+                                        line: 3,
+                                        column: 6,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 38,
+                                        line: 3,
+                                        column: 16,
+                                    },
+                                    content: "background",
+                                },
+                            ],
                             value: "url(bar.png)",
+                            value_tokens: [
+                                Token {
+                                    token_type: Function,
+                                    start_pos: Pos {
+                                        offset: 40,
+                                        line: 3,
+                                        column: 18,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 43,
+                                        line: 3,
+                                        column: 21,
+                                    },
+                                    content: "url",
+                                },
+                                Token {
+                                    token_type: LeftParentheses,
+                                    start_pos: Pos {
+                                        offset: 43,
+                                        line: 3,
+                                        column: 21,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 44,
+                                        line: 3,
+                                        column: 22,
+                                    },
+                                    content: "(",
+                                },
+                                Token {
+                                    token_type: String,
+                                    start_pos: Pos {
+                                        offset: 45,
+                                        line: 3,
+                                        column: 23,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 52,
+                                        line: 3,
+                                        column: 30,
+                                    },
+                                    content: "bar.png",
+                                },
+                                Token {
+                                    token_type: RightParentheses,
+                                    start_pos: Pos {
+                                        offset: 53,
+                                        line: 3,
+                                        column: 31,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 54,
+                                        line: 3,
+                                        column: 32,
+                                    },
+                                    content: ")",
+                                },
+                                Token {
+                                    token_type: WhiteSpace,
+                                    start_pos: Pos {
+                                        offset: 54,
+                                        line: 3,
+                                        column: 32,
+                                    },
+                                    end_pos: Pos {
+                                        offset: 57,
+                                        line: 4,
+                                        column: 4,
+                                    },
+                                    content: "\n  ",
+                                },
+                            ],
                             important: false,
                         },
                     ],

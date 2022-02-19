@@ -1,6 +1,6 @@
 ---
 source: crates/tele_folder/tests/folder.rs
-assertion_line: 22
+assertion_line: 18
 expression: "transform(parser.parse().unwrap(), Renamer)"
 
 ---
@@ -33,6 +33,50 @@ StyleSheetNode {
                     },
                 },
                 prelude: ".foo",
+                prelude_tokens: [
+                    Token {
+                        token_type: Delim,
+                        start_pos: Pos {
+                            offset: 2,
+                            line: 1,
+                            column: 3,
+                        },
+                        end_pos: Pos {
+                            offset: 3,
+                            line: 1,
+                            column: 4,
+                        },
+                        content: ".",
+                    },
+                    Token {
+                        token_type: Ident,
+                        start_pos: Pos {
+                            offset: 3,
+                            line: 1,
+                            column: 4,
+                        },
+                        end_pos: Pos {
+                            offset: 6,
+                            line: 1,
+                            column: 7,
+                        },
+                        content: "foo",
+                    },
+                    Token {
+                        token_type: WhiteSpace,
+                        start_pos: Pos {
+                            offset: 6,
+                            line: 1,
+                            column: 7,
+                        },
+                        end_pos: Pos {
+                            offset: 7,
+                            line: 1,
+                            column: 8,
+                        },
+                        content: " ",
+                    },
+                ],
                 declarations: [
                     DeclarationNode {
                         loc: Loc {
@@ -48,7 +92,39 @@ StyleSheetNode {
                             },
                         },
                         name: "-moz-color",
+                        name_tokens: [
+                            Token {
+                                token_type: Ident,
+                                start_pos: Pos {
+                                    offset: 9,
+                                    line: 1,
+                                    column: 10,
+                                },
+                                end_pos: Pos {
+                                    offset: 14,
+                                    line: 1,
+                                    column: 15,
+                                },
+                                content: "color",
+                            },
+                        ],
                         value: "red",
+                        value_tokens: [
+                            Token {
+                                token_type: Ident,
+                                start_pos: Pos {
+                                    offset: 16,
+                                    line: 1,
+                                    column: 17,
+                                },
+                                end_pos: Pos {
+                                    offset: 19,
+                                    line: 1,
+                                    column: 20,
+                                },
+                                content: "red",
+                            },
+                        ],
                         important: false,
                     },
                 ],

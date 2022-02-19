@@ -89,9 +89,9 @@ impl<'s> Parser<'s> {
 
     loop {
       token = self.peek();
-      if token.is_eof() {
-        self.asset_eof(token)?;
-      } else if token.is_lcb() {
+      self.asset_eof(token)?;
+
+      if token.is_lcb() {
         self.consume();
         while let Some(node) = self.parse_decl()? {
           rule_set_node.declarations.push(node);
@@ -102,6 +102,7 @@ impl<'s> Parser<'s> {
       } else {
         if !token.is_comment() {
           rule_set_node.prelude.push_str(&token.to_string());
+          rule_set_node.prelude_tokens.push(token);
         }
         self.consume();
       }
@@ -120,6 +121,7 @@ impl<'s> Parser<'s> {
     let mut token = unsafe { self.consume().unwrap_unchecked() };
     at_rule_node.loc.start = token.start_pos;
     at_rule_node.name = token.to_string();
+    at_rule_node.name_tokens.push(token);
 
     self.skip_ws_and_comments();
 
@@ -158,6 +160,7 @@ impl<'s> Parser<'s> {
         // prelude
         self.consume();
         at_rule_node.prelude.push_str(&token.to_string());
+        at_rule_node.prelude_tokens.push(token);
       }
     }
 
@@ -186,6 +189,7 @@ impl<'s> Parser<'s> {
 
     let mut decl_node = DeclarationNode::default();
     decl_node.name = next.to_string();
+    decl_node.name_tokens.push(next);
     decl_node.loc.start = next.start_pos;
 
     self.consume();
@@ -229,6 +233,7 @@ impl<'s> Parser<'s> {
 
       if !token.is_comment() {
         decl_node.value.push_str(&token.to_string());
+        decl_node.value_tokens.push(token);
       }
     }
 
