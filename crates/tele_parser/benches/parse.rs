@@ -1,4 +1,5 @@
 #![feature(test)]
+#![allow(unused_must_use)]
 
 use std::{env, fs::read_to_string};
 use tele_parser::Parser;
@@ -18,8 +19,9 @@ mod tests {
     let file_path = file_path.as_os_str().to_str().unwrap();
     let css = read_to_string(file_path).unwrap();
 
-    let mut tokenizer: Tokenizer = css.as_str().into();
-
-    b.iter(|| Parser::from(tokenizer.tokenize().unwrap()).parse());
+    b.iter(|| {
+      let mut tokenizer: Tokenizer = css.as_str().into();
+      Parser::from(tokenizer.tokenize().unwrap()).parse();
+    });
   }
 }
