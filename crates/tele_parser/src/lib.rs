@@ -2,7 +2,22 @@
 #![deny(unused_imports)]
 #![deny(unused_variables)]
 
-//! CSS Parser
+//! A simpler and faster CSS parser.
+//!
+//! # Usages
+//! ```rust
+//! use tele_tokenizer::Tokenizer;
+//! use tele_parser::Parser;
+//!
+//! // Create a tokenizer
+//! let mut tokenizer: Tokenizer = r".foo { color: red; }".into();
+//! // Tokenize based on the given raw string,
+//! let tokens = tokenizer.tokenize().unwrap();
+//! // Create a parser from a sequence of tokens
+//! let parser = Parser::from(tokens);
+//! // parsing it
+//! let ast = parser.parse();
+//! ```
 
 mod error;
 mod node;
@@ -15,6 +30,7 @@ use std::{cell::RefCell, iter::Peekable, slice::Iter};
 
 use tele_tokenizer::*;
 
+/// Represents the CSS parser.
 pub struct Parser<'s> {
   iter: RefCell<Peekable<Iter<'s, Token<'s>>>>,
 }
@@ -28,6 +44,7 @@ impl<'s> From<&'s Vec<Token<'s>>> for Parser<'s> {
 }
 
 impl<'s> Parser<'s> {
+  /// Perform parsing
   pub fn parse(&self) -> ParserResult<StyleSheetNode> {
     let mut ss_node = StyleSheetNode::default();
 

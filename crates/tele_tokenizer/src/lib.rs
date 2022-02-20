@@ -22,6 +22,7 @@ pub use error::*;
 pub use token::*;
 
 #[derive(Debug)]
+/// Represents the CSS tokenizer.
 pub struct Tokenizer<'s> {
   bytes: &'s [u8],
   iter: Peekable<Enumerate<Iter<'s, u8>>>,
@@ -50,6 +51,7 @@ impl<'s> From<&'s str> for Tokenizer<'s> {
 }
 
 impl<'s> Tokenizer<'s> {
+  /// Perform tokenizing
   pub fn tokenize(&mut self) -> Result<&Vec<Token<'s>>> {
     while let Some(&(offset, &c)) = self.iter.peek() {
       let c = c as char;
