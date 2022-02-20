@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645333315203,
+  "lastUpdate": 1645340317613,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -467,6 +467,42 @@ window.BENCHMARK_DATA = {
             "name": "tests::tokenize_normalize_css",
             "value": 182647,
             "range": "± 2651",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "distinct": true,
+          "id": "ef916c9c06391992d62d50ed460aecfa235589d8",
+          "message": "docs: add docs for AST Node",
+          "timestamp": "2022-02-20T14:56:24+08:00",
+          "tree_id": "a4e873c08d23d10324b698cd4bd56b42505754fc",
+          "url": "https://github.com/telecss/telecss/commit/ef916c9c06391992d62d50ed460aecfa235589d8"
+        },
+        "date": 1645340316451,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 215277,
+            "range": "± 1613",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "tests::tokenize_normalize_css",
+            "value": 182998,
+            "range": "± 2903",
             "unit": "ns/iter"
           }
         ]
