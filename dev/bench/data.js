@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645269101457,
+  "lastUpdate": 1645326585826,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -395,6 +395,42 @@ window.BENCHMARK_DATA = {
             "name": "tests::tokenize_normalize_css",
             "value": 197016,
             "range": "± 479",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "distinct": true,
+          "id": "8b8600796689ab088a28057b0423ee1fc5f3bf2a",
+          "message": "refactor: rename Folder trait to VisitMut",
+          "timestamp": "2022-02-20T11:07:26+08:00",
+          "tree_id": "d0a680f99e69ab6428d7eeb93fd1c16114b211cf",
+          "url": "https://github.com/telecss/telecss/commit/8b8600796689ab088a28057b0423ee1fc5f3bf2a"
+        },
+        "date": 1645326584669,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 216976,
+            "range": "± 1452",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "tests::tokenize_normalize_css",
+            "value": 186434,
+            "range": "± 1480",
             "unit": "ns/iter"
           }
         ]
