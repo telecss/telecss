@@ -11,6 +11,10 @@ This project is mainly based on the following specs:
 
 Benchmarks on each commit: [https://telecss.github.io/telecss/dev/bench/](https://telecss.github.io/telecss/dev/bench/)
 
+This benchmark is based on parsing/tokenizing the `crates/telecss/examples/normalizecss/normalize.css` file, and the time-consuming of parsing includes the time-consuming of tokenizing:
+
+- `Pure Parsing Time` = `Parsing Time` - `Tokenizing Time`
+
 # TODO
 
 ## Current Focus
