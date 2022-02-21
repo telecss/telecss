@@ -14,13 +14,13 @@ pub trait MutVisitor<'s> {
   fn visit_decl_node(&self, _decl_node: Rc<RefCell<DeclarationNode<'s>>>) {}
 }
 
-pub struct VisitMut<'s, T: MutVisitor<'s>> {
+pub struct VisitMut<'s> {
   ast: Rc<RefCell<StyleSheetNode<'s>>>,
-  visitors: Vec<T>,
+  visitors: Vec<Box<dyn MutVisitor<'s>>>,
 }
 
-impl<'s, T: MutVisitor<'s>> VisitMut<'s, T> {
-  pub fn new(ast: Rc<RefCell<StyleSheetNode<'s>>>, visitors: Vec<T>) -> Self {
+impl<'s> VisitMut<'s> {
+  pub fn new(ast: Rc<RefCell<StyleSheetNode<'s>>>, visitors: Vec<Box<dyn MutVisitor<'s>>>) -> Self {
     Self { ast, visitors }
   }
 
