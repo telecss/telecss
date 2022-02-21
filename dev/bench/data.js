@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645438118180,
+  "lastUpdate": 1645438766076,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -539,6 +539,42 @@ window.BENCHMARK_DATA = {
             "name": "tests::tokenize_normalize_css",
             "value": 193122,
             "range": "± 468",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "52275875872449c3ef530f1f3ccf3830811b36d8",
+          "message": "refactor: refactoring transformer using Rc and RefCell\n\nrefactor: refactoring transformer using Rc and RefCell",
+          "timestamp": "2022-02-21T18:17:02+08:00",
+          "tree_id": "1f6ceff35061f790f2ad789f23627e2545ab9b45",
+          "url": "https://github.com/telecss/telecss/commit/52275875872449c3ef530f1f3ccf3830811b36d8"
+        },
+        "date": 1645438764602,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 249181,
+            "range": "± 1536",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "tests::tokenize_normalize_css",
+            "value": 192879,
+            "range": "± 348",
             "unit": "ns/iter"
           }
         ]
