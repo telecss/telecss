@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645438766076,
+  "lastUpdate": 1645458021458,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -575,6 +575,42 @@ window.BENCHMARK_DATA = {
             "name": "tests::tokenize_normalize_css",
             "value": 192879,
             "range": "± 348",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "distinct": true,
+          "id": "646f95f1accda140beac5eb6aa678e2668bd36de",
+          "message": "feat: implementing multi-visitors with trait object",
+          "timestamp": "2022-02-21T23:37:55+08:00",
+          "tree_id": "c9f06e0292f4c4cd63e27d7650b79618f2625745",
+          "url": "https://github.com/telecss/telecss/commit/646f95f1accda140beac5eb6aa678e2668bd36de"
+        },
+        "date": 1645458020218,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 226694,
+            "range": "± 2191",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "tests::tokenize_normalize_css",
+            "value": 182668,
+            "range": "± 3196",
             "unit": "ns/iter"
           }
         ]
