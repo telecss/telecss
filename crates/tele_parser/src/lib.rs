@@ -26,7 +26,7 @@ pub use error::Result as ParserResult;
 use error::{SyntaxError, SyntaxErrorKind};
 pub use node::*;
 
-use std::{cell::RefCell, iter::Peekable, slice::Iter};
+use std::{cell::RefCell, iter::Peekable, rc::Rc, slice::Iter};
 
 use tele_tokenizer::*;
 
@@ -87,13 +87,13 @@ impl<'s> Parser<'s> {
       Ok(
         self
           .parse_at_rule()?
-          .map(|node| StatementNode::AtRule(node)),
+          .map(|node| StatementNode::AtRule(Rc::new(RefCell::new(node)))),
       )
     } else {
       Ok(
         self
           .parse_rule_set()?
-          .map(|node| StatementNode::RuleSet(node)),
+          .map(|node| StatementNode::RuleSet(Rc::new(RefCell::new(node)))),
       )
     }
   }
@@ -111,7 +111,7 @@ impl<'s> Parser<'s> {
       if token.is_lcb() {
         self.consume();
         while let Some(node) = self.parse_decl()? {
-          rule_set_node.declarations.push(node);
+          rule_set_node.declarations.push(Rc::new(RefCell::new(node)));
         }
       } else if token.is_rcb() {
         self.consume();

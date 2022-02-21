@@ -1,134 +1,140 @@
 ---
 source: crates/tele_visit/tests/visit_mut.rs
-assertion_line: 18
-expression: "transform(parser.parse().unwrap(), Renamer)"
+assertion_line: 27
+expression: ast
 
 ---
-StyleSheetNode {
-    loc: Loc {
-        start: Pos {
-            offset: 0,
-            line: 1,
-            column: 1,
+RefCell {
+    value: StyleSheetNode {
+        loc: Loc {
+            start: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
+            },
+            end: Pos {
+                offset: 24,
+                line: 1,
+                column: 25,
+            },
         },
-        end: Pos {
-            offset: 24,
-            line: 1,
-            column: 25,
-        },
-    },
-    statements: [
-        RuleSet(
-            RuleSetNode {
-                loc: Loc {
-                    start: Pos {
-                        offset: 2,
-                        line: 1,
-                        column: 3,
-                    },
-                    end: Pos {
-                        offset: 22,
-                        line: 1,
-                        column: 23,
-                    },
-                },
-                prelude: ".foo",
-                prelude_tokens: [
-                    Token {
-                        token_type: Delim,
-                        start_pos: Pos {
-                            offset: 2,
-                            line: 1,
-                            column: 3,
-                        },
-                        end_pos: Pos {
-                            offset: 3,
-                            line: 1,
-                            column: 4,
-                        },
-                        content: ".",
-                    },
-                    Token {
-                        token_type: Ident,
-                        start_pos: Pos {
-                            offset: 3,
-                            line: 1,
-                            column: 4,
-                        },
-                        end_pos: Pos {
-                            offset: 6,
-                            line: 1,
-                            column: 7,
-                        },
-                        content: "foo",
-                    },
-                    Token {
-                        token_type: WhiteSpace,
-                        start_pos: Pos {
-                            offset: 6,
-                            line: 1,
-                            column: 7,
-                        },
-                        end_pos: Pos {
-                            offset: 7,
-                            line: 1,
-                            column: 8,
-                        },
-                        content: " ",
-                    },
-                ],
-                declarations: [
-                    DeclarationNode {
+        statements: [
+            RuleSet(
+                RefCell {
+                    value: RuleSetNode {
                         loc: Loc {
                             start: Pos {
-                                offset: 9,
+                                offset: 2,
                                 line: 1,
-                                column: 10,
+                                column: 3,
                             },
                             end: Pos {
-                                offset: 19,
+                                offset: 22,
                                 line: 1,
-                                column: 20,
+                                column: 23,
                             },
                         },
-                        name: "-moz-color",
-                        name_tokens: [
+                        prelude: ".foo",
+                        prelude_tokens: [
+                            Token {
+                                token_type: Delim,
+                                start_pos: Pos {
+                                    offset: 2,
+                                    line: 1,
+                                    column: 3,
+                                },
+                                end_pos: Pos {
+                                    offset: 3,
+                                    line: 1,
+                                    column: 4,
+                                },
+                                content: ".",
+                            },
                             Token {
                                 token_type: Ident,
                                 start_pos: Pos {
-                                    offset: 9,
+                                    offset: 3,
                                     line: 1,
-                                    column: 10,
+                                    column: 4,
                                 },
                                 end_pos: Pos {
-                                    offset: 14,
+                                    offset: 6,
                                     line: 1,
-                                    column: 15,
+                                    column: 7,
                                 },
-                                content: "color",
+                                content: "foo",
                             },
-                        ],
-                        value: "red",
-                        value_tokens: [
                             Token {
-                                token_type: Ident,
+                                token_type: WhiteSpace,
                                 start_pos: Pos {
-                                    offset: 16,
+                                    offset: 6,
                                     line: 1,
-                                    column: 17,
+                                    column: 7,
                                 },
                                 end_pos: Pos {
-                                    offset: 19,
+                                    offset: 7,
                                     line: 1,
-                                    column: 20,
+                                    column: 8,
                                 },
-                                content: "red",
+                                content: " ",
                             },
                         ],
-                        important: false,
+                        declarations: [
+                            RefCell {
+                                value: DeclarationNode {
+                                    loc: Loc {
+                                        start: Pos {
+                                            offset: 9,
+                                            line: 1,
+                                            column: 10,
+                                        },
+                                        end: Pos {
+                                            offset: 19,
+                                            line: 1,
+                                            column: 20,
+                                        },
+                                    },
+                                    name: "-moz-color",
+                                    name_tokens: [
+                                        Token {
+                                            token_type: Ident,
+                                            start_pos: Pos {
+                                                offset: 9,
+                                                line: 1,
+                                                column: 10,
+                                            },
+                                            end_pos: Pos {
+                                                offset: 14,
+                                                line: 1,
+                                                column: 15,
+                                            },
+                                            content: "color",
+                                        },
+                                    ],
+                                    value: "red",
+                                    value_tokens: [
+                                        Token {
+                                            token_type: Ident,
+                                            start_pos: Pos {
+                                                offset: 16,
+                                                line: 1,
+                                                column: 17,
+                                            },
+                                            end_pos: Pos {
+                                                offset: 19,
+                                                line: 1,
+                                                column: 20,
+                                            },
+                                            content: "red",
+                                        },
+                                    ],
+                                    important: false,
+                                },
+                            },
+                        ],
                     },
-                ],
-            },
-        ),
-    ],
+                },
+            ),
+        ],
+    },
 }

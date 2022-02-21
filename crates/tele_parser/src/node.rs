@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use tele_tokenizer::{Pos, Token};
 
 #[derive(Debug, Default, PartialEq, Copy, Clone)]
@@ -36,7 +38,7 @@ pub struct RuleSetNode<'s> {
   /// The tokens that made up the prelude of the ruleset
   pub prelude_tokens: Vec<&'s Token<'s>>,
   /// All declarations of the ruleset
-  pub declarations: Vec<DeclarationNode<'s>>,
+  pub declarations: Vec<Rc<RefCell<DeclarationNode<'s>>>>,
 }
 
 #[derive(Debug, Default, PartialEq)]
@@ -60,9 +62,9 @@ pub struct AtRuleNode<'s> {
 /// A statement is either a ruleset or an at-rule
 pub enum StatementNode<'s> {
   /// Contains a ruleset node
-  RuleSet(RuleSetNode<'s>),
+  RuleSet(Rc<RefCell<RuleSetNode<'s>>>),
   /// Contains a at-rule node
-  AtRule(AtRuleNode<'s>),
+  AtRule(Rc<RefCell<AtRuleNode<'s>>>),
 }
 
 #[derive(Debug, Default, PartialEq)]
@@ -78,11 +80,11 @@ pub struct StyleSheetNode<'s> {
 /// The root node of an AST
 pub enum ASTNode<'s> {
   /// Contains a stylesheet node
-  StyleSheet(StyleSheetNode<'s>),
+  StyleSheet(Rc<RefCell<StyleSheetNode<'s>>>),
   /// Contains a ruleset node
-  RuleSet(RuleSetNode<'s>),
+  RuleSet(Rc<RefCell<RuleSetNode<'s>>>),
   /// Contains a at-rule node
-  AtRule(AtRuleNode<'s>),
+  AtRule(Rc<RefCell<AtRuleNode<'s>>>),
   /// Contains a declaration node
-  Declaration(DeclarationNode<'s>),
+  Declaration(Rc<RefCell<DeclarationNode<'s>>>),
 }
