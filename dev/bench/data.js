@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1645458021458,
+  "lastUpdate": 1645533879756,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -611,6 +611,42 @@ window.BENCHMARK_DATA = {
             "name": "tests::tokenize_normalize_css",
             "value": 182668,
             "range": "± 3196",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "distinct": true,
+          "id": "dccefccfb452361b41e770670e89910ea856850e",
+          "message": "refactor: make the parse function return Rc<RefCell<T>>",
+          "timestamp": "2022-02-22T20:42:04+08:00",
+          "tree_id": "f18a29f0174a7c52ada37339f241e1aa42627579",
+          "url": "https://github.com/telecss/telecss/commit/dccefccfb452361b41e770670e89910ea856850e"
+        },
+        "date": 1645533878591,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 228963,
+            "range": "± 2727",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "tests::tokenize_normalize_css",
+            "value": 184891,
+            "range": "± 954",
             "unit": "ns/iter"
           }
         ]
