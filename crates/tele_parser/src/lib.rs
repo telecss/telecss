@@ -45,7 +45,7 @@ impl<'s> From<&'s Vec<Token<'s>>> for Parser<'s> {
 
 impl<'s> Parser<'s> {
   /// Perform parsing
-  pub fn parse(&self) -> ParserResult<StyleSheetNode> {
+  pub fn parse(&self) -> ParserResult<Rc<RefCell<StyleSheetNode>>> {
     let mut ss_node = StyleSheetNode::default();
 
     while let Some(node) = self.parse_statements()? {
@@ -59,7 +59,7 @@ impl<'s> Parser<'s> {
 
     ss_node.loc.end = next.end_pos;
 
-    Ok(ss_node)
+    Ok(Rc::new(RefCell::new(ss_node)))
   }
 
   fn peek(&self) -> &Token {

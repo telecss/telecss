@@ -29,7 +29,7 @@ fn test_visit_decl_node() {
   let tokens = tokenizer.tokenize().unwrap();
   // parsing
   let parser = Parser::from(tokens);
-  let ast = Rc::new(RefCell::new(parser.parse().unwrap()));
+  let ast = parser.parse().unwrap();
   // transforming
   let transformer = VisitMut::new(Rc::clone(&ast), vec![Box::new(Renamer)]);
   transformer.transform();
@@ -44,7 +44,7 @@ fn test_multi_visitors() {
   let tokens = tokenizer.tokenize().unwrap();
   // parsing
   let parser = Parser::from(tokens);
-  let ast = Rc::new(RefCell::new(parser.parse().unwrap()));
+  let ast = parser.parse().unwrap();
   // transforming
   let transformer = VisitMut::new(
     Rc::clone(&ast),
