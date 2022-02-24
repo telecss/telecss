@@ -76,15 +76,5 @@ pub struct StyleSheetNode<'s> {
   pub statements: Vec<StatementNode<'s>>,
 }
 
-#[derive(Debug, PartialEq)]
 /// The root node of an AST
-pub enum ASTNode<'s> {
-  /// Contains a stylesheet node
-  StyleSheet(Rc<RefCell<StyleSheetNode<'s>>>),
-  /// Contains a ruleset node
-  RuleSet(Rc<RefCell<RuleSetNode<'s>>>),
-  /// Contains a at-rule node
-  AtRule(Rc<RefCell<AtRuleNode<'s>>>),
-  /// Contains a declaration node
-  Declaration(Rc<RefCell<DeclarationNode<'s>>>),
-}
+pub type AstType<'s> = Rc<RefCell<StyleSheetNode<'s>>>;

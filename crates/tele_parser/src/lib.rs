@@ -45,7 +45,7 @@ impl<'s> From<&'s Vec<Token<'s>>> for Parser<'s> {
 
 impl<'s> Parser<'s> {
   /// Perform parsing
-  pub fn parse(&self) -> ParserResult<Rc<RefCell<StyleSheetNode>>> {
+  pub fn parse(&self) -> ParserResult<AstType> {
     let mut ss_node = StyleSheetNode::default();
 
     while let Some(node) = self.parse_statements()? {
