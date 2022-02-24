@@ -1,0 +1,40 @@
+<head>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      font-family: monospace;
+    }
+
+    #editor,
+    #result {
+      flex: 1 0 320px;
+      overflow: auto;
+      padding: 1em;
+      margin: 1em 1em 2em 1em;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    pre {
+      background-color: #eee;
+      color: #304455;
+    }
+  </style>
+</head>
+
+<body>
+  <textarea id="editor">.hello { color: red }</textarea>
+  <pre id="result"></pre>
+  <script type="module">
+    import init, { get_tokens } from './wasm/telecss.js'
+    await init()
+    update(editor)
+    editor.oninput = ({ target }) => update(target)
+    function update(el) {
+      result.textContent = JSON.stringify(get_tokens(el.value), undefined, 4)
+    }
+  </script>
+</body>
