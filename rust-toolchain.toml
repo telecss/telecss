@@ -1,0 +1,3 @@
+[toolchain]
+channel = "nightly-x86_64-apple-darwin"
+targets = [ "wasm32-unknown-unknown"]
