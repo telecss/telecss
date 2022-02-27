@@ -1,12 +1,16 @@
 [package]
 name = "tele_tokenizer"
 version = "0.1.0"
+description = "A CSS tokenizer"
 edition = "2021"
+repository = "https://github.com/telecss/telecss"
+license = "MIT"
+keywords = ["css", "telecss", "tele_tokenizer", "tokenizer"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tele_utils = { path = "../tele_utils" }
+tele_utils = { path = "../tele_utils", version = "0.1.0" }
 serde = { version = "1.0.133", features = ["derive"] }
 
 [dev-dependencies]

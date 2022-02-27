@@ -1,13 +1,17 @@
 [package]
 name = "tele_visit"
 version = "0.1.0"
+description = "A CSS AST visitor for visit the AST produced by tele_parser"
 edition = "2021"
+repository = "https://github.com/telecss/telecss"
+license = "MIT"
+keywords = ["css", "telecss", "tele_visit", "visit"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tele_parser = { path = "../tele_parser" }
+tele_parser = { path = "../tele_parser", version = "0.1.0" }
 
 [dev-dependencies]
 insta = "1.10.0"
-tele_tokenizer = { path = "../tele_tokenizer" }
+tele_tokenizer = { path = "../tele_tokenizer", version = "0.1.0" }
