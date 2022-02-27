@@ -1,5 +1,8 @@
 [package]
 name = "tele_utils"
+description = "utility functions for telecss"
 version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/telecss/telecss"
+license = "MIT"
+keywords = ["css", "telecss", "tele_utils", "utils"]
