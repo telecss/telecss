@@ -28,11 +28,14 @@
 <body>
   <textarea id="editor">.hello { color: red }</textarea>
   <pre id="result"></pre>
+
   <script type="module">
     import init, { get_tokens } from './wasm/telecss.js'
     await init()
-    update(editor)
+
+    const editor = document.querySelector('#editor')
     editor.oninput = ({ target }) => update(target)
+
     function update(el) {
       result.textContent = JSON.stringify(get_tokens(el.value), undefined, 4)
     }
