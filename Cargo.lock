@@ -205,6 +205,7 @@ name = "tele_parser"
 version = "0.1.0"
 dependencies = [
  "insta",
+ "serde",
  "tele_tokenizer",
 ]
 
@@ -228,6 +229,16 @@ dependencies = [
  "insta",
  "tele_parser",
  "tele_tokenizer",
+]
+
+[[package]]
+name = "tele_wasm"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "tele_parser",
+ "tele_tokenizer",
+ "wasm-bindgen",
 ]
 
 [[package]]

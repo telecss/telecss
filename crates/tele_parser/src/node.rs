@@ -1,8 +1,8 @@
+use serde::Serialize;
 use std::{cell::RefCell, rc::Rc};
-
 use tele_tokenizer::{Pos, Token};
 
-#[derive(Debug, Default, PartialEq, Copy, Clone)]
+#[derive(Debug, Default, PartialEq, Copy, Clone, Serialize)]
 /// Represents the location information of the token in the source file
 pub struct Loc {
   /// The start position
@@ -11,7 +11,7 @@ pub struct Loc {
   pub end: Pos,
 }
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, Default, PartialEq, Serialize)]
 /// Represents a CSS declaration
 pub struct DeclarationNode<'s> {
   /// Location information in the source file
@@ -28,7 +28,7 @@ pub struct DeclarationNode<'s> {
   pub important: bool,
 }
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, Default, PartialEq, Serialize)]
 /// Represents a ruleset
 pub struct RuleSetNode<'s> {
   /// Location information in the source file
@@ -41,7 +41,7 @@ pub struct RuleSetNode<'s> {
   pub declarations: Vec<Rc<RefCell<DeclarationNode<'s>>>>,
 }
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, Default, PartialEq, Serialize)]
 /// Represents a at-rule
 pub struct AtRuleNode<'s> {
   /// Location information in the source file
@@ -58,7 +58,7 @@ pub struct AtRuleNode<'s> {
   pub block: Vec<StatementNode<'s>>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
 /// A statement is either a ruleset or an at-rule
 pub enum StatementNode<'s> {
   /// Contains a ruleset node
@@ -67,7 +67,7 @@ pub enum StatementNode<'s> {
   AtRule(Rc<RefCell<AtRuleNode<'s>>>),
 }
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, Default, PartialEq, Serialize)]
 /// Represents a stylesheet
 pub struct StyleSheetNode<'s> {
   /// Location information in the source file

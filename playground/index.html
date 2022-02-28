@@ -30,7 +30,7 @@
   <pre id="result"></pre>
 
   <script type="module">
-    import init, { get_tokens } from './wasm/telecss.js'
+    import init, { tokenize, parse } from '../crates/tele_wasm/wasm/tele_wasm.js'
     await init()
 
     const editor = document.querySelector('#editor')
@@ -38,7 +38,7 @@
     editor.oninput = ({ target }) => update(target)
 
     function update(el) {
-      result.textContent = JSON.stringify(get_tokens(el.value), undefined, 4)
+      result.textContent = JSON.stringify(parse(el.value), undefined, 4)
     }
   </script>
 </body>

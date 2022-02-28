@@ -11,6 +11,7 @@ keywords = ["css", "telecss", "tele_parser", "parser"]
 
 [dependencies]
 tele_tokenizer = { path = "../tele_tokenizer", version = "0.1.0" }
+serde = { version = "1.0.133", features = ["derive", "rc"] }
 
 [dev-dependencies]
 insta = "1.10.0"
