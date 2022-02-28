@@ -197,7 +197,10 @@ dependencies = [
 name = "tele_codegen"
 version = "0.1.0"
 dependencies = [
+ "insta",
  "tele_parser",
+ "tele_tokenizer",
+ "tele_visit",
 ]
 
 [[package]]

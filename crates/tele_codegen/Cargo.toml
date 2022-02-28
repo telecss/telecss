@@ -11,3 +11,9 @@ keywords = ["css", "telecss", "tele_codegen", "codegen"]
 
 [dependencies]
 tele_parser = { path = "../tele_parser", version = "0.1.0" }
+
+[dev-dependencies]
+insta = "1.10.0"
+tele_visit = { path = "../tele_visit", version = "0.1.0" }
+tele_tokenizer = { path = "../tele_tokenizer", version = "0.1.0" }
+

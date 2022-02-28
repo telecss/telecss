@@ -1,0 +1,9 @@
+---
+source: crates/tele_codegen/tests/codegen.rs
+assertion_line: 35
+expression: "&css"
+
+---
+.foo {
+  -moz-color: red;
+}
