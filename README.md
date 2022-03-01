@@ -19,7 +19,7 @@ This benchmark is based on parsing/tokenizing the `crates/telecss/examples/norma
 
 ## Current Focus
 
-- [ ] Make generator available.
+- [ ] Playground (with WASM)
 
 ## Schedule
 
@@ -27,8 +27,8 @@ This benchmark is based on parsing/tokenizing the `crates/telecss/examples/norma
 - [x] Make parser available.
 - [x] Benchmarks & CI (https://github.com/benchmark-action/github-action-benchmark)
 - [x] Make transformer available.
-- [ ] Make generator available.
+- [x] Make generator available.
+- [ ] Playground (with WASM)
 - [ ] Allows writing plugins using Nodejs
 - [ ] Generate code frame for diagnostics when errors occur.
-- [ ] Playground (with WASM)
 - [ ] Docs
