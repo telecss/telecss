@@ -5,138 +5,132 @@ expression: parser.parse()
 
 ---
 Ok(
-    RefCell {
-        value: StyleSheetNode {
-            loc: Loc {
-                start: Pos {
-                    offset: 0,
-                    line: 1,
-                    column: 1,
-                },
-                end: Pos {
-                    offset: 40,
-                    line: 5,
-                    column: 4,
-                },
+    StyleSheetNode {
+        loc: Loc {
+            start: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
             },
-            statements: [
-                RuleSet(
-                    RefCell {
-                        value: RuleSetNode {
+            end: Pos {
+                offset: 40,
+                line: 5,
+                column: 4,
+            },
+        },
+        statements: [
+            RuleSet(
+                RuleSetNode {
+                    loc: Loc {
+                        start: Pos {
+                            offset: 5,
+                            line: 2,
+                            column: 6,
+                        },
+                        end: Pos {
+                            offset: 37,
+                            line: 4,
+                            column: 7,
+                        },
+                    },
+                    prelude: ".foo",
+                    prelude_tokens: [
+                        Token {
+                            token_type: Delim,
+                            start_pos: Pos {
+                                offset: 5,
+                                line: 2,
+                                column: 6,
+                            },
+                            end_pos: Pos {
+                                offset: 6,
+                                line: 2,
+                                column: 7,
+                            },
+                            content: ".",
+                        },
+                        Token {
+                            token_type: Ident,
+                            start_pos: Pos {
+                                offset: 6,
+                                line: 2,
+                                column: 7,
+                            },
+                            end_pos: Pos {
+                                offset: 9,
+                                line: 2,
+                                column: 10,
+                            },
+                            content: "foo",
+                        },
+                        Token {
+                            token_type: WhiteSpace,
+                            start_pos: Pos {
+                                offset: 9,
+                                line: 2,
+                                column: 10,
+                            },
+                            end_pos: Pos {
+                                offset: 10,
+                                line: 2,
+                                column: 11,
+                            },
+                            content: " ",
+                        },
+                    ],
+                    declarations: [
+                        DeclarationNode {
                             loc: Loc {
                                 start: Pos {
-                                    offset: 5,
-                                    line: 2,
-                                    column: 6,
+                                    offset: 18,
+                                    line: 3,
+                                    column: 8,
                                 },
                                 end: Pos {
-                                    offset: 37,
-                                    line: 4,
-                                    column: 7,
+                                    offset: 29,
+                                    line: 3,
+                                    column: 19,
                                 },
                             },
-                            prelude: ".foo",
-                            prelude_tokens: [
-                                Token {
-                                    token_type: Delim,
-                                    start_pos: Pos {
-                                        offset: 5,
-                                        line: 2,
-                                        column: 6,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 6,
-                                        line: 2,
-                                        column: 7,
-                                    },
-                                    content: ".",
-                                },
+                            name: "height",
+                            name_tokens: [
                                 Token {
                                     token_type: Ident,
                                     start_pos: Pos {
-                                        offset: 6,
-                                        line: 2,
-                                        column: 7,
+                                        offset: 18,
+                                        line: 3,
+                                        column: 8,
                                     },
                                     end_pos: Pos {
-                                        offset: 9,
-                                        line: 2,
-                                        column: 10,
+                                        offset: 24,
+                                        line: 3,
+                                        column: 14,
                                     },
-                                    content: "foo",
+                                    content: "height",
                                 },
+                            ],
+                            value: "100%",
+                            value_tokens: [
                                 Token {
-                                    token_type: WhiteSpace,
+                                    token_type: Percentage,
                                     start_pos: Pos {
-                                        offset: 9,
-                                        line: 2,
-                                        column: 10,
+                                        offset: 26,
+                                        line: 3,
+                                        column: 16,
                                     },
                                     end_pos: Pos {
-                                        offset: 10,
-                                        line: 2,
-                                        column: 11,
+                                        offset: 29,
+                                        line: 3,
+                                        column: 19,
                                     },
-                                    content: " ",
+                                    content: "100%",
                                 },
                             ],
-                            declarations: [
-                                RefCell {
-                                    value: DeclarationNode {
-                                        loc: Loc {
-                                            start: Pos {
-                                                offset: 18,
-                                                line: 3,
-                                                column: 8,
-                                            },
-                                            end: Pos {
-                                                offset: 29,
-                                                line: 3,
-                                                column: 19,
-                                            },
-                                        },
-                                        name: "height",
-                                        name_tokens: [
-                                            Token {
-                                                token_type: Ident,
-                                                start_pos: Pos {
-                                                    offset: 18,
-                                                    line: 3,
-                                                    column: 8,
-                                                },
-                                                end_pos: Pos {
-                                                    offset: 24,
-                                                    line: 3,
-                                                    column: 14,
-                                                },
-                                                content: "height",
-                                            },
-                                        ],
-                                        value: "100%",
-                                        value_tokens: [
-                                            Token {
-                                                token_type: Percentage,
-                                                start_pos: Pos {
-                                                    offset: 26,
-                                                    line: 3,
-                                                    column: 16,
-                                                },
-                                                end_pos: Pos {
-                                                    offset: 29,
-                                                    line: 3,
-                                                    column: 19,
-                                                },
-                                                content: "100%",
-                                            },
-                                        ],
-                                        important: false,
-                                    },
-                                },
-                            ],
+                            important: false,
                         },
-                    },
-                ),
-            ],
-        },
+                    ],
+                },
+            ),
+        ],
     },
 )

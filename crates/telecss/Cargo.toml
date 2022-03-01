@@ -3,11 +3,8 @@ name = "telecss"
 version = "0.1.0"
 edition = "2021"
 
-[lib]
-crate-type = ["cdylib"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = {version = "1.0", features = ["derive"]}
-tele_parser = {path = "../tele_parser", version = "0.1.0"}
-tele_tokenizer = {path = "../tele_tokenizer", version = "0.1.0"}
-wasm-bindgen = {version = "0.2.79", features = ["serde-serialize"]}
+tele_tokenizer = { path = "../tele_tokenizer" }
+tele_parser = { path = "../tele_parser" }

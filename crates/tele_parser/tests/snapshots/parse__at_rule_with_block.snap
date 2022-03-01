@@ -5,388 +5,380 @@ expression: parser.parse()
 
 ---
 Ok(
-    RefCell {
-        value: StyleSheetNode {
-            loc: Loc {
-                start: Pos {
-                    offset: 0,
-                    line: 1,
-                    column: 1,
-                },
-                end: Pos {
-                    offset: 94,
-                    line: 7,
-                    column: 4,
-                },
+    StyleSheetNode {
+        loc: Loc {
+            start: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
             },
-            statements: [
-                AtRule(
-                    RefCell {
-                        value: AtRuleNode {
-                            loc: Loc {
-                                start: Pos {
-                                    offset: 4,
-                                    line: 2,
-                                    column: 5,
-                                },
-                                end: Pos {
-                                    offset: 41,
-                                    line: 2,
-                                    column: 42,
-                                },
-                            },
-                            name: "media",
-                            name_tokens: [
-                                Token {
-                                    token_type: AtKeyword,
-                                    start_pos: Pos {
-                                        offset: 4,
-                                        line: 2,
-                                        column: 5,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 9,
-                                        line: 2,
-                                        column: 10,
-                                    },
-                                    content: "media",
-                                },
-                            ],
-                            prelude: "screen and (min-width: 900px)",
-                            prelude_tokens: [
-                                Token {
-                                    token_type: Ident,
-                                    start_pos: Pos {
-                                        offset: 10,
-                                        line: 2,
-                                        column: 11,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 16,
-                                        line: 2,
-                                        column: 17,
-                                    },
-                                    content: "screen",
-                                },
-                                Token {
-                                    token_type: WhiteSpace,
-                                    start_pos: Pos {
-                                        offset: 16,
-                                        line: 2,
-                                        column: 17,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 17,
-                                        line: 2,
-                                        column: 18,
-                                    },
-                                    content: " ",
-                                },
-                                Token {
-                                    token_type: Ident,
-                                    start_pos: Pos {
-                                        offset: 17,
-                                        line: 2,
-                                        column: 18,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 20,
-                                        line: 2,
-                                        column: 21,
-                                    },
-                                    content: "and",
-                                },
-                                Token {
-                                    token_type: WhiteSpace,
-                                    start_pos: Pos {
-                                        offset: 20,
-                                        line: 2,
-                                        column: 21,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 21,
-                                        line: 2,
-                                        column: 22,
-                                    },
-                                    content: " ",
-                                },
-                                Token {
-                                    token_type: LeftParentheses,
-                                    start_pos: Pos {
-                                        offset: 21,
-                                        line: 2,
-                                        column: 22,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 22,
-                                        line: 2,
-                                        column: 23,
-                                    },
-                                    content: "(",
-                                },
-                                Token {
-                                    token_type: Ident,
-                                    start_pos: Pos {
-                                        offset: 22,
-                                        line: 2,
-                                        column: 23,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 31,
-                                        line: 2,
-                                        column: 32,
-                                    },
-                                    content: "min-width",
-                                },
-                                Token {
-                                    token_type: Colon,
-                                    start_pos: Pos {
-                                        offset: 31,
-                                        line: 2,
-                                        column: 32,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 32,
-                                        line: 2,
-                                        column: 33,
-                                    },
-                                    content: ":",
-                                },
-                                Token {
-                                    token_type: WhiteSpace,
-                                    start_pos: Pos {
-                                        offset: 32,
-                                        line: 2,
-                                        column: 33,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 33,
-                                        line: 2,
-                                        column: 34,
-                                    },
-                                    content: " ",
-                                },
-                                Token {
-                                    token_type: Dimension,
-                                    start_pos: Pos {
-                                        offset: 33,
-                                        line: 2,
-                                        column: 34,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 36,
-                                        line: 2,
-                                        column: 37,
-                                    },
-                                    content: "900",
-                                },
-                                Token {
-                                    token_type: Ident,
-                                    start_pos: Pos {
-                                        offset: 36,
-                                        line: 2,
-                                        column: 37,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 38,
-                                        line: 2,
-                                        column: 39,
-                                    },
-                                    content: "px",
-                                },
-                                Token {
-                                    token_type: RightParentheses,
-                                    start_pos: Pos {
-                                        offset: 38,
-                                        line: 2,
-                                        column: 39,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 39,
-                                        line: 2,
-                                        column: 40,
-                                    },
-                                    content: ")",
-                                },
-                                Token {
-                                    token_type: WhiteSpace,
-                                    start_pos: Pos {
-                                        offset: 39,
-                                        line: 2,
-                                        column: 40,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 40,
-                                        line: 2,
-                                        column: 41,
-                                    },
-                                    content: " ",
-                                },
-                            ],
-                            block: [
-                                RuleSet(
-                                    RefCell {
-                                        value: RuleSetNode {
-                                            loc: Loc {
-                                                start: Pos {
-                                                    offset: 46,
-                                                    line: 3,
-                                                    column: 6,
-                                                },
-                                                end: Pos {
-                                                    offset: 87,
-                                                    line: 5,
-                                                    column: 7,
-                                                },
-                                            },
-                                            prelude: "article",
-                                            prelude_tokens: [
-                                                Token {
-                                                    token_type: Ident,
-                                                    start_pos: Pos {
-                                                        offset: 46,
-                                                        line: 3,
-                                                        column: 6,
-                                                    },
-                                                    end_pos: Pos {
-                                                        offset: 53,
-                                                        line: 3,
-                                                        column: 13,
-                                                    },
-                                                    content: "article",
-                                                },
-                                                Token {
-                                                    token_type: WhiteSpace,
-                                                    start_pos: Pos {
-                                                        offset: 53,
-                                                        line: 3,
-                                                        column: 13,
-                                                    },
-                                                    end_pos: Pos {
-                                                        offset: 54,
-                                                        line: 3,
-                                                        column: 14,
-                                                    },
-                                                    content: " ",
-                                                },
-                                            ],
-                                            declarations: [
-                                                RefCell {
-                                                    value: DeclarationNode {
-                                                        loc: Loc {
-                                                            start: Pos {
-                                                                offset: 62,
-                                                                line: 4,
-                                                                column: 8,
-                                                            },
-                                                            end: Pos {
-                                                                offset: 80,
-                                                                line: 4,
-                                                                column: 26,
-                                                            },
-                                                        },
-                                                        name: "padding",
-                                                        name_tokens: [
-                                                            Token {
-                                                                token_type: Ident,
-                                                                start_pos: Pos {
-                                                                    offset: 62,
-                                                                    line: 4,
-                                                                    column: 8,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 69,
-                                                                    line: 4,
-                                                                    column: 15,
-                                                                },
-                                                                content: "padding",
-                                                            },
-                                                        ],
-                                                        value: "1rem 3rem",
-                                                        value_tokens: [
-                                                            Token {
-                                                                token_type: Dimension,
-                                                                start_pos: Pos {
-                                                                    offset: 71,
-                                                                    line: 4,
-                                                                    column: 17,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 72,
-                                                                    line: 4,
-                                                                    column: 18,
-                                                                },
-                                                                content: "1",
-                                                            },
-                                                            Token {
-                                                                token_type: Ident,
-                                                                start_pos: Pos {
-                                                                    offset: 72,
-                                                                    line: 4,
-                                                                    column: 18,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 75,
-                                                                    line: 4,
-                                                                    column: 21,
-                                                                },
-                                                                content: "rem",
-                                                            },
-                                                            Token {
-                                                                token_type: WhiteSpace,
-                                                                start_pos: Pos {
-                                                                    offset: 75,
-                                                                    line: 4,
-                                                                    column: 21,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 76,
-                                                                    line: 4,
-                                                                    column: 22,
-                                                                },
-                                                                content: " ",
-                                                            },
-                                                            Token {
-                                                                token_type: Dimension,
-                                                                start_pos: Pos {
-                                                                    offset: 76,
-                                                                    line: 4,
-                                                                    column: 22,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 77,
-                                                                    line: 4,
-                                                                    column: 23,
-                                                                },
-                                                                content: "3",
-                                                            },
-                                                            Token {
-                                                                token_type: Ident,
-                                                                start_pos: Pos {
-                                                                    offset: 77,
-                                                                    line: 4,
-                                                                    column: 23,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 80,
-                                                                    line: 4,
-                                                                    column: 26,
-                                                                },
-                                                                content: "rem",
-                                                            },
-                                                        ],
-                                                        important: false,
-                                                    },
-                                                },
-                                            ],
-                                        },
-                                    },
-                                ),
-                            ],
+            end: Pos {
+                offset: 94,
+                line: 7,
+                column: 4,
+            },
+        },
+        statements: [
+            AtRule(
+                AtRuleNode {
+                    loc: Loc {
+                        start: Pos {
+                            offset: 4,
+                            line: 2,
+                            column: 5,
+                        },
+                        end: Pos {
+                            offset: 41,
+                            line: 2,
+                            column: 42,
                         },
                     },
-                ),
-            ],
-        },
+                    name: "media",
+                    name_tokens: [
+                        Token {
+                            token_type: AtKeyword,
+                            start_pos: Pos {
+                                offset: 4,
+                                line: 2,
+                                column: 5,
+                            },
+                            end_pos: Pos {
+                                offset: 9,
+                                line: 2,
+                                column: 10,
+                            },
+                            content: "media",
+                        },
+                    ],
+                    prelude: "screen and (min-width: 900px)",
+                    prelude_tokens: [
+                        Token {
+                            token_type: Ident,
+                            start_pos: Pos {
+                                offset: 10,
+                                line: 2,
+                                column: 11,
+                            },
+                            end_pos: Pos {
+                                offset: 16,
+                                line: 2,
+                                column: 17,
+                            },
+                            content: "screen",
+                        },
+                        Token {
+                            token_type: WhiteSpace,
+                            start_pos: Pos {
+                                offset: 16,
+                                line: 2,
+                                column: 17,
+                            },
+                            end_pos: Pos {
+                                offset: 17,
+                                line: 2,
+                                column: 18,
+                            },
+                            content: " ",
+                        },
+                        Token {
+                            token_type: Ident,
+                            start_pos: Pos {
+                                offset: 17,
+                                line: 2,
+                                column: 18,
+                            },
+                            end_pos: Pos {
+                                offset: 20,
+                                line: 2,
+                                column: 21,
+                            },
+                            content: "and",
+                        },
+                        Token {
+                            token_type: WhiteSpace,
+                            start_pos: Pos {
+                                offset: 20,
+                                line: 2,
+                                column: 21,
+                            },
+                            end_pos: Pos {
+                                offset: 21,
+                                line: 2,
+                                column: 22,
+                            },
+                            content: " ",
+                        },
+                        Token {
+                            token_type: LeftParentheses,
+                            start_pos: Pos {
+                                offset: 21,
+                                line: 2,
+                                column: 22,
+                            },
+                            end_pos: Pos {
+                                offset: 22,
+                                line: 2,
+                                column: 23,
+                            },
+                            content: "(",
+                        },
+                        Token {
+                            token_type: Ident,
+                            start_pos: Pos {
+                                offset: 22,
+                                line: 2,
+                                column: 23,
+                            },
+                            end_pos: Pos {
+                                offset: 31,
+                                line: 2,
+                                column: 32,
+                            },
+                            content: "min-width",
+                        },
+                        Token {
+                            token_type: Colon,
+                            start_pos: Pos {
+                                offset: 31,
+                                line: 2,
+                                column: 32,
+                            },
+                            end_pos: Pos {
+                                offset: 32,
+                                line: 2,
+                                column: 33,
+                            },
+                            content: ":",
+                        },
+                        Token {
+                            token_type: WhiteSpace,
+                            start_pos: Pos {
+                                offset: 32,
+                                line: 2,
+                                column: 33,
+                            },
+                            end_pos: Pos {
+                                offset: 33,
+                                line: 2,
+                                column: 34,
+                            },
+                            content: " ",
+                        },
+                        Token {
+                            token_type: Dimension,
+                            start_pos: Pos {
+                                offset: 33,
+                                line: 2,
+                                column: 34,
+                            },
+                            end_pos: Pos {
+                                offset: 36,
+                                line: 2,
+                                column: 37,
+                            },
+                            content: "900",
+                        },
+                        Token {
+                            token_type: Ident,
+                            start_pos: Pos {
+                                offset: 36,
+                                line: 2,
+                                column: 37,
+                            },
+                            end_pos: Pos {
+                                offset: 38,
+                                line: 2,
+                                column: 39,
+                            },
+                            content: "px",
+                        },
+                        Token {
+                            token_type: RightParentheses,
+                            start_pos: Pos {
+                                offset: 38,
+                                line: 2,
+                                column: 39,
+                            },
+                            end_pos: Pos {
+                                offset: 39,
+                                line: 2,
+                                column: 40,
+                            },
+                            content: ")",
+                        },
+                        Token {
+                            token_type: WhiteSpace,
+                            start_pos: Pos {
+                                offset: 39,
+                                line: 2,
+                                column: 40,
+                            },
+                            end_pos: Pos {
+                                offset: 40,
+                                line: 2,
+                                column: 41,
+                            },
+                            content: " ",
+                        },
+                    ],
+                    block: [
+                        RuleSet(
+                            RuleSetNode {
+                                loc: Loc {
+                                    start: Pos {
+                                        offset: 46,
+                                        line: 3,
+                                        column: 6,
+                                    },
+                                    end: Pos {
+                                        offset: 87,
+                                        line: 5,
+                                        column: 7,
+                                    },
+                                },
+                                prelude: "article",
+                                prelude_tokens: [
+                                    Token {
+                                        token_type: Ident,
+                                        start_pos: Pos {
+                                            offset: 46,
+                                            line: 3,
+                                            column: 6,
+                                        },
+                                        end_pos: Pos {
+                                            offset: 53,
+                                            line: 3,
+                                            column: 13,
+                                        },
+                                        content: "article",
+                                    },
+                                    Token {
+                                        token_type: WhiteSpace,
+                                        start_pos: Pos {
+                                            offset: 53,
+                                            line: 3,
+                                            column: 13,
+                                        },
+                                        end_pos: Pos {
+                                            offset: 54,
+                                            line: 3,
+                                            column: 14,
+                                        },
+                                        content: " ",
+                                    },
+                                ],
+                                declarations: [
+                                    DeclarationNode {
+                                        loc: Loc {
+                                            start: Pos {
+                                                offset: 62,
+                                                line: 4,
+                                                column: 8,
+                                            },
+                                            end: Pos {
+                                                offset: 80,
+                                                line: 4,
+                                                column: 26,
+                                            },
+                                        },
+                                        name: "padding",
+                                        name_tokens: [
+                                            Token {
+                                                token_type: Ident,
+                                                start_pos: Pos {
+                                                    offset: 62,
+                                                    line: 4,
+                                                    column: 8,
+                                                },
+                                                end_pos: Pos {
+                                                    offset: 69,
+                                                    line: 4,
+                                                    column: 15,
+                                                },
+                                                content: "padding",
+                                            },
+                                        ],
+                                        value: "1rem 3rem",
+                                        value_tokens: [
+                                            Token {
+                                                token_type: Dimension,
+                                                start_pos: Pos {
+                                                    offset: 71,
+                                                    line: 4,
+                                                    column: 17,
+                                                },
+                                                end_pos: Pos {
+                                                    offset: 72,
+                                                    line: 4,
+                                                    column: 18,
+                                                },
+                                                content: "1",
+                                            },
+                                            Token {
+                                                token_type: Ident,
+                                                start_pos: Pos {
+                                                    offset: 72,
+                                                    line: 4,
+                                                    column: 18,
+                                                },
+                                                end_pos: Pos {
+                                                    offset: 75,
+                                                    line: 4,
+                                                    column: 21,
+                                                },
+                                                content: "rem",
+                                            },
+                                            Token {
+                                                token_type: WhiteSpace,
+                                                start_pos: Pos {
+                                                    offset: 75,
+                                                    line: 4,
+                                                    column: 21,
+                                                },
+                                                end_pos: Pos {
+                                                    offset: 76,
+                                                    line: 4,
+                                                    column: 22,
+                                                },
+                                                content: " ",
+                                            },
+                                            Token {
+                                                token_type: Dimension,
+                                                start_pos: Pos {
+                                                    offset: 76,
+                                                    line: 4,
+                                                    column: 22,
+                                                },
+                                                end_pos: Pos {
+                                                    offset: 77,
+                                                    line: 4,
+                                                    column: 23,
+                                                },
+                                                content: "3",
+                                            },
+                                            Token {
+                                                token_type: Ident,
+                                                start_pos: Pos {
+                                                    offset: 77,
+                                                    line: 4,
+                                                    column: 23,
+                                                },
+                                                end_pos: Pos {
+                                                    offset: 80,
+                                                    line: 4,
+                                                    column: 26,
+                                                },
+                                                content: "rem",
+                                            },
+                                        ],
+                                        important: false,
+                                    },
+                                ],
+                            },
+                        ),
+                    ],
+                },
+            ),
+        ],
     },
 )

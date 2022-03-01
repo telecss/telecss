@@ -26,7 +26,7 @@ pub use error::Result as ParserResult;
 use error::{SyntaxError, SyntaxErrorKind};
 pub use node::*;
 
-use std::{cell::RefCell, iter::Peekable, rc::Rc, slice::Iter};
+use std::{cell::RefCell, iter::Peekable, slice::Iter};
 
 use tele_tokenizer::*;
 
@@ -45,7 +45,7 @@ impl<'s> From<&'s Vec<Token<'s>>> for Parser<'s> {
 
 impl<'s> Parser<'s> {
   /// Perform parsing
-  pub fn parse(&self) -> ParserResult<AstType> {
+  pub fn parse(&self) -> ParserResult<StyleSheetNode> {
     let mut ss_node = StyleSheetNode::default();
 
     while let Some(node) = self.parse_statements()? {
@@ -59,7 +59,7 @@ impl<'s> Parser<'s> {
 
     ss_node.loc.end = next.end_pos;
 
-    Ok(Rc::new(RefCell::new(ss_node)))
+    Ok(ss_node)
   }
 
   fn peek(&self) -> &Token {
@@ -87,13 +87,13 @@ impl<'s> Parser<'s> {
       Ok(
         self
           .parse_at_rule()?
-          .map(|node| StatementNode::AtRule(Rc::new(RefCell::new(node)))),
+          .map(|node| StatementNode::AtRule(node)),
       )
     } else {
       Ok(
         self
           .parse_rule_set()?
-          .map(|node| StatementNode::RuleSet(Rc::new(RefCell::new(node)))),
+          .map(|node| StatementNode::RuleSet(node)),
       )
     }
   }
@@ -111,7 +111,7 @@ impl<'s> Parser<'s> {
       if token.is_lcb() {
         self.consume();
         while let Some(node) = self.parse_decl()? {
-          rule_set_node.declarations.push(Rc::new(RefCell::new(node)));
+          rule_set_node.declarations.push(node);
         }
       } else if token.is_rcb() {
         self.consume();

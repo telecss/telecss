@@ -5,75 +5,71 @@ expression: parser.parse()
 
 ---
 Ok(
-    RefCell {
-        value: StyleSheetNode {
-            loc: Loc {
-                start: Pos {
-                    offset: 0,
-                    line: 1,
-                    column: 1,
-                },
-                end: Pos {
-                    offset: 19,
-                    line: 1,
-                    column: 20,
-                },
+    StyleSheetNode {
+        loc: Loc {
+            start: Pos {
+                offset: 0,
+                line: 1,
+                column: 1,
             },
-            statements: [
-                AtRule(
-                    RefCell {
-                        value: AtRuleNode {
-                            loc: Loc {
-                                start: Pos {
-                                    offset: 2,
-                                    line: 1,
-                                    column: 3,
-                                },
-                                end: Pos {
-                                    offset: 18,
-                                    line: 1,
-                                    column: 19,
-                                },
-                            },
-                            name: "charset",
-                            name_tokens: [
-                                Token {
-                                    token_type: AtKeyword,
-                                    start_pos: Pos {
-                                        offset: 2,
-                                        line: 1,
-                                        column: 3,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 9,
-                                        line: 1,
-                                        column: 10,
-                                    },
-                                    content: "charset",
-                                },
-                            ],
-                            prelude: "urf-8",
-                            prelude_tokens: [
-                                Token {
-                                    token_type: String,
-                                    start_pos: Pos {
-                                        offset: 11,
-                                        line: 1,
-                                        column: 12,
-                                    },
-                                    end_pos: Pos {
-                                        offset: 16,
-                                        line: 1,
-                                        column: 17,
-                                    },
-                                    content: "urf-8",
-                                },
-                            ],
-                            block: [],
+            end: Pos {
+                offset: 19,
+                line: 1,
+                column: 20,
+            },
+        },
+        statements: [
+            AtRule(
+                AtRuleNode {
+                    loc: Loc {
+                        start: Pos {
+                            offset: 2,
+                            line: 1,
+                            column: 3,
+                        },
+                        end: Pos {
+                            offset: 18,
+                            line: 1,
+                            column: 19,
                         },
                     },
-                ),
-            ],
-        },
+                    name: "charset",
+                    name_tokens: [
+                        Token {
+                            token_type: AtKeyword,
+                            start_pos: Pos {
+                                offset: 2,
+                                line: 1,
+                                column: 3,
+                            },
+                            end_pos: Pos {
+                                offset: 9,
+                                line: 1,
+                                column: 10,
+                            },
+                            content: "charset",
+                        },
+                    ],
+                    prelude: "urf-8",
+                    prelude_tokens: [
+                        Token {
+                            token_type: String,
+                            start_pos: Pos {
+                                offset: 11,
+                                line: 1,
+                                column: 12,
+                            },
+                            end_pos: Pos {
+                                offset: 16,
+                                line: 1,
+                                column: 17,
+                            },
+                            content: "urf-8",
+                        },
+                    ],
+                    block: [],
+                },
+            ),
+        ],
     },
 )

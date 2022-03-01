@@ -1,8 +1,6 @@
-use serde::Serialize;
-use std::{cell::RefCell, rc::Rc};
 use tele_tokenizer::{Pos, Token};
 
-#[derive(Debug, Default, PartialEq, Copy, Clone, Serialize)]
+#[derive(Debug, Default, PartialEq, Copy, Clone)]
 /// Represents the location information of the token in the source file
 pub struct Loc {
   /// The start position
@@ -11,7 +9,7 @@ pub struct Loc {
   pub end: Pos,
 }
 
-#[derive(Debug, Default, PartialEq, Serialize)]
+#[derive(Debug, Default, PartialEq)]
 /// Represents a CSS declaration
 pub struct DeclarationNode<'s> {
   /// Location information in the source file
@@ -28,7 +26,7 @@ pub struct DeclarationNode<'s> {
   pub important: bool,
 }
 
-#[derive(Debug, Default, PartialEq, Serialize)]
+#[derive(Debug, Default, PartialEq)]
 /// Represents a ruleset
 pub struct RuleSetNode<'s> {
   /// Location information in the source file
@@ -38,10 +36,10 @@ pub struct RuleSetNode<'s> {
   /// The tokens that made up the prelude of the ruleset
   pub prelude_tokens: Vec<&'s Token<'s>>,
   /// All declarations of the ruleset
-  pub declarations: Vec<Rc<RefCell<DeclarationNode<'s>>>>,
+  pub declarations: Vec<DeclarationNode<'s>>,
 }
 
-#[derive(Debug, Default, PartialEq, Serialize)]
+#[derive(Debug, Default, PartialEq)]
 /// Represents a at-rule
 pub struct AtRuleNode<'s> {
   /// Location information in the source file
@@ -58,16 +56,16 @@ pub struct AtRuleNode<'s> {
   pub block: Vec<StatementNode<'s>>,
 }
 
-#[derive(Debug, PartialEq, Serialize)]
+#[derive(Debug, PartialEq)]
 /// A statement is either a ruleset or an at-rule
 pub enum StatementNode<'s> {
   /// Contains a ruleset node
-  RuleSet(Rc<RefCell<RuleSetNode<'s>>>),
+  RuleSet(RuleSetNode<'s>),
   /// Contains a at-rule node
-  AtRule(Rc<RefCell<AtRuleNode<'s>>>),
+  AtRule(AtRuleNode<'s>),
 }
 
-#[derive(Debug, Default, PartialEq, Serialize)]
+#[derive(Debug, Default, PartialEq)]
 /// Represents a stylesheet
 pub struct StyleSheetNode<'s> {
   /// Location information in the source file
@@ -76,5 +74,15 @@ pub struct StyleSheetNode<'s> {
   pub statements: Vec<StatementNode<'s>>,
 }
 
+#[derive(Debug, PartialEq)]
 /// The root node of an AST
-pub type AstType<'s> = Rc<RefCell<StyleSheetNode<'s>>>;
+pub enum ASTNode<'s> {
+  /// Contains a stylesheet node
+  StyleSheet(StyleSheetNode<'s>),
+  /// Contains a ruleset node
+  RuleSet(RuleSetNode<'s>),
+  /// Contains a at-rule node
+  AtRule(AtRuleNode<'s>),
+  /// Contains a declaration node
+  Declaration(DeclarationNode<'s>),
+}

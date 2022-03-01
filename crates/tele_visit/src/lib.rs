@@ -4,73 +4,59 @@
 
 //! Visitor/Folder pattern for transforming the AST
 
-use std::{cell::RefCell, rc::Rc};
 use tele_parser::{AtRuleNode, DeclarationNode, RuleSetNode, StatementNode, StyleSheetNode};
 
-pub trait MutVisitor<'s> {
-  fn visit_ss_node(&self, _ss_node: Rc<RefCell<StyleSheetNode<'s>>>) {}
-  fn visit_rule_set_node(&self, _rule_set_node: Rc<RefCell<RuleSetNode<'s>>>) {}
-  fn visit_at_rule_node(&self, _at_rule_node: Rc<RefCell<AtRuleNode<'s>>>) {}
-  fn visit_decl_node(&self, _decl_node: Rc<RefCell<DeclarationNode<'s>>>) {}
-}
-
-pub struct VisitMut<'s> {
-  ast: Rc<RefCell<StyleSheetNode<'s>>>,
-  visitors: Vec<Box<dyn MutVisitor<'s>>>,
-}
-
-impl<'s> VisitMut<'s> {
-  pub fn new(ast: Rc<RefCell<StyleSheetNode<'s>>>, visitors: Vec<Box<dyn MutVisitor<'s>>>) -> Self {
-    Self { ast, visitors }
-  }
-
-  pub fn transform(&self) {
-    self.visit_ss_node(Rc::clone(&self.ast));
-  }
-
+/// [VisitMut] can modify AST nodes *in place*
+pub trait VisitMut<'s> {
   /// Visit [StyleSheetNode] node
-  fn visit_ss_node(&self, ss_node: Rc<RefCell<StyleSheetNode<'s>>>) {
-    for visitor in self.visitors.iter() {
-      visitor.visit_ss_node(Rc::clone(&ss_node));
-    }
+  fn visit_ss_node(&mut self, mut ss_node: StyleSheetNode<'s>) -> StyleSheetNode<'s> {
+    ss_node.statements = ss_node
+      .statements
+      .into_iter()
+      .map(|stat| match stat {
+        StatementNode::AtRule(node) => StatementNode::AtRule(self.visit_at_rule_node(node)),
+        StatementNode::RuleSet(node) => StatementNode::RuleSet(self.visit_rule_set_node(node)),
+      })
+      .collect();
 
-    for stat in ss_node.borrow().statements.iter() {
-      match stat {
-        StatementNode::AtRule(node) => self.visit_at_rule_node(Rc::clone(node)),
-        StatementNode::RuleSet(node) => self.visit_rule_set_node(Rc::clone(node)),
-      }
-    }
+    ss_node
   }
 
   /// Visit [RuleSetNode] node
-  fn visit_rule_set_node(&self, rule_set_node: Rc<RefCell<RuleSetNode<'s>>>) {
-    for visitor in self.visitors.iter() {
-      visitor.visit_rule_set_node(Rc::clone(&rule_set_node));
-    }
+  fn visit_rule_set_node(&mut self, mut rule_set_node: RuleSetNode<'s>) -> RuleSetNode<'s> {
+    rule_set_node.declarations = rule_set_node
+      .declarations
+      .into_iter()
+      .map(|decl| self.visit_decl_node(decl))
+      .collect();
 
-    for decl in rule_set_node.borrow().declarations.iter() {
-      self.visit_decl_node(Rc::clone(decl))
-    }
+    rule_set_node
   }
 
   /// Visit [AtRuleNode] node
-  fn visit_at_rule_node(&self, at_rule_node: Rc<RefCell<AtRuleNode<'s>>>) {
-    for visitor in self.visitors.iter() {
-      visitor.visit_at_rule_node(Rc::clone(&at_rule_node));
-    }
+  fn visit_at_rule_node(&mut self, mut at_rule_node: AtRuleNode<'s>) -> AtRuleNode<'s> {
+    at_rule_node.block = at_rule_node
+      .block
+      .into_iter()
+      .map(|stat| match stat {
+        StatementNode::AtRule(node) => StatementNode::AtRule(self.visit_at_rule_node(node)),
+        StatementNode::RuleSet(node) => StatementNode::RuleSet(self.visit_rule_set_node(node)),
+      })
+      .collect();
 
-    for stat in at_rule_node.borrow().block.iter() {
-      match stat {
-        StatementNode::AtRule(node) => self.visit_at_rule_node(Rc::clone(node)),
-        StatementNode::RuleSet(node) => self.visit_rule_set_node(Rc::clone(node)),
-      }
-    }
+    at_rule_node
   }
 
   /// Visit [DeclarationNode] node
-  fn visit_decl_node(&self, decl_node: Rc<RefCell<DeclarationNode<'s>>>) {
-    for visitor in self.visitors.iter() {
-      visitor.visit_decl_node(Rc::clone(&decl_node));
-    }
+  fn visit_decl_node(&mut self, decl_node: DeclarationNode<'s>) -> DeclarationNode<'s> {
+    decl_node
   }
+}
+
+/// Transform the AST according to the given visitor.
+pub fn transform<'a, T: VisitMut<'a>>(
+  ast: StyleSheetNode<'a>,
+  mut visitor: T,
+) -> StyleSheetNode<'a> {
+  visitor.visit_ss_node(ast)
 }

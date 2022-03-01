@@ -1,17 +1,12 @@
 [package]
 name = "tele_parser"
 version = "0.1.0"
-description = "A CSS parser"
 edition = "2021"
-license = "MIT"
-repository = "https://github.com/telecss/telecss"
-keywords = ["css", "telecss", "tele_parser", "parser"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tele_tokenizer = { path = "../tele_tokenizer", version = "0.1.0" }
-serde = { version = "1.0.133", features = ["derive", "rc"] }
+tele_tokenizer = { path = "../tele_tokenizer" }
 
 [dev-dependencies]
 insta = "1.10.0"
