@@ -10,4 +10,6 @@ crate-type = ["cdylib"]
 serde = {version = "1.0", features = ["derive"]}
 tele_parser = {path = "../tele_parser", version = "0.1.0"}
 tele_tokenizer = {path = "../tele_tokenizer", version = "0.1.0"}
+tele_visit = {path = "../tele_visit", version = "0.1.0"}
+tele_codegen = {path = "../tele_codegen"}
 wasm-bindgen = {version = "0.2.79", features = ["serde-serialize"]}

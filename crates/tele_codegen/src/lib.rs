@@ -21,55 +21,83 @@ pub trait CodeGenerator {
   fn gen_rule_set_node(&mut self, rule_set_node: &RuleSetNode) -> Result<(), Box<dyn Error>>;
   fn gen_at_rule_node(&mut self, at_rule_node: &AtRuleNode) -> Result<(), Box<dyn Error>>;
   fn gen_decl_node(&mut self, at_rule_node: &DeclarationNode) -> Result<(), Box<dyn Error>>;
-  fn gen_decl_value(&mut self, values: &Vec<Value>) -> Result<(), Box<dyn Error>> {
+  fn gen_decl_value(&mut self, values: &Vec<Value>, top_level: bool) -> Result<(), Box<dyn Error>> {
     for (idx, value) in values.iter().enumerate() {
       let is_last = idx == values.len() - 1;
       match value {
-        Value::Ident(node) => self.gen_ident_node(&*node.borrow_mut(), is_last)?,
-        Value::Dimension(node) => self.gen_dimension_node(&*node.borrow_mut(), is_last)?,
-        Value::Number(node) => self.gen_number_node(&*node.borrow_mut(), is_last)?,
-        Value::Operator(node) => self.gen_operator_node(&*node.borrow_mut(), is_last)?,
-        Value::Percentage(node) => self.gen_percentage_node(&*node.borrow_mut(), is_last)?,
-        Value::String(node) => self.gen_string_node(&*node.borrow_mut(), is_last)?,
-        Value::URL(node) => self.gen_url_node(&*node.borrow_mut(), is_last)?,
-        Value::Function(node) => self.gen_fn_node(&*node.borrow_mut(), is_last)?,
-        Value::Raw(node) => self.gen_raw_node(&*node.borrow_mut(), is_last)?,
+        Value::Ident(node) => self.gen_ident_node(&*node.borrow_mut(), is_last, top_level)?,
+        Value::Dimension(node) => {
+          self.gen_dimension_node(&*node.borrow_mut(), is_last, top_level)?
+        }
+        Value::Number(node) => self.gen_number_node(&*node.borrow_mut(), is_last, top_level)?,
+        Value::Operator(node) => self.gen_operator_node(&*node.borrow_mut(), is_last, top_level)?,
+        Value::Percentage(node) => {
+          self.gen_percentage_node(&*node.borrow_mut(), is_last, top_level)?
+        }
+        Value::String(node) => self.gen_string_node(&*node.borrow_mut(), is_last, top_level)?,
+        Value::URL(node) => self.gen_url_node(&*node.borrow_mut(), is_last, top_level)?,
+        Value::Function(node) => self.gen_fn_node(&*node.borrow_mut(), is_last, top_level)?,
+        Value::Raw(node) => self.gen_raw_node(&*node.borrow_mut(), is_last, top_level)?,
       }
     }
 
     Ok(())
   }
 
-  fn gen_ident_node(&mut self, ident_node: &IdentNode, is_last: bool)
-    -> Result<(), Box<dyn Error>>;
+  fn gen_ident_node(
+    &mut self,
+    ident_node: &IdentNode,
+    is_last: bool,
+    last_should_padding: bool,
+  ) -> Result<(), Box<dyn Error>>;
   fn gen_dimension_node(
     &mut self,
     dimension_node: &DimensionNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>>;
   fn gen_number_node(
     &mut self,
     number_node: &NumberNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>>;
   fn gen_operator_node(
     &mut self,
     operator_node: &OperatorNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>>;
   fn gen_percentage_node(
     &mut self,
     percentage_node: &PercentageNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>>;
   fn gen_string_node(
     &mut self,
     string_node: &StringNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>>;
-  fn gen_url_node(&mut self, url_node: &URLNode, is_last: bool) -> Result<(), Box<dyn Error>>;
-  fn gen_fn_node(&mut self, fn_node: &FunctionNode, is_last: bool) -> Result<(), Box<dyn Error>>;
-  fn gen_raw_node(&mut self, raw_node: &RawNode, is_last: bool) -> Result<(), Box<dyn Error>>;
+  fn gen_url_node(
+    &mut self,
+    url_node: &URLNode,
+    is_last: bool,
+    last_should_padding: bool,
+  ) -> Result<(), Box<dyn Error>>;
+  fn gen_fn_node(
+    &mut self,
+    fn_node: &FunctionNode,
+    is_last: bool,
+    last_should_padding: bool,
+  ) -> Result<(), Box<dyn Error>>;
+  fn gen_raw_node(
+    &mut self,
+    raw_node: &RawNode,
+    is_last: bool,
+    last_should_padding: bool,
+  ) -> Result<(), Box<dyn Error>>;
 
   fn gen_statements(&mut self, statements: &Vec<StatementNode>) -> Result<(), Box<dyn Error>> {
     for stat in statements {
@@ -119,6 +147,22 @@ impl<'a, W: Write> Codegen<'a, W> {
   fn de_indent(&mut self) {
     self.indent_level -= 1;
   }
+
+  fn gen_value_padding(
+    &mut self,
+    is_last: bool,
+    last_should_padding: bool,
+  ) -> Result<(), Box<dyn Error>> {
+    if is_last {
+      if last_should_padding {
+        self.css.write_char(';')?;
+      }
+    } else {
+      self.css.write_char(' ')?;
+    };
+
+    Ok(())
+  }
 }
 
 impl<'a, W: Write> CodeGenerator for Codegen<'a, W> {
@@ -167,7 +211,7 @@ impl<'a, W: Write> CodeGenerator for Codegen<'a, W> {
     self.css.write_str(&decl_node.name)?;
     self.css.write_str(": ")?;
 
-    self.gen_decl_value(&decl_node.value);
+    self.gen_decl_value(&decl_node.value, true)?;
 
     Ok(())
   }
@@ -176,9 +220,10 @@ impl<'a, W: Write> CodeGenerator for Codegen<'a, W> {
     &mut self,
     ident_node: &IdentNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&ident_node.name)?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 
@@ -186,10 +231,11 @@ impl<'a, W: Write> CodeGenerator for Codegen<'a, W> {
     &mut self,
     dimension_node: &DimensionNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&dimension_node.value)?;
     self.css.write_str(&dimension_node.unit)?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 
@@ -197,9 +243,10 @@ impl<'a, W: Write> CodeGenerator for Codegen<'a, W> {
     &mut self,
     number_node: &NumberNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&number_node.value)?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 
@@ -207,9 +254,10 @@ impl<'a, W: Write> CodeGenerator for Codegen<'a, W> {
     &mut self,
     operator_node: &OperatorNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&operator_node.value)?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 
@@ -217,9 +265,10 @@ impl<'a, W: Write> CodeGenerator for Codegen<'a, W> {
     &mut self,
     percentage_node: &PercentageNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&format!("{}%", percentage_node.value))?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 
@@ -227,29 +276,45 @@ impl<'a, W: Write> CodeGenerator for Codegen<'a, W> {
     &mut self,
     string_node: &StringNode,
     is_last: bool,
+    last_should_padding: bool,
   ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&string_node.value)?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 
-  fn gen_url_node(&mut self, url_node: &URLNode, is_last: bool) -> Result<(), Box<dyn Error>> {
+  fn gen_url_node(
+    &mut self,
+    url_node: &URLNode,
+    is_last: bool,
+    last_should_padding: bool,
+  ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&format!("url({})", url_node.value))?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 
-  fn gen_fn_node(&mut self, fn_node: &FunctionNode, is_last: bool) -> Result<(), Box<dyn Error>> {
+  fn gen_fn_node(
+    &mut self,
+    fn_node: &FunctionNode,
+    is_last: bool,
+    last_should_padding: bool,
+  ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&format!("{}(", fn_node.name,))?;
-    self.gen_decl_value(&fn_node.children)?;
+    self.gen_decl_value(&fn_node.children, false)?;
     self.css.write_char(')')?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 
-  fn gen_raw_node(&mut self, raw_node: &RawNode, is_last: bool) -> Result<(), Box<dyn Error>> {
+  fn gen_raw_node(
+    &mut self,
+    raw_node: &RawNode,
+    is_last: bool,
+    last_should_padding: bool,
+  ) -> Result<(), Box<dyn Error>> {
     self.css.write_str(&raw_node.value)?;
-    self.css.write_char(if is_last { ';' } else { ' ' })?;
+    self.gen_value_padding(is_last, last_should_padding)?;
     Ok(())
   }
 }

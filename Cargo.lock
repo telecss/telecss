@@ -239,8 +239,10 @@ name = "tele_wasm"
 version = "0.1.0"
 dependencies = [
  "serde",
+ "tele_codegen",
  "tele_parser",
  "tele_tokenizer",
+ "tele_visit",
  "wasm-bindgen",
 ]
 

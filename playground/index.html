@@ -26,7 +26,7 @@
 </head>
 
 <body>
-  <textarea id="editor">.hello { color: red }</textarea>
+  <textarea id="editor">.hello { color: calc(v-bind(foo) + 100px); }</textarea>
   <pre id="result"></pre>
 
   <script type="module">
@@ -38,7 +38,7 @@
     editor.oninput = ({ target }) => update(target)
 
     function update(el) {
-      result.textContent = JSON.stringify(parse(el.value), undefined, 4)
+      result.textContent = parse(el.value)
     }
   </script>
 </body>

@@ -15,15 +15,15 @@ pub trait MutVisitor<'s> {
   fn visit_rule_set_node(&self, _rule_set_node: Rc<RefCell<RuleSetNode<'s>>>) {}
   fn visit_at_rule_node(&self, _at_rule_node: Rc<RefCell<AtRuleNode<'s>>>) {}
   fn visit_decl_node(&self, _decl_node: Rc<RefCell<DeclarationNode<'s>>>) {}
-  fn visit_ident_node(&self, _decl_node: Rc<RefCell<IdentNode>>) {}
-  fn visit_url_node(&self, _decl_node: Rc<RefCell<URLNode>>) {}
-  fn visit_dimension_node(&self, _decl_node: Rc<RefCell<DimensionNode>>) {}
-  fn visit_number_node(&self, _decl_node: Rc<RefCell<NumberNode>>) {}
-  fn visit_operator_node(&self, _decl_node: Rc<RefCell<OperatorNode>>) {}
-  fn visit_percentage_node(&self, _decl_node: Rc<RefCell<PercentageNode>>) {}
-  fn visit_string_node(&self, _decl_node: Rc<RefCell<StringNode>>) {}
-  fn visit_fn_node(&self, _decl_node: Rc<RefCell<FunctionNode>>) {}
-  fn visit_raw_node(&self, _decl_node: Rc<RefCell<RawNode>>) {}
+  fn visit_ident_node(&self, _ident_node: Rc<RefCell<IdentNode>>) {}
+  fn visit_url_node(&self, _rul_node: Rc<RefCell<URLNode>>) {}
+  fn visit_dimension_node(&self, _dimension_node: Rc<RefCell<DimensionNode>>) {}
+  fn visit_number_node(&self, _number_node: Rc<RefCell<NumberNode>>) {}
+  fn visit_operator_node(&self, _operator_node: Rc<RefCell<OperatorNode>>) {}
+  fn visit_percentage_node(&self, _percentage_node: Rc<RefCell<PercentageNode>>) {}
+  fn visit_string_node(&self, _string_node: Rc<RefCell<StringNode>>) {}
+  fn visit_fn_node(&self, _fn_node: Rc<RefCell<FunctionNode>>) {}
+  fn visit_raw_node(&self, _raw_node: Rc<RefCell<RawNode>>) {}
 }
 
 pub struct VisitMut<'s> {
@@ -85,7 +85,11 @@ impl<'s> VisitMut<'s> {
       visitor.visit_decl_node(Rc::clone(&decl_node));
     }
 
-    for value in decl_node.borrow().value.iter() {
+    self.visit_decl_value(&decl_node.borrow().value);
+  }
+
+  fn visit_decl_value(&self, values: &Vec<Value>) {
+    for value in values {
       match value {
         Value::Ident(node) => {
           for visitor in self.visitors.iter() {
@@ -126,6 +130,8 @@ impl<'s> VisitMut<'s> {
           for visitor in self.visitors.iter() {
             visitor.visit_fn_node(Rc::clone(node));
           }
+          let node = node.borrow_mut();
+          self.visit_decl_value(&node.children);
         }
         Value::Raw(node) => {
           for visitor in self.visitors.iter() {
