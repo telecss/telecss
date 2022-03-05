@@ -90,9 +90,9 @@ Ok(
                                                 column: 8,
                                             },
                                             end: Pos {
-                                                offset: 29,
-                                                line: 3,
-                                                column: 19,
+                                                offset: 0,
+                                                line: 1,
+                                                column: 1,
                                             },
                                         },
                                         name: "height",
@@ -112,23 +112,28 @@ Ok(
                                                 content: "height",
                                             },
                                         ],
-                                        value: "100%",
-                                        value_tokens: [
-                                            Token {
-                                                token_type: Percentage,
-                                                start_pos: Pos {
-                                                    offset: 26,
-                                                    line: 3,
-                                                    column: 16,
+                                        value: [
+                                            Percentage(
+                                                RefCell {
+                                                    value: PercentageNode {
+                                                        loc: Loc {
+                                                            start: Pos {
+                                                                offset: 26,
+                                                                line: 3,
+                                                                column: 16,
+                                                            },
+                                                            end: Pos {
+                                                                offset: 29,
+                                                                line: 3,
+                                                                column: 19,
+                                                            },
+                                                        },
+                                                        value: "100%",
+                                                    },
                                                 },
-                                                end_pos: Pos {
-                                                    offset: 29,
-                                                    line: 3,
-                                                    column: 19,
-                                                },
-                                                content: "100%",
-                                            },
+                                            ),
                                         ],
+                                        value_tokens: [],
                                         important: false,
                                     },
                                 },

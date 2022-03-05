@@ -414,9 +414,9 @@ Ok(
                                                                                 column: 10,
                                                                             },
                                                                             end: Pos {
-                                                                                offset: 111,
-                                                                                line: 5,
-                                                                                column: 23,
+                                                                                offset: 0,
+                                                                                line: 1,
+                                                                                column: 1,
                                                                             },
                                                                         },
                                                                         name: "display",
@@ -436,23 +436,28 @@ Ok(
                                                                                 content: "display",
                                                                             },
                                                                         ],
-                                                                        value: "flex",
-                                                                        value_tokens: [
-                                                                            Token {
-                                                                                token_type: Ident,
-                                                                                start_pos: Pos {
-                                                                                    offset: 107,
-                                                                                    line: 5,
-                                                                                    column: 19,
+                                                                        value: [
+                                                                            Ident(
+                                                                                RefCell {
+                                                                                    value: IdentNode {
+                                                                                        loc: Loc {
+                                                                                            start: Pos {
+                                                                                                offset: 107,
+                                                                                                line: 5,
+                                                                                                column: 19,
+                                                                                            },
+                                                                                            end: Pos {
+                                                                                                offset: 111,
+                                                                                                line: 5,
+                                                                                                column: 23,
+                                                                                            },
+                                                                                        },
+                                                                                        name: "flex",
+                                                                                    },
                                                                                 },
-                                                                                end_pos: Pos {
-                                                                                    offset: 111,
-                                                                                    line: 5,
-                                                                                    column: 23,
-                                                                                },
-                                                                                content: "flex",
-                                                                            },
+                                                                            ),
                                                                         ],
+                                                                        value_tokens: [],
                                                                         important: false,
                                                                     },
                                                                 },

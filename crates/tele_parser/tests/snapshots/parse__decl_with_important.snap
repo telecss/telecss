@@ -90,9 +90,9 @@ Ok(
                                                 column: 10,
                                             },
                                             end: Pos {
-                                                offset: 30,
+                                                offset: 0,
                                                 line: 1,
-                                                column: 31,
+                                                column: 1,
                                             },
                                         },
                                         name: "color",
@@ -112,65 +112,66 @@ Ok(
                                                 content: "color",
                                             },
                                         ],
-                                        value: "red",
-                                        value_tokens: [
-                                            Token {
-                                                token_type: Ident,
-                                                start_pos: Pos {
-                                                    offset: 16,
-                                                    line: 1,
-                                                    column: 17,
+                                        value: [
+                                            Ident(
+                                                RefCell {
+                                                    value: IdentNode {
+                                                        loc: Loc {
+                                                            start: Pos {
+                                                                offset: 16,
+                                                                line: 1,
+                                                                column: 17,
+                                                            },
+                                                            end: Pos {
+                                                                offset: 19,
+                                                                line: 1,
+                                                                column: 20,
+                                                            },
+                                                        },
+                                                        name: "red",
+                                                    },
                                                 },
-                                                end_pos: Pos {
-                                                    offset: 19,
-                                                    line: 1,
-                                                    column: 20,
+                                            ),
+                                            Operator(
+                                                RefCell {
+                                                    value: OperatorNode {
+                                                        loc: Loc {
+                                                            start: Pos {
+                                                                offset: 20,
+                                                                line: 1,
+                                                                column: 21,
+                                                            },
+                                                            end: Pos {
+                                                                offset: 21,
+                                                                line: 1,
+                                                                column: 22,
+                                                            },
+                                                        },
+                                                        value: "!",
+                                                    },
                                                 },
-                                                content: "red",
-                                            },
-                                            Token {
-                                                token_type: WhiteSpace,
-                                                start_pos: Pos {
-                                                    offset: 19,
-                                                    line: 1,
-                                                    column: 20,
+                                            ),
+                                            Ident(
+                                                RefCell {
+                                                    value: IdentNode {
+                                                        loc: Loc {
+                                                            start: Pos {
+                                                                offset: 21,
+                                                                line: 1,
+                                                                column: 22,
+                                                            },
+                                                            end: Pos {
+                                                                offset: 30,
+                                                                line: 1,
+                                                                column: 31,
+                                                            },
+                                                        },
+                                                        name: "important",
+                                                    },
                                                 },
-                                                end_pos: Pos {
-                                                    offset: 20,
-                                                    line: 1,
-                                                    column: 21,
-                                                },
-                                                content: " ",
-                                            },
-                                            Token {
-                                                token_type: Delim,
-                                                start_pos: Pos {
-                                                    offset: 20,
-                                                    line: 1,
-                                                    column: 21,
-                                                },
-                                                end_pos: Pos {
-                                                    offset: 21,
-                                                    line: 1,
-                                                    column: 22,
-                                                },
-                                                content: "!",
-                                            },
-                                            Token {
-                                                token_type: Ident,
-                                                start_pos: Pos {
-                                                    offset: 21,
-                                                    line: 1,
-                                                    column: 22,
-                                                },
-                                                end_pos: Pos {
-                                                    offset: 30,
-                                                    line: 1,
-                                                    column: 31,
-                                                },
-                                                content: "important",
-                                            },
+                                            ),
                                         ],
+                                        value_tokens: [],
                                         important: true,
                                     },
                                 },

@@ -90,9 +90,9 @@ Ok(
                                                 column: 10,
                                             },
                                             end: Pos {
-                                                offset: 19,
+                                                offset: 0,
                                                 line: 1,
-                                                column: 20,
+                                                column: 1,
                                             },
                                         },
                                         name: "color",
@@ -112,37 +112,28 @@ Ok(
                                                 content: "color",
                                             },
                                         ],
-                                        value: "red",
-                                        value_tokens: [
-                                            Token {
-                                                token_type: Ident,
-                                                start_pos: Pos {
-                                                    offset: 16,
-                                                    line: 1,
-                                                    column: 17,
+                                        value: [
+                                            Ident(
+                                                RefCell {
+                                                    value: IdentNode {
+                                                        loc: Loc {
+                                                            start: Pos {
+                                                                offset: 16,
+                                                                line: 1,
+                                                                column: 17,
+                                                            },
+                                                            end: Pos {
+                                                                offset: 19,
+                                                                line: 1,
+                                                                column: 20,
+                                                            },
+                                                        },
+                                                        name: "red",
+                                                    },
                                                 },
-                                                end_pos: Pos {
-                                                    offset: 19,
-                                                    line: 1,
-                                                    column: 20,
-                                                },
-                                                content: "red",
-                                            },
-                                            Token {
-                                                token_type: WhiteSpace,
-                                                start_pos: Pos {
-                                                    offset: 19,
-                                                    line: 1,
-                                                    column: 20,
-                                                },
-                                                end_pos: Pos {
-                                                    offset: 20,
-                                                    line: 1,
-                                                    column: 21,
-                                                },
-                                                content: " ",
-                                            },
+                                            ),
                                         ],
+                                        value_tokens: [],
                                         important: false,
                                     },
                                 },

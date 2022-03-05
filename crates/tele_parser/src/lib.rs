@@ -33,12 +33,14 @@ use tele_tokenizer::*;
 /// Represents the CSS parser.
 pub struct Parser<'s> {
   iter: RefCell<Peekable<Iter<'s, Token<'s>>>>,
+  value_fncall_stack: RefCell<Vec<u8>>,
 }
 
 impl<'s> From<&'s Vec<Token<'s>>> for Parser<'s> {
   fn from(tokens: &'s Vec<Token<'s>>) -> Self {
     Self {
       iter: RefCell::new(tokens.iter().peekable()),
+      value_fncall_stack: RefCell::new(vec![]),
     }
   }
 }
@@ -222,54 +224,159 @@ impl<'s> Parser<'s> {
     self.consume();
     self.skip_ws_and_comments();
 
-    // declaration value
+    // parse value
+    decl_node.value = self.parse_value()?;
 
-    let mut last_one: Option<&Token> = None;
-    let mut second_last: Option<&Token> = None;
+    // check !important
+    let mut rev_valus = decl_node.value.iter().rev();
+    let last_value = rev_valus.next();
+    let second_last_value = rev_valus.next();
+    if second_last_value.is_some() && last_value.is_some() {
+      let last_value = unsafe { last_value.unwrap_unchecked() };
+      let second_last_value = unsafe { second_last_value.unwrap_unchecked() };
+      if let Value::Operator(node) = second_last_value {
+        if node.borrow().value.as_bytes() == b"!" {
+          if let Value::Ident(node) = last_value {
+            if node.borrow().name.as_bytes() == b"important" {
+              decl_node.important = true;
+            }
+          }
+        }
+      }
+    }
+
+    Ok(Some(decl_node))
+  }
+
+  fn parse_value(&self) -> ParserResult<Vec<Value>> {
+    let mut values: Vec<Value> = Vec::new();
 
     loop {
       let token = self.peek();
-      if token.is_eof() {
-        self.asset_eof(token)?;
-      } else if token.is_semi_colon() {
+      self.asset_eof(token)?;
+
+      if token.is_semi_colon() {
         self.consume();
         break;
       } else if token.is_rcb() {
-        decl_node.value = decl_node.value.trim_end().to_string();
         break;
       }
 
       self.consume();
 
-      if !token.is_ws() && !token.is_comment() {
-        if last_one.is_some() {
-          second_last = last_one;
-        }
-        last_one = Some(token);
-      }
-
       if !token.is_comment() {
-        decl_node.value.push_str(&token.to_string());
-        decl_node.value_tokens.push(token);
+        if token.is_ident() {
+          let mut value_node = IdentNode::default();
+          value_node.loc.start = token.start_pos;
+          value_node.loc.end = token.end_pos;
+          value_node.name = token.to_string();
+          values.push(Value::Ident(Rc::new(RefCell::new(value_node))));
+          self.skip_ws_and_comments();
+        } else if token.is_string() {
+          let mut value_node = StringNode::default();
+          value_node.loc.start = token.start_pos;
+          value_node.loc.end = token.end_pos;
+          value_node.value = token.to_string();
+          values.push(Value::String(Rc::new(RefCell::new(value_node))));
+          self.skip_ws_and_comments();
+        } else if token.is_url() {
+          let mut value_node = URLNode::default();
+          value_node.loc.start = token.start_pos;
+          value_node.loc.end = token.end_pos;
+          value_node.value = token.to_string();
+          values.push(Value::URL(Rc::new(RefCell::new(value_node))));
+          // consume RightParentheses
+          self.consume();
+          self.skip_ws_and_comments();
+        } else if token.is_delim_loose() || token.is_comma() {
+          let mut value_node = OperatorNode::default();
+          value_node.loc.start = token.start_pos;
+          value_node.loc.end = token.end_pos;
+          value_node.value = token.to_string();
+          values.push(Value::Operator(Rc::new(RefCell::new(value_node))));
+          self.skip_ws_and_comments();
+        } else if token.is_number() {
+          let mut value_node = NumberNode::default();
+          value_node.loc.start = token.start_pos;
+          value_node.loc.end = token.end_pos;
+          value_node.value = token.to_string();
+          values.push(Value::Number(Rc::new(RefCell::new(value_node))));
+          self.skip_ws_and_comments();
+        } else if token.is_percentage() {
+          let mut value_node = PercentageNode::default();
+          value_node.loc.start = token.start_pos;
+          value_node.loc.end = token.end_pos;
+          value_node.value = token.to_string();
+          values.push(Value::Percentage(Rc::new(RefCell::new(value_node))));
+          self.skip_ws_and_comments();
+        } else if token.is_dimension() {
+          let mut value_node = DimensionNode::default();
+          value_node.loc.start = token.start_pos;
+          value_node.value = token.to_string();
+
+          // unit
+          let token = self.peek();
+          debug_assert!(token.is_ident());
+          value_node.unit = token.to_string();
+          self.consume();
+
+          value_node.loc.end = token.end_pos;
+
+          values.push(Value::Dimension(Rc::new(RefCell::new(value_node))));
+          self.skip_ws_and_comments();
+        } else if token.is_function() {
+          // Function
+          values.push(Value::Function(Rc::new(RefCell::new(
+            self.parse_function(token.to_string())?,
+          ))));
+          self.skip_ws_and_comments();
+        } else {
+          if token.is_lp() {
+            // push stack
+            self.value_fncall_stack.borrow_mut().push(0)
+          } else if token.is_rp() {
+            let mut stack = self.value_fncall_stack.borrow_mut();
+            let stack_top = stack.pop();
+            match stack_top {
+              Some(1) => {
+                // the end of function call
+                // indicates that we are currently parsing the children of a function
+                break;
+              }
+              _ => {}
+            }
+          }
+
+          // TODO: Here we can do further analysis
+          // Raw
+          let mut value_node = RawNode::default();
+          value_node.loc.start = token.start_pos;
+          value_node.loc.end = token.end_pos;
+          value_node.value = token.to_string();
+          values.push(Value::Raw(Rc::new(RefCell::new(value_node))));
+          self.skip_ws_and_comments();
+        }
       }
     }
 
-    decl_node.important = second_last.is_some()
-      && unsafe { second_last.unwrap_unchecked() }.is_delim(&[b'!'])
-      && last_one.is_some()
-      && unsafe { last_one.unwrap_unchecked() }.is_ident_with(b"important");
+    Ok(values)
+  }
 
-    if decl_node.important {
-      // remove the trailing `!important`
-      decl_node.value = decl_node.value[..decl_node.value.as_str().len() - 11]
-        // trim whitespaces between the `value` and `!important`
-        .trim_end()
-        .to_string();
-    }
+  fn parse_function(&self, fn_name: String) -> ParserResult<FunctionNode> {
+    let mut fn_node = FunctionNode::default();
 
-    last_one.map(|token| decl_node.loc.end = token.end_pos);
+    // function name
+    fn_node.name = fn_name;
 
-    Ok(Some(decl_node))
+    let token = self.peek();
+    debug_assert!(token.is_lp());
+    self.value_fncall_stack.borrow_mut().push(1);
+    self.consume();
+
+    // function children
+    fn_node.children = self.parse_value()?;
+
+    Ok(fn_node)
   }
 
   fn asset_eof(&self, token: &Token) -> ParserResult<()> {

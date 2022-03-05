@@ -21,11 +21,103 @@ pub struct DeclarationNode<'s> {
   /// The tokens that made up the name of the declaration
   pub name_tokens: Vec<&'s Token<'s>>,
   /// Decalration name
-  pub value: String,
+  pub value: Vec<Value>,
   /// The tokens that made up the value of the declaration
   pub value_tokens: Vec<&'s Token<'s>>,
   /// Whether the value of this declaration defines `!important`
   pub important: bool,
+}
+
+#[derive(Debug, PartialEq, Serialize)]
+pub enum Value {
+  Ident(Rc<RefCell<IdentNode>>),
+  String(Rc<RefCell<StringNode>>),
+  URL(Rc<RefCell<URLNode>>),
+  // Comma / Delim
+  Operator(Rc<RefCell<OperatorNode>>),
+  Number(Rc<RefCell<NumberNode>>),
+  Percentage(Rc<RefCell<PercentageNode>>),
+  Dimension(Rc<RefCell<DimensionNode>>),
+  Function(Rc<RefCell<FunctionNode>>),
+  Raw(Rc<RefCell<RawNode>>),
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+/// Represents an identifier as the value of a CSS declaration
+pub struct IdentNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The name of the IdentNode
+  pub name: String,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+/// Represents a string as the value of a CSS declaration
+pub struct StringNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The value of the StringNode
+  pub value: String,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct URLNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The value of the URLNode
+  pub value: String,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct OperatorNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The value of the OperatorNode
+  pub value: String,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct NumberNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The value of the NumberNode
+  pub value: String,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct PercentageNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The value of the PercentageNode
+  pub value: String,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct DimensionNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The value of the DimensionNode
+  pub value: String,
+  /// The unit of the DimensionNode
+  pub unit: String,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct FunctionNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The name of the FunctionNode
+  pub name: String,
+  /// The children of the FunctionNode
+  pub children: Vec<Value>,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct RawNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// The name of the RawNode
+  pub value: String,
 }
 
 #[derive(Debug, Default, PartialEq, Serialize)]

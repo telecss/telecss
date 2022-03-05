@@ -165,8 +165,36 @@ impl<'s> Token<'s> {
     self.token_type == TokenType::Delim && self.content == c
   }
 
+  pub fn is_delim_loose(&self) -> bool {
+    self.token_type == TokenType::Delim
+  }
+
+  pub fn is_comma(&self) -> bool {
+    self.token_type == TokenType::Comma
+  }
+
   pub fn is_percentage(&self) -> bool {
     self.token_type == TokenType::Percentage
+  }
+
+  pub fn is_string(&self) -> bool {
+    self.token_type == TokenType::String
+  }
+
+  pub fn is_number(&self) -> bool {
+    self.token_type == TokenType::Number
+  }
+
+  pub fn is_dimension(&self) -> bool {
+    self.token_type == TokenType::Dimension
+  }
+
+  pub fn is_function(&self) -> bool {
+    self.token_type == TokenType::Function
+  }
+
+  pub fn is_url(&self) -> bool {
+    self.token_type == TokenType::URL
   }
 
   pub fn to_string(&self) -> String {

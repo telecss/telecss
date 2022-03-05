@@ -280,9 +280,9 @@ Ok(
                                                                 column: 8,
                                                             },
                                                             end: Pos {
-                                                                offset: 80,
-                                                                line: 4,
-                                                                column: 26,
+                                                                offset: 0,
+                                                                line: 1,
+                                                                column: 1,
                                                             },
                                                         },
                                                         name: "padding",
@@ -302,79 +302,49 @@ Ok(
                                                                 content: "padding",
                                                             },
                                                         ],
-                                                        value: "1rem 3rem",
-                                                        value_tokens: [
-                                                            Token {
-                                                                token_type: Dimension,
-                                                                start_pos: Pos {
-                                                                    offset: 71,
-                                                                    line: 4,
-                                                                    column: 17,
+                                                        value: [
+                                                            Dimension(
+                                                                RefCell {
+                                                                    value: DimensionNode {
+                                                                        loc: Loc {
+                                                                            start: Pos {
+                                                                                offset: 71,
+                                                                                line: 4,
+                                                                                column: 17,
+                                                                            },
+                                                                            end: Pos {
+                                                                                offset: 75,
+                                                                                line: 4,
+                                                                                column: 21,
+                                                                            },
+                                                                        },
+                                                                        value: "1",
+                                                                        unit: "rem",
+                                                                    },
                                                                 },
-                                                                end_pos: Pos {
-                                                                    offset: 72,
-                                                                    line: 4,
-                                                                    column: 18,
+                                                            ),
+                                                            Dimension(
+                                                                RefCell {
+                                                                    value: DimensionNode {
+                                                                        loc: Loc {
+                                                                            start: Pos {
+                                                                                offset: 76,
+                                                                                line: 4,
+                                                                                column: 22,
+                                                                            },
+                                                                            end: Pos {
+                                                                                offset: 80,
+                                                                                line: 4,
+                                                                                column: 26,
+                                                                            },
+                                                                        },
+                                                                        value: "3",
+                                                                        unit: "rem",
+                                                                    },
                                                                 },
-                                                                content: "1",
-                                                            },
-                                                            Token {
-                                                                token_type: Ident,
-                                                                start_pos: Pos {
-                                                                    offset: 72,
-                                                                    line: 4,
-                                                                    column: 18,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 75,
-                                                                    line: 4,
-                                                                    column: 21,
-                                                                },
-                                                                content: "rem",
-                                                            },
-                                                            Token {
-                                                                token_type: WhiteSpace,
-                                                                start_pos: Pos {
-                                                                    offset: 75,
-                                                                    line: 4,
-                                                                    column: 21,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 76,
-                                                                    line: 4,
-                                                                    column: 22,
-                                                                },
-                                                                content: " ",
-                                                            },
-                                                            Token {
-                                                                token_type: Dimension,
-                                                                start_pos: Pos {
-                                                                    offset: 76,
-                                                                    line: 4,
-                                                                    column: 22,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 77,
-                                                                    line: 4,
-                                                                    column: 23,
-                                                                },
-                                                                content: "3",
-                                                            },
-                                                            Token {
-                                                                token_type: Ident,
-                                                                start_pos: Pos {
-                                                                    offset: 77,
-                                                                    line: 4,
-                                                                    column: 23,
-                                                                },
-                                                                end_pos: Pos {
-                                                                    offset: 80,
-                                                                    line: 4,
-                                                                    column: 26,
-                                                                },
-                                                                content: "rem",
-                                                            },
+                                                            ),
                                                         ],
+                                                        value_tokens: [],
                                                         important: false,
                                                     },
                                                 },

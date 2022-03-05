@@ -1,6 +1,6 @@
 use insta::assert_debug_snapshot;
 use std::{cell::RefCell, rc::Rc};
-use tele_parser::{DeclarationNode, Parser};
+use tele_parser::{DeclarationNode, FunctionNode, Parser};
 use tele_tokenizer::Tokenizer;
 use tele_visit::{MutVisitor, VisitMut};
 
@@ -14,10 +14,10 @@ impl<'s> MutVisitor<'s> for Renamer {
 
 struct ValueConverter;
 impl<'s> MutVisitor<'s> for ValueConverter {
-  fn visit_decl_node(&self, decl_node: Rc<RefCell<DeclarationNode<'s>>>) {
-    let mut decl_node = decl_node.borrow_mut();
-    if decl_node.value == "red" {
-      decl_node.value = "green".to_owned();
+  fn visit_fn_node(&self, fn_node: Rc<RefCell<FunctionNode>>) {
+    let mut fn_node = fn_node.borrow_mut();
+    if fn_node.name == "v-bind" {
+      fn_node.name = "var".to_owned();
     }
   }
 }
@@ -40,7 +40,7 @@ fn test_visit_decl_node() {
 #[test]
 fn test_multi_visitors() {
   // tokenizing
-  let mut tokenizer: Tokenizer = r"  .foo { color: red; }  ".into();
+  let mut tokenizer: Tokenizer = r"  .foo { color: v-bind(clr); }  ".into();
   let tokens = tokenizer.tokenize().unwrap();
   // parsing
   let parser = Parser::from(tokens);
