@@ -28,7 +28,7 @@ impl<'s> MutVisitor<'s> for VBind {
 }
 
 #[wasm_bindgen]
-pub fn parse(s: &str) -> String {
+pub fn transform(s: &str) -> String {
   let mut tokenizer: Tokenizer = s.into();
   let parser = Parser::from(tokenizer.tokenize().unwrap());
   let ast = parser.parse().unwrap();

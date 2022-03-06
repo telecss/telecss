@@ -30,7 +30,7 @@
   <pre id="result"></pre>
 
   <script type="module">
-    import init, { tokenize, parse } from '../wasm/tele_wasm.js'
+    import init, { transform } from '../wasm/tele_wasm.js'
     await init()
 
     const editor = document.querySelector('#editor')
@@ -38,7 +38,7 @@
     editor.oninput = ({ target }) => update(target)
 
     function update(el) {
-      result.textContent = parse(el.value)
+      result.textContent = transform(el.value)
     }
   </script>
 </body>
