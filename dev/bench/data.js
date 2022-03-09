@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1646578669349,
+  "lastUpdate": 1646836507372,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -1151,6 +1151,42 @@ window.BENCHMARK_DATA = {
             "name": "tests::tokenize_normalize_css",
             "value": 171277,
             "range": "± 2269",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "distinct": true,
+          "id": "47f924960a12f6355075a67eb0e1b03d8197677e",
+          "message": "refactor: module split",
+          "timestamp": "2022-03-09T22:32:45+08:00",
+          "tree_id": "c53d74aaea696f6ab0cebfd825d49922b0c2e08d",
+          "url": "https://github.com/telecss/telecss/commit/47f924960a12f6355075a67eb0e1b03d8197677e"
+        },
+        "date": 1646836506137,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 221980,
+            "range": "± 788",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "tests::tokenize_normalize_css",
+            "value": 180916,
+            "range": "± 2902",
             "unit": "ns/iter"
           }
         ]
