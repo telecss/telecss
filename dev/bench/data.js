@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1648286975933,
+  "lastUpdate": 1648302972997,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -1259,6 +1259,42 @@ window.BENCHMARK_DATA = {
             "name": "tests::tokenize_normalize_css",
             "value": 195750,
             "range": "± 828",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "distinct": true,
+          "id": "b670963be4c1992518887022c0b1505fe456e3ed",
+          "message": "wip: add the definition of Simple Selector Node",
+          "timestamp": "2022-03-26T21:53:58+08:00",
+          "tree_id": "8188701aa8fbf6e5935c8cd361db74772c8b591c",
+          "url": "https://github.com/telecss/telecss/commit/b670963be4c1992518887022c0b1505fe456e3ed"
+        },
+        "date": 1648302971856,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 223419,
+            "range": "± 895",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "tests::tokenize_normalize_css",
+            "value": 182413,
+            "range": "± 3205",
             "unit": "ns/iter"
           }
         ]
