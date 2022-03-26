@@ -195,7 +195,7 @@ dependencies = [
 
 [[package]]
 name = "tele_codegen"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "insta",
  "tele_parser",
@@ -214,7 +214,7 @@ dependencies = [
 
 [[package]]
 name = "tele_tokenizer"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "insta",
  "serde",
@@ -227,7 +227,7 @@ version = "0.2.0"
 
 [[package]]
 name = "tele_visit"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "insta",
  "tele_parser",
