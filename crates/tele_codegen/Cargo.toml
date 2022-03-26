@@ -10,7 +10,7 @@ keywords = ["css", "telecss", "tele_codegen", "codegen"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tele_parser = { path = "../tele_parser", version = "0.1.0" }
+tele_parser = { path = "../tele_parser", version = "0.2.0" }
 
 [dev-dependencies]
 insta = "1.10.0"
