@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1648281647394,
+  "lastUpdate": 1648286975933,
   "repoUrl": "https://github.com/telecss/telecss",
   "entries": {
     "Rust Benchmark": [
@@ -1223,6 +1223,42 @@ window.BENCHMARK_DATA = {
             "name": "tests::tokenize_normalize_css",
             "value": 198316,
             "range": "± 345",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "committer": {
+            "email": "HcySunYang@outlook.com",
+            "name": "HcySunYang",
+            "username": "HcySunYang"
+          },
+          "distinct": true,
+          "id": "c1027cac1152ee149a043afb247b24021b728b17",
+          "message": "chore: update all crates version to 0.2.0",
+          "timestamp": "2022-03-26T17:23:58+08:00",
+          "tree_id": "79e38116a2ce43364e1cc70eb5e0ea182f0f84f3",
+          "url": "https://github.com/telecss/telecss/commit/c1027cac1152ee149a043afb247b24021b728b17"
+        },
+        "date": 1648286974783,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "tests::parse_normalize_css",
+            "value": 262293,
+            "range": "± 1517",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "tests::tokenize_normalize_css",
+            "value": 195750,
+            "range": "± 828",
             "unit": "ns/iter"
           }
         ]
