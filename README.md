@@ -6,6 +6,8 @@ This project is mainly based on the following specs:
 
 - [CSS Syntax Module Level 3](https://www.w3.org/TR/css-syntax-3) document.
 - [Syntax and basic data types](https://www.w3.org/TR/CSS22/syndata.html#syntax) document.
+- [CSS Values and Units Module Level 3](https://www.w3.org/TR/css-values-3/)
+- [Selectors Level 4](https://www.w3.org/TR/selectors-4)
 
 # Benchmark
 
