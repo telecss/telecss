@@ -53,9 +53,30 @@ pub struct PseudoClassSelectorNode {
   pub name: String,
   /// Indicates whether the Pseudo-Class is functional: https://www.w3.org/TR/selectors-4/#functional-pseudo-class
   pub functional: bool,
-  // @TODO: the children of the Pseudo-Class Selector
-  // AnPlusB / Ident
-  // pub children: Vec<>
+  /// The children of the Pseudo-Class Selector
+  pub children: Vec<PseudoClassSelectorChildren>,
+}
+
+#[derive(Debug, PartialEq, Serialize)]
+pub enum PseudoClassSelectorChildren {
+  AnPlusB(Rc<RefCell<AnPlusBNode>>),
+  Ident(Rc<RefCell<IdentNode>>),
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct AnPlusBNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  pub a: Option<String>,
+  pub b: Option<String>,
+}
+
+#[derive(Debug, Default, PartialEq, Serialize)]
+pub struct IdentNode {
+  /// Location information in the source file
+  pub loc: Loc,
+  /// the name of the Ident Node
+  pub name: String,
 }
 
 /// https://www.w3.org/TR/selectors-4/#pseudo-elements
@@ -67,9 +88,18 @@ pub struct PseudoElementSelectorNode {
   pub name: String,
   /// Indicates whether the Pseudo-Element is functional: https://www.w3.org/TR/selectors-4/#functional-pseudo-class
   pub functional: bool,
-  // @TODO: the children of the Pseudo-Element Selector
-  // SelectorList[::cue()] / <Ident>+[::part()] / Compound Selector[::slotted()]
-  // pub children: Vec<>
+  /// The children of the Pseudo-Element Selector
+  pub children: Vec<PseudoElementSelectorChildren>,
+}
+
+#[derive(Debug, PartialEq, Serialize)]
+pub enum PseudoElementSelectorChildren {
+  // for `::cue()`
+  SelectorList(Rc<RefCell<SelectorList>>),
+  // for `::part()`
+  Ident(Rc<RefCell<IdentNode>>),
+  // for `::slotted()`
+  CompoundSelector(Rc<RefCell<CompoundSelectorNode>>),
 }
 
 #[derive(Debug, PartialEq, Serialize)]
