@@ -21,7 +21,7 @@ This benchmark is based on parsing/tokenizing the `crates/telecss/examples/norma
 
 ## Current Focus
 
-- [ ] Playground (with WASM)
+- [ ] parsing selectors
 
 ## Schedule
 
